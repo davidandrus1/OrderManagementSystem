@@ -8,13 +8,11 @@ public abstract class SellableItem {
 
     public SellableItem() {}
 
-    // Constructor cu parametri
     public SellableItem(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    // Getter și Setter
     public String getId() {
         return id;
     }
