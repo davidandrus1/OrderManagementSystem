@@ -1,4 +1,4 @@
 package com.example.OrderManagementSystem.model;
 
-public class ContractLine {
+public class ContractLine {"turipipipipip"
 }
