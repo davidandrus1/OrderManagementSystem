@@ -1,4 +1,8 @@
 package com.example.OrderManagementSystem.model;
 
-public class SellableItem {
+public abstract class SellableItem {
+
+    public String id;
+
+    public String name;
 }
