@@ -7,5 +7,6 @@ public class UnitOfMeasure {
     public String name;
 
     public String symbol;
-    
+
+
 }
