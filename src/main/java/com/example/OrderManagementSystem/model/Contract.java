@@ -1,11 +1,16 @@
 package com.example.OrderManagementSystem.model;
 
 public class Contract {
-    private Long id;
-    private String contractNumber;
-    private Long contractTypeId;
-    private String status;
-
+    public Long id;
+    public String contractNumber;
+    public Long contractTypeId;
+    public String status;
+    public Contract (Long id, String contractNumber, Long contractTypeId, String status) {
+        this.id = id;
+        this.contractNumber = contractNumber;
+        this.contractTypeId = contractTypeId;
+        this.status = status;
+    }
     public Long getId() {
         return id;
     }

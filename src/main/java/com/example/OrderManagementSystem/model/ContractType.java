@@ -1,10 +1,14 @@
 package com.example.OrderManagementSystem.model;
 
 public class ContractType {
-    private String id;
-    private String name;
-    private String type; // "customer" sau "seller"
-
+    public String id;
+    public String name;
+    public String type; // "customer" sau "seller"
+    public ContractType(String id, String name, String type) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+    }
     public String getId() {
         return id;
     }
