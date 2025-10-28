@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ContractLineRepository {
     private final Map<String, ContractLine> items = new HashMap<>();
-    private Long nextId = 1L;
+    private int nextId = 1;
 
     public ContractLine save(ContractLine item) {
         if (item.id == null) {

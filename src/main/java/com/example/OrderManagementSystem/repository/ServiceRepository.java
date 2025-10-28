@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ServiceRepository {
     private final Map<String, Service> items = new HashMap<>();
-    private Long nextId = 1L;
+    private int nextId = 1;
 
     public Service save(Service item) {
         if (item.id == null) {

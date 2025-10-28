@@ -2,8 +2,11 @@ package com.example.OrderManagementSystem.model;
 
 public class ContractType {
     public String id;
+
     public String name;
+
     public String type; // "customer" sau "seller"
+
     public ContractType(String id, String name, String type) {
         this.id = id;
         this.name = name;
