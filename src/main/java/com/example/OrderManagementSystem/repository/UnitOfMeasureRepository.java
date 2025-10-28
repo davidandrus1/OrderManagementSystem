@@ -1,13 +1,13 @@
 package com.example.OrderManagementSystem.repository;
 
-import com.example.OrderManagementSystem.model.ContractLine;
+import com.example.OrderManagementSystem.model.UnitOfMeasure;
 import java.util.*;
 
-public class ContractLineRepository {
-    private final Map<String, ContractLine> items = new HashMap<>();
+public class UnitOfMeasureRepository {
+    private final Map<String, UnitOfMeasure> items = new HashMap<>();
     private Long nextId = 1L;
 
-    public ContractLine save(ContractLine item) {
+    public UnitOfMeasure save(UnitOfMeasure item) {
         if (item.id == null) {
             item.id = String.valueOf(nextId++);
         }
@@ -15,11 +15,11 @@ public class ContractLineRepository {
         return item;
     }
 
-    public List<ContractLine> findAll() {
+    public List<UnitOfMeasure> findAll() {
         return new ArrayList<>(items.values());
     }
 
-    public Optional<ContractLine> findById(String id) {
+    public Optional<UnitOfMeasure> findById(String id) {
         return Optional.ofNullable(items.get(id));
     }
 
