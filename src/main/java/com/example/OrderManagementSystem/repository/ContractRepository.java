@@ -6,14 +6,14 @@ import java.util.*;
 
 public class ContractRepository {
 
-    private final Map<Long, Contract> contractStore = new HashMap<>();
+    private final Map<String, Contract> contractStore = new HashMap<>();
     private int nextId = 1;
 
     public Contract save(Contract contract) {
         if (contract.getId() == null) {
             contract.id = String.valueOf(nextId++);
         }
-        contractStore.put(contract.getId(), contract);
+        contractStore.put(contract.id, contract);
         return contract;
     }
 
@@ -21,11 +21,11 @@ public class ContractRepository {
         return new ArrayList<>(contractStore.values());
     }
 
-    public Optional<Contract> findById(Long id) {
+    public Optional<Contract> findById(String id) {
         return Optional.ofNullable(contractStore.get(id));
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         return contractStore.remove(id) != null;
     }
 
