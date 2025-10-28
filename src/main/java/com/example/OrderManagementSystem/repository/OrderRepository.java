@@ -6,12 +6,11 @@ import java.util.*;
 
 public class OrderRepository {
 
-    private final Map<Long, Order> orderStore = new HashMap<>();
-    private Long nextId = 1L;
+    private final Map<String, Order> orderStore = new HashMap<>();
 
     public Order save(Order order) {
         if (order.getId() == null) {
-            order.setId(nextId++);
+            order.setId(UUID.randomUUID().toString());
         }
         orderStore.put(order.getId(), order);
         return order;
@@ -21,13 +20,14 @@ public class OrderRepository {
         return new ArrayList<>(orderStore.values());
     }
 
-    public Optional<Order> findById(Long id) {
+    public Optional<Order> findById(String id) {
         return Optional.ofNullable(orderStore.get(id));
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         return orderStore.remove(id) != null;
     }
 
 
 }
+

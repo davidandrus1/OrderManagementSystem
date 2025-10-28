@@ -1,21 +1,21 @@
 package com.example.OrderManagementSystem.model;
 
 public class Order {
-    public Long id;
+    public String id;
     public String orderNumber;
     public Double totalAmount;
     public Long contractId;
-    public Order(Long id, String orderNumber, Double totalAmount, Long contractId) {
+    public Order(String id, String orderNumber, Double totalAmount, Long contractId) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.totalAmount = totalAmount;
         this.contractId = contractId;
     }
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -6,12 +6,11 @@ import java.util.*;
 
 public class CustomerRepository {
 
-    private final Map<Long, Customer> customerStore = new HashMap<>();
-    private Long nextId = 1L;
+    private final Map<String, Customer> customerStore = new HashMap<>();
 
     public Customer save(Customer customer) {
-        if (customer.getId() == null) {
-            customer.setId(nextId++);
+        if (customer.getId() == null || customer.getId().isEmpty()) {
+            customer.setId(UUID.randomUUID().toString());
         }
         customerStore.put(customer.getId(), customer);
         return customer;
@@ -21,13 +20,14 @@ public class CustomerRepository {
         return new ArrayList<>(customerStore.values());
     }
 
-    public Optional<Customer> findById(Long id) {
+    public Optional<Customer> findById(String id) {
         return Optional.ofNullable(customerStore.get(id));
     }
 
-    public boolean delete(Long id) {
+    public boolean delete(String id) {
         return customerStore.remove(id) != null;
     }
 
 
 }
+

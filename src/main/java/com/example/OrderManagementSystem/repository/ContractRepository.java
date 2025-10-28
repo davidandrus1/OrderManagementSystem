@@ -7,11 +7,11 @@ import java.util.*;
 public class ContractRepository {
 
     private final Map<Long, Contract> contractStore = new HashMap<>();
-    private Long nextId = 1L;
+    private int nextId = 1;
 
     public Contract save(Contract contract) {
         if (contract.getId() == null) {
-            contract.setId(nextId++);
+            contract.id = String.valueOf(nextId++);
         }
         contractStore.put(contract.getId(), contract);
         return contract;
