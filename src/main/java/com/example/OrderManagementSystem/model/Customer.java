@@ -4,12 +4,18 @@ package com.example.OrderManagementSystem.model;
 import java.util.List;
 
 public class Customer {
-    private Long id;
-    private String name;
-    private String currency;
-    private List<Order> orders;
-    private List<Contract> contracts;
-
+    public Long id;
+    public String name;
+    public String currency;
+    public List<Order> orders;
+    public List<Contract> contracts;
+    public Customer(Long id, String name, String currency, List<Order> orders, List<Contract> contracts) {
+        this.id = id;
+        this.name = name;
+        this.currency = currency;
+        this.orders = orders;
+        this.contracts = contracts;
+    }
     public Long getId() {
         return id;
     }
