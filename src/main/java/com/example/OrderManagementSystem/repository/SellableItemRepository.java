@@ -5,7 +5,7 @@ import java.util.*;
 
 public abstract class SellableItemRepository<T extends SellableItem> {
     protected final Map<String, T> items = new HashMap<>();
-    protected Long nextId = 1L;
+    protected int nextId = 1;
 
     public T save(T item) {
         if (item.getId() == null) {

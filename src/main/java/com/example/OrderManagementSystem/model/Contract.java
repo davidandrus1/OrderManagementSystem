@@ -1,21 +1,25 @@
 package com.example.OrderManagementSystem.model;
 
 public class Contract {
-    public Long id;
+    public String id;
+
     public String contractNumber;
-    public Long contractTypeId;
+
+    public String contractTypeId;
+
     public String status;
-    public Contract (Long id, String contractNumber, Long contractTypeId, String status) {
+
+    public Contract (String id, String contractNumber, String contractTypeId, String status) {
         this.id = id;
         this.contractNumber = contractNumber;
         this.contractTypeId = contractTypeId;
         this.status = status;
     }
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -27,11 +31,11 @@ public class Contract {
         this.contractNumber = contractNumber;
     }
 
-    public Long getContractTypeId() {
+    public String getContractTypeId() {
         return contractTypeId;
     }
 
-    public void setContractTypeId(Long contractTypeId) {
+    public void setContractTypeId(String contractTypeId) {
         this.contractTypeId = contractTypeId;
     }
 
