@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ProductRepository {
     private final Map<String, Product> items = new HashMap<>();
-    private Long nextId = 1L;
+    private int nextId = 1;
 
     public Product save(Product item) {
         if (item.id == null) {

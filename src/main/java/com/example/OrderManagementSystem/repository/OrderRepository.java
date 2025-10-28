@@ -8,9 +8,11 @@ public class OrderRepository {
 
     private final Map<String, Order> orderStore = new HashMap<>();
 
+    private int nextId = 1;
+
     public Order save(Order order) {
         if (order.getId() == null) {
-            order.setId(UUID.randomUUID().toString());
+            order.setId(String.valueOf(nextId++)); // convertim int -> String
         }
         orderStore.put(order.getId(), order);
         return order;

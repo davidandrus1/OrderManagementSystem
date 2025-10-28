@@ -5,7 +5,7 @@ import java.util.*;
 
 public class UnitOfMeasureRepository {
     private final Map<String, UnitOfMeasure> items = new HashMap<>();
-    private Long nextId = 1L;
+    private int nextId = 1;
 
     public UnitOfMeasure save(UnitOfMeasure item) {
         if (item.id == null) {
