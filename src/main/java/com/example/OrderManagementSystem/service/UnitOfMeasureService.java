@@ -40,8 +40,5 @@ public class UnitOfMeasureService {
         if (unitOfMeasure.getName() == null || unitOfMeasure.getName().isBlank()) {
             throw new IllegalArgumentException("Unit of measure name cannot be empty");
         }
-        if (unitOfMeasure.getCode() == null || unitOfMeasure.getCode().isBlank()) {
-            throw new IllegalArgumentException("Unit of measure code cannot be empty");
-        }
     }
 }

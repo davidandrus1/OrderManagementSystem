@@ -1,7 +1,7 @@
 package com.example.OrderManagementSystem.service;
 
-import com.example.OrderManagementSystem.model.Service;
-import com.example.OrderManagementSystem.repository.ServiceRepository;
+import com.example.OrderManagementSystem.model.ServiceItem;
+import com.example.OrderManagementSystem.repository.ServiceItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,24 +9,24 @@ import java.util.List;
 @Service
 public class ServiceService {
 
-    private final ServiceRepository repository;
+    private final ServiceItemRepository repository;
 
-    public ServiceService(ServiceRepository repository) {
+    public ServiceService(ServiceItemRepository repository) {
         this.repository = repository;
     }
 
-    public Service save(Service service) {
+    public ServiceItem save(ServiceItem service) {
         validateService(service);
         return repository.save(service);
     }
 
-    public List<Service> getAll() {
+    public List<ServiceItem> getAll() {
         return repository.findAll();
     }
 
-    public Service getById(String id) {
+    public ServiceItem getById(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Service with id " + id + " not found"));
+            .orElseThrow(() -> new IllegalArgumentException("Service with id " + id + " not found"));
     }
 
     public void delete(String id) {
@@ -36,7 +36,7 @@ public class ServiceService {
         repository.delete(id);
     }
 
-    private void validateService(Service service) {
+    private void validateService(ServiceItem service) {
         if (service.getName() == null || service.getName().isBlank()) {
             throw new IllegalArgumentException("Service name cannot be empty");
         }
