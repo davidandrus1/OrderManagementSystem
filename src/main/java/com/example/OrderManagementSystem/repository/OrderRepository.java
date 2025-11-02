@@ -4,6 +4,10 @@ import com.example.OrderManagementSystem.model.Order;
 
 import java.util.*;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
+
 public class OrderRepository {
 
     private final Map<String, Order> orderStore = new HashMap<>();

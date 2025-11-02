@@ -3,6 +3,10 @@ package com.example.OrderManagementSystem.repository;
 import com.example.OrderManagementSystem.model.UnitOfMeasure;
 import java.util.*;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
+
 public class UnitOfMeasureRepository {
     private final Map<String, UnitOfMeasure> items = new HashMap<>();
     private int nextId = 1;

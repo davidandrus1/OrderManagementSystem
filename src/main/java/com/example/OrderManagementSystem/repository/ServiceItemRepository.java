@@ -3,6 +3,9 @@ package com.example.OrderManagementSystem.repository;
 import com.example.OrderManagementSystem.model.ServiceItem;
 import java.util.*;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ServiceItemRepository {
     private final Map<String, ServiceItem> items = new HashMap<>();
     private int nextId = 1;
