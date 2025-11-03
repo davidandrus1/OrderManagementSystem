@@ -43,8 +43,5 @@ public class OrderService {
         }
     }
 
-    public double calculateTotalAmount(String id) {
-        Optional<Order> orderOpt = repository.findById(id);
-        return orderOpt.map(Order::getTotalAmount).orElse(0.0);
-    }
+
 }

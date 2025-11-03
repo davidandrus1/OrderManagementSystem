@@ -1,7 +1,7 @@
 package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.ContractType;
-import com.example.OrderManagementSystem.Services.ContractTypeService;
+import com.example.OrderManagementSystem.service.ContractTypeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

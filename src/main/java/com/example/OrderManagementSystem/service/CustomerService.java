@@ -46,21 +46,5 @@ public class CustomerService {
         }
     }
 
-    // Metodă suplimentară: adaugă o comandă la un client
-    public void addOrderToCustomer(String customerId, Order order) {
-        Optional<Customer> existingCustomer = repository.findById(customerId);
-        existingCustomer.ifPresent(customer -> {
-            customer.getOrders().add(order);
-            repository.save(customer);
-        });
-    }
 
-    // Metodă suplimentară: adaugă un contract la un client
-    public void addContractToCustomer(String customerId, Contract contract) {
-        Optional<Customer> existingCustomer = repository.findById(customerId);
-        existingCustomer.ifPresent(customer -> {
-            customer.getContracts().add(contract);
-            repository.save(customer);
-        });
-    }
 }
