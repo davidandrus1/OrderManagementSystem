@@ -1,15 +1,12 @@
 package com.example.OrderManagementSystem.model;
 
 public class Contract {
-    public String id;
-
+    public  String id;
     public String contractNumber;
-
-    public String contractTypeId;
-
+    public Long contractTypeId;
     public String status;
 
-    public Contract (String id, String contractNumber, String contractTypeId, String status) {
+    public Contract(String id, String contractNumber, Long contractTypeId, String status){
         this.id = id;
         this.contractNumber = contractNumber;
         this.contractTypeId = contractTypeId;
@@ -31,11 +28,11 @@ public class Contract {
         this.contractNumber = contractNumber;
     }
 
-    public String getContractTypeId() {
+    public Long getContractTypeId() {
         return contractTypeId;
     }
 
-    public void setContractTypeId(String contractTypeId) {
+    public void setContractTypeId(Long contractTypeId) {
         this.contractTypeId = contractTypeId;
     }
 
