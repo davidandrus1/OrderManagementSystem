@@ -2,10 +2,10 @@ package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.ContractService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/contracts")
@@ -17,33 +17,37 @@ public class ContractController {
         this.service = service;
     }
 
-    // GET: toate contractele
     @GetMapping
-    public List<Contract> getAllContracts() {
-        return service.getAllContracts();
+    public ResponseEntity<List<Contract>> getAllContracts() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    // GET: contract după ID
     @GetMapping("/{id}")
-    public Optional<Contract> getContractById(@PathVariable String id) {
-        return service.getContractById(id);
+    public ResponseEntity<Contract> getContractById(@PathVariable String id) {
+        Contract contract = service.getById(id);
+        return ResponseEntity.ok(contract);
     }
 
-    // POST: adaugă contract nou
     @PostMapping
-    public void addContract(@RequestBody Contract contract) {
-        service.addContract(contract);
+    public ResponseEntity<Contract> addContract(@RequestBody Contract contract) {
+        Contract saved = service.save(contract);
+        return ResponseEntity.ok(saved);
     }
 
-    // PUT: actualizează contract
     @PutMapping("/{id}")
-    public void updateContract(@PathVariable String id, @RequestBody Contract updatedContract) {
-        service.updateContract(id, updatedContract);
+    public ResponseEntity<Contract> updateContract(@PathVariable String id, @RequestBody Contract updatedContract) {
+        Contract updated = service.update(id, updatedContract);
+        return ResponseEntity.ok(updated);
     }
 
-    // DELETE: șterge contract
     @DeleteMapping("/{id}")
-    public void deleteContract(@PathVariable String id) {
-        service.deleteContract(id);
+    public ResponseEntity<String> deleteContract(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.ok("Contract with id " + id + " deleted successfully");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

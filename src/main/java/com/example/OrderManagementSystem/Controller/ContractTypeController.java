@@ -2,10 +2,10 @@ package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.ContractType;
 import com.example.OrderManagementSystem.service.ContractTypeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/contractTypes")
@@ -17,33 +17,37 @@ public class ContractTypeController {
         this.service = service;
     }
 
-    // GET: toate tipurile de contracte
     @GetMapping
-    public List<ContractType> getAllContractTypes() {
-        return service.getAllContractTypes();
+    public ResponseEntity<List<ContractType>> getAllContractTypes() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    // GET: tip de contract după ID
     @GetMapping("/{id}")
-    public Optional<ContractType> getContractTypeById(@PathVariable String id) {
-        return service.getContractTypeById(id);
+    public ResponseEntity<ContractType> getContractTypeById(@PathVariable String id) {
+        ContractType type = service.getById(id);
+        return ResponseEntity.ok(type);
     }
 
-    // POST: adaugă un nou tip de contract
     @PostMapping
-    public void addContractType(@RequestBody ContractType contractType) {
-        service.addContractType(contractType);
+    public ResponseEntity<ContractType> addContractType(@RequestBody ContractType contractType) {
+        ContractType saved = service.save(contractType);
+        return ResponseEntity.ok(saved);
     }
 
-    // PUT: actualizează un tip de contract
     @PutMapping("/{id}")
-    public void updateContractType(@PathVariable String id, @RequestBody ContractType updatedContractType) {
-        service.updateContractType(id, updatedContractType);
+    public ResponseEntity<ContractType> updateContractType(@PathVariable String id, @RequestBody ContractType updatedContractType) {
+        ContractType updated = service.update(id, updatedContractType);
+        return ResponseEntity.ok(updated);
     }
 
-    // DELETE: șterge un tip de contract
     @DeleteMapping("/{id}")
-    public void deleteContractType(@PathVariable String id) {
-        service.deleteContractType(id);
+    public ResponseEntity<String> deleteContractType(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.ok("ContractType with id " + id + " deleted successfully");
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
