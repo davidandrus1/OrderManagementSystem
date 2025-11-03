@@ -1,14 +1,18 @@
 package com.example.OrderManagementSystem.model;
-
-
 import java.util.List;
 
 public class Customer {
+
     public String id;
+
     public String name;
+
     public String currency;
+
     public List<Order> orders;
+
     public List<Contract> contracts;
+
     public Customer(String id, String name, String currency, List<Order> orders, List<Contract> contracts) {
         this.id = id;
         this.name = name;
