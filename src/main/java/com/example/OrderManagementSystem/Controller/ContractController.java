@@ -1,7 +1,10 @@
 package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.Contract;
+import com.example.OrderManagementSystem.model.ContractType;
+import com.example.OrderManagementSystem.repository.ContractTypeRepository;
 import com.example.OrderManagementSystem.service.ContractService;
+import com.example.OrderManagementSystem.service.ContractTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +16,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/contracts")
 public class ContractController {
 
-    private final ContractService contractService;
+    private final ContractService service;
 
-    public ContractController(ContractService contractService) {
-        this.contractService = contractService;
+    public ContractController() {
+        this.service = new ContractService();
+
+        ContractTypeService contractTypeService = new ContractTypeService();
+        contractTypeService.save(new ContractType("Prestari Servicii", "Seller"));
+        contractTypeService.save(new ContractType( "Vanzare En-gros", "Customer"));
+
+        this.service.save(new Contract("1", 1, "Active"));
+        this.service.save(new Contract("2", 2, "Active"));
+        this.service.save(new Contract("3", 1, "Active"));
     }
 
     /**
@@ -24,53 +35,64 @@ public class ContractController {
      */
     @GetMapping
     public String viewAllContracts(Model model) {
-        model.addAttribute("contracts", contractService.getAll());
-        return "contracts/list";  // View: templates/contracts/list.html
+
+        // Se defineste variabila items = service.getAll()
+        // Aceasta variabila se transmite catre contracts/list.html
+        // items contine o lista de contracte. Fiecare contract are id, contractTypeId, contractNumber, status
+        // In fisierul html se foloseste un limbaj numit Thymeleaf
+        model.addAttribute("items", service.getAll());
+        return "contracts/list";
     }
 
     /**
-     * Form pentru crearea unui contract nou.
+     * Functie pentru afisarea paginii cu formular pentru un contract nou
      */
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("contract", new Contract());
+        model.addAttribute("item", new Contract());
         return "contracts/create";  // View: templates/contracts/create.html
     }
 
     /**
      * Salvează un contract nou.
      */
-    @PostMapping
-    public String createContract(@ModelAttribute Contract contract) {
-        contractService.save(contract);
+    @PostMapping("create")
+    public String create(@ModelAttribute Contract contract) {
+        service.save(contract);
         return "redirect:/contracts";
     }
 
     /**
      * Form pentru editarea unui contract existent.
      */
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        Contract contract = contractService.getById(id);
-        model.addAttribute("contract", contract);
-        return "contracts/edit";  // View: templates/contracts/edit.html
-    }
+//    @GetMapping("/edit/{id}")
+//    public String showEditForm(@PathVariable int id, Model model) {
+//        Contract contract = service.getById(id);
+//        model.addAttribute("contract", contract);
+//        return "contracts/edit";  // View: templates/contracts/edit.html
+//    }
 
     /**
      * Actualizează un contract existent.
      */
-    @PostMapping("/update")
-    public String updateContract(@ModelAttribute Contract contract) {
-        contractService.update(contract.getId(), contract);
-        return "redirect:/contracts";
+//    @PostMapping("/update")
+//    public String updateContract(@ModelAttribute Contract contract) {
+////        service.update(contract.getId(), contract);
+//        return "redirect:/contracts";
+//    }
+
+
+    // GET pentru confirmare ștergere
+    @GetMapping("/{id}/delete")
+    public String confirmDelete(@PathVariable int id, Model model) {
+        this.service.getById(id).ifPresent(item -> model.addAttribute("item", item));
+        return "contracts/delete"; // pagina de confirmare
     }
 
-    /**
-     * Șterge un contract după ID.
-     */
-    @GetMapping("/delete/{id}")
-    public String deleteContract(@PathVariable String id) {
-        contractService.delete(id);
-        return "redirect:/contracts";
+    // POST pentru ștergere efectivă
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable int id) {
+        this.service.delete(id);
+        return "redirect:/contracts"; // redirect la lista de elevi
     }
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Contract</title>
+</head>
+<body>
+
+<h1>Add contract</h1>
+
+<form th:action="@{/contracts/create}" th:object="${item}" method="post">
+    <label>Number:</label>
+    <input type="text" th:field="*{contractNumber}" required />
+    <br/>
+    <br/>
+    <label>Contract Type Id:</label>
+    <input type="number" th:field="*{contractTypeId}" required />
+    <br/>
+    <br/>
+    <label>Status:</label>
+    <input type="text" th:field="*{status}" required />
+    <br/>
+    <br/>
+    <button type="submit" >Save</button>
+</form>
+
+<a th:href="@{/contracts}">Back</a>
+</body>
+</html>
