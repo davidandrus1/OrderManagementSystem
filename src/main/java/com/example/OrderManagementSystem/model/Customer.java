@@ -2,6 +2,7 @@ package com.example.OrderManagementSystem.model;
 import java.util.List;
 
 public class Customer {
+
     public String id;
 
     public String name;
