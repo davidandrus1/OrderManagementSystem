@@ -3,6 +3,10 @@ package com.example.OrderManagementSystem.repository;
 import com.example.OrderManagementSystem.model.OrderLine;
 import java.util.*;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
+
 public class OrderLineRepository {
     private final Map<String, OrderLine> items = new HashMap<>();
     private Long nextId = 1L;

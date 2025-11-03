@@ -1,6 +1,6 @@
 package com.example.OrderManagementSystem.model;
 
-public class Service {
+public class ServiceItem {
 
     public String id;
 
@@ -8,7 +8,7 @@ public class Service {
 
     public String Status;
 
-    public Service(String id, String name, String Status){
+    public ServiceItem(String id, String name, String Status){
         this.id = id;
         this.name = name;
         this.Status = Status;

@@ -4,6 +4,9 @@ import com.example.OrderManagementSystem.model.Contract;
 
 import java.util.*;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ContractRepository {
 
     private final Map<String, Contract> contractStore = new HashMap<>();

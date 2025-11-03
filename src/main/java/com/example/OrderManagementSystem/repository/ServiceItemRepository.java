@@ -1,14 +1,19 @@
 package com.example.OrderManagementSystem.repository;
 
-import com.example.OrderManagementSystem.model.Service;
+import com.example.OrderManagementSystem.model.ServiceItem;
 import java.util.*;
 
 public class ServiceRepository {
     private final Map<String, Service> items = new HashMap<>();
 
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class ServiceItemRepository {
+    private final Map<String, ServiceItem> items = new HashMap<>();
     private int nextId = 1;
 
-    public Service save(Service item) {
+    public ServiceItem save(ServiceItem item) {
         if (item.id == null) {
             item.id = String.valueOf(nextId++);
         }
@@ -16,11 +21,11 @@ public class ServiceRepository {
         return item;
     }
 
-    public List<Service> findAll() {
+    public List<ServiceItem> findAll() {
         return new ArrayList<>(items.values());
     }
 
-    public Optional<Service> findById(String id) {
+    public Optional<ServiceItem> findById(String id) {
         return Optional.ofNullable(items.get(id));
     }
 

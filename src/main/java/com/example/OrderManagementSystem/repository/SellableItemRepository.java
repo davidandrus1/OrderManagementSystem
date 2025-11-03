@@ -3,7 +3,11 @@ package com.example.OrderManagementSystem.repository;
 import com.example.OrderManagementSystem.model.SellableItem;
 import java.util.*;
 
-public abstract class SellableItemRepository<T extends SellableItem> {
+import org.springframework.stereotype.Repository;
+
+@Repository
+
+public class SellableItemRepository<T extends SellableItem> {
     protected final Map<String, T> items = new HashMap<>();
     protected int nextId = 1;
 
