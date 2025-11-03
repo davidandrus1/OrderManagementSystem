@@ -4,71 +4,83 @@ import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.CustomerService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerService service;
+    private final CustomerService customerService;
 
-    public CustomerController(CustomerService service) {
-        this.service = service;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        return ResponseEntity.ok(service.getAll());
+    public String viewAllCustomers(Model model) {
+        model.addAttribute("customers", customerService.getAll());
+        return "customers/list"; // -> templates/customers/list.html
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable String id) {
-        Customer customer = service.getById(id);
-        return ResponseEntity.ok(customer);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        Customer customer = new Customer(null, "", "", null, null);
+        model.addAttribute("customer", customer);
+        return "customers/create";
     }
 
     @PostMapping
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
-        Customer saved = service.save(customer);
-        return ResponseEntity.ok(saved);
+    public String createCustomer(@ModelAttribute Customer customer) {
+        customerService.save(customer);
+        return "redirect:/customers";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable String id, @RequestBody Customer updatedCustomer) {
-        Customer updated = service.update(id, updatedCustomer);
-        return ResponseEntity.ok(updated);
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Customer customer = customerService.getById(id);
+        model.addAttribute("customer", customer);
+        return "customers/edit";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable String id) {
-        service.delete(id);
-        return ResponseEntity.ok("Customer with id " + id + " deleted successfully");
+    @PostMapping("/update")
+    public String updateCustomer(@ModelAttribute Customer customer) {
+        customerService.save(customer);
+        return "redirect:/customers";
     }
 
-    @PostMapping("/{id}/orders")
-    public ResponseEntity<String> addOrderToCustomer(@PathVariable String id, @RequestBody Order order) {
-        service.addOrderToCustomer(id, order);
-        return ResponseEntity.ok("Order added to customer " + id);
-    }
-
-    @PostMapping("/{id}/contracts")
-    public ResponseEntity<String> addContractToCustomer(@PathVariable String id, @RequestBody Contract contract) {
-        service.addContractToCustomer(id, contract);
-        return ResponseEntity.ok("Contract added to customer " + id);
+    @GetMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable String id) {
+        customerService.delete(id);
+        return "redirect:/customers";
     }
 
     @GetMapping("/{id}/total")
-    public ResponseEntity<Double> getCustomerTotal(@PathVariable String id) {
-        double total = service.calculateTotalForCustomer(id);
-        return ResponseEntity.ok(total);
+    public String viewCustomerTotal(@PathVariable String id, Model model) {
+        double total = customerService.calculateTotalForCustomer(id);
+        model.addAttribute("customer", customerService.getById(id));
+        model.addAttribute("totalAmount", total);
+        return "customers/total";
+    }
+
+    @PostMapping("/{id}/orders")
+    public String addOrderToCustomer(@PathVariable String id, @ModelAttribute Order order) {
+        customerService.addOrderToCustomer(id, order);
+        return "redirect:/customers";
+    }
+
+    @PostMapping("/{id}/contracts")
+    public String addContractToCustomer(@PathVariable String id, @ModelAttribute Contract contract) {
+        customerService.addContractToCustomer(id, contract);
+        return "redirect:/customers";
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+    public String handleValidationError(IllegalArgumentException ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        model.addAttribute("customers", customerService.getAll());
+        return "customers/list";
     }
 }
