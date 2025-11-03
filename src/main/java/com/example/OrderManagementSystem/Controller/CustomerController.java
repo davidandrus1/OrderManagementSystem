@@ -4,10 +4,10 @@ import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.CustomerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/customers")
@@ -19,45 +19,55 @@ public class CustomerController {
         this.service = service;
     }
 
-    // GET: toți clienții
     @GetMapping
-    public List<Customer> getAllCustomers() {
-        return service.getAllCustomers();
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    // GET: client după ID
     @GetMapping("/{id}")
-    public Optional<Customer> getCustomerById(@PathVariable String id) {
-        return service.getCustomerById(id);
+    public ResponseEntity<Customer> getCustomerById(@PathVariable String id) {
+        Customer customer = service.getById(id);
+        return ResponseEntity.ok(customer);
     }
 
-    // POST: adaugă un client nou
     @PostMapping
-    public void addCustomer(@RequestBody Customer customer) {
-        service.addCustomer(customer);
+    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
+        Customer saved = service.save(customer);
+        return ResponseEntity.ok(saved);
     }
 
-    // PUT: actualizează un client
     @PutMapping("/{id}")
-    public void updateCustomer(@PathVariable String id, @RequestBody Customer updatedCustomer) {
-        service.updateCustomer(id, updatedCustomer);
+    public ResponseEntity<Customer> updateCustomer(@PathVariable String id, @RequestBody Customer updatedCustomer) {
+        Customer updated = service.update(id, updatedCustomer);
+        return ResponseEntity.ok(updated);
     }
 
-    // DELETE: șterge un client
     @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable String id) {
-        service.deleteCustomer(id);
+    public ResponseEntity<String> deleteCustomer(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.ok("Customer with id " + id + " deleted successfully");
     }
 
-    // POST: adaugă o comandă unui client
     @PostMapping("/{id}/orders")
-    public void addOrderToCustomer(@PathVariable String id, @RequestBody Order order) {
+    public ResponseEntity<String> addOrderToCustomer(@PathVariable String id, @RequestBody Order order) {
         service.addOrderToCustomer(id, order);
+        return ResponseEntity.ok("Order added to customer " + id);
     }
 
-    // POST: adaugă un contract unui client
     @PostMapping("/{id}/contracts")
-    public void addContractToCustomer(@PathVariable String id, @RequestBody Contract contract) {
+    public ResponseEntity<String> addContractToCustomer(@PathVariable String id, @RequestBody Contract contract) {
         service.addContractToCustomer(id, contract);
+        return ResponseEntity.ok("Contract added to customer " + id);
+    }
+
+    @GetMapping("/{id}/total")
+    public ResponseEntity<Double> getCustomerTotal(@PathVariable String id) {
+        double total = service.calculateTotalForCustomer(id);
+        return ResponseEntity.ok(total);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }

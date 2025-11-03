@@ -5,7 +5,6 @@ import com.example.OrderManagementSystem.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -16,32 +15,60 @@ public class OrderService {
         this.repository = repository;
     }
 
-    public List<Order> getAllOrders() {
+    public Order save(Order order) {
+        validateOrder(order);
+        repository.save(order);
+        return order;
+    }
+
+    public List<Order> getAll() {
         return repository.findAll();
     }
 
-    public Optional<Order> getOrderById(String id) {
-        return repository.findById(id);
+    public Order getById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Order with id " + id + " not found"));
     }
 
-    public void addOrder(Order order) {
-        repository.save(order);
-    }
-
-    public void deleteOrder(String id) {
+    public void delete(String id) {
+        if (repository.findById(id).isEmpty()) {
+            throw new IllegalArgumentException("Cannot delete: order with id " + id + " not found");
+        }
         repository.delete(id);
     }
 
-    public void updateOrder(String id, Order updatedOrder) {
-        Optional<Order> existingOrder = repository.findById(id);
-        if (existingOrder.isPresent()) {
-            Order order = existingOrder.get();
-            order.setOrderNumber(updatedOrder.getOrderNumber());
-            order.setTotalAmount(updatedOrder.getTotalAmount());
-            order.setContractId(updatedOrder.getContractId());
-            repository.save(order);
+    public Order update(String id, Order updatedOrder) {
+        Order existingOrder = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Order with id " + id + " not found"));
+
+        if (updatedOrder.getOrderNumber() != null && !updatedOrder.getOrderNumber().isBlank()) {
+            existingOrder.setOrderNumber(updatedOrder.getOrderNumber());
         }
+        if (updatedOrder.getTotalAmount() != null) {
+            existingOrder.setTotalAmount(updatedOrder.getTotalAmount());
+        }
+        if (updatedOrder.getContractId() != null) {
+            existingOrder.setContractId(updatedOrder.getContractId());
+        }
+
+        validateOrder(existingOrder);
+        repository.save(existingOrder);
+        return existingOrder;
     }
 
-
+    private void validateOrder(Order order) {
+        if (order.getOrderNumber() == null || order.getOrderNumber().isBlank()) {
+            throw new IllegalArgumentException("Order number cannot be empty");
+        }
+        if (order.getTotalAmount() == null) {
+            throw new IllegalArgumentException("Total amount cannot be null");
+        }
+        if (order.getTotalAmount() < 0) {
+            throw new IllegalArgumentException("Total amount cannot be negative");
+        }
+        if (order.getContractId() == null) {
+            throw new IllegalArgumentException("Contract ID cannot be null");
+        }
+    }
 }
+

@@ -2,10 +2,10 @@ package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.service.OrderService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -18,32 +18,31 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getAllOrders() {
-        return service.getAllOrders();
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public Optional<Order> getOrderById(@PathVariable String id) {
-        return service.getOrderById(id);
+    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
+        Order order = service.getById(id);
+        return ResponseEntity.ok(order);
     }
 
     @PostMapping
-    public void addOrder(@RequestBody Order order) {
-        service.addOrder(order);
+    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+        Order saved = service.save(order);
+        return ResponseEntity.ok(saved);
     }
 
     @PutMapping("/{id}")
-    public void updateOrder(@PathVariable String id, @RequestBody Order updatedOrder) {
-        service.updateOrder(id, updatedOrder);
+    public ResponseEntity<Order> updateOrder(@PathVariable String id, @RequestBody Order updatedOrder) {
+        Order updated = service.update(id, updatedOrder);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable String id) {
-        service.deleteOrder(id);
-    }
-
-    @GetMapping("/{id}/total")
-    public double getOrderTotal(@PathVariable String id) {
-        return service.calculateTotalAmount(id);
+    public ResponseEntity<String> deleteOrder(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.ok("Order with id " + id + " deleted successfully");
     }
 }
