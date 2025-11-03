@@ -2,12 +2,13 @@ package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.ContractService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/contracts")
 public class ContractController {
 

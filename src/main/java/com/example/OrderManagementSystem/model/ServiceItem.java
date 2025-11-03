@@ -1,36 +1,23 @@
 package com.example.OrderManagementSystem.model;
 
-public class ServiceItem {
+public class ServiceItem extends SellableItem {
 
-    public String id;
+    private String status;
 
-    public String name;
-
-    public String Status;
-
-    public ServiceItem(String id, String name, String Status){
-        this.id = id;
-        this.name = name;
-        this.Status = Status;
+    public ServiceItem(String id, String name, String status) {
+        super(id, name);
+        setStatus(status);
     }
-
-    public String getId(){return id;}
-
-    public String setId(String id){
-        return this.id = id;
-    }
-
-    public String getName(){return name;}
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        if (status.equals("Active") || status.equals("Down")) {
-            this.Status = status;
+        if ("Active".equals(status) || "Down".equals(status)) {
+            this.status = status;
         } else {
-            throw new IllegalArgumentException("Status needs to be 'Active' or 'Down'.");
+            throw new IllegalArgumentException("Status must be 'Active' or 'Down'");
         }
     }
 }
