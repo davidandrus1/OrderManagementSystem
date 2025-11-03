@@ -10,6 +10,9 @@ public class ContractLine {
 
     public double quantity;
 
+    public ContractLine() {}
+
+
     public ContractLine(String id, SellableItem item, UnitOfMeasure unit, double quantity) {
         this.id = id;
         this.item = item;

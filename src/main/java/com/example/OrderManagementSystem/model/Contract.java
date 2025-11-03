@@ -6,6 +6,8 @@ public class Contract {
     public Long contractTypeId;
     public String status;
 
+    public Contract() {}
+
     public Contract(String id, String contractNumber, Long contractTypeId, String status){
         this.id = id;
         this.contractNumber = contractNumber;

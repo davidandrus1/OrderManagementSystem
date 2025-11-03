@@ -2,48 +2,75 @@ package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.ContractService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
+/**
+ * Controller pentru gestionarea contractelor - versiune MVC (cu template-uri HTML)
+ */
+@Controller
 @RequestMapping("/contracts")
 public class ContractController {
 
-    private final ContractService service;
+    private final ContractService contractService;
 
-    public ContractController(ContractService service) {
-        this.service = service;
+    public ContractController(ContractService contractService) {
+        this.contractService = contractService;
     }
 
-    // GET: toate contractele
+    /**
+     * Afișează lista tuturor contractelor.
+     */
     @GetMapping
-    public List<Contract> getAllContracts() {
-        return service.getAllContracts();
+    public String viewAllContracts(Model model) {
+        model.addAttribute("contracts", contractService.getAll());
+        return "contracts/list";  // View: templates/contracts/list.html
     }
 
-    // GET: contract după ID
-    @GetMapping("/{id}")
-    public Optional<Contract> getContractById(@PathVariable String id) {
-        return service.getContractById(id);
+    /**
+     * Form pentru crearea unui contract nou.
+     */
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("contract", new Contract());
+        return "contracts/create";  // View: templates/contracts/create.html
     }
 
-    // POST: adaugă contract nou
+    /**
+     * Salvează un contract nou.
+     */
     @PostMapping
-    public void addContract(@RequestBody Contract contract) {
-        service.addContract(contract);
+    public String createContract(@ModelAttribute Contract contract) {
+        contractService.save(contract);
+        return "redirect:/contracts";
     }
 
-    // PUT: actualizează contract
-    @PutMapping("/{id}")
-    public void updateContract(@PathVariable String id, @RequestBody Contract updatedContract) {
-        service.updateContract(id, updatedContract);
+    /**
+     * Form pentru editarea unui contract existent.
+     */
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Contract contract = contractService.getById(id);
+        model.addAttribute("contract", contract);
+        return "contracts/edit";  // View: templates/contracts/edit.html
     }
 
-    // DELETE: șterge contract
-    @DeleteMapping("/{id}")
-    public void deleteContract(@PathVariable String id) {
-        service.deleteContract(id);
+    /**
+     * Actualizează un contract existent.
+     */
+    @PostMapping("/update")
+    public String updateContract(@ModelAttribute Contract contract) {
+        contractService.update(contract.getId(), contract);
+        return "redirect:/contracts";
+    }
+
+    /**
+     * Șterge un contract după ID.
+     */
+    @GetMapping("/delete/{id}")
+    public String deleteContract(@PathVariable String id) {
+        contractService.delete(id);
+        return "redirect:/contracts";
     }
 }
