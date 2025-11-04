@@ -5,6 +5,7 @@ import com.example.OrderManagementSystem.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -16,7 +17,6 @@ public class ProductService {
     }
 
     public Product save(Product product) {
-        validateProduct(product);
         return repository.save(product);
     }
 
@@ -24,9 +24,9 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public Product getById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product with id " + id + " not found"));
+    public Optional<Product> getById(String id) {
+        return repository.findById(id);
+
     }
 
     public void delete(String id) {
@@ -36,12 +36,5 @@ public class ProductService {
         repository.delete(id);
     }
 
-    private void validateProduct(Product product) {
-        if (product.getName() == null || product.getName().isBlank()) {
-            throw new IllegalArgumentException("Product name cannot be empty");
-        }
-        if (product.getValue() <= 0) {
-            throw new IllegalArgumentException("Product value must be positive");
-        }
-    }
+
 }

@@ -41,22 +41,6 @@ public class ContractLineController {
         return "redirect:/contract-lines";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        ContractLine contractLine = contractLineService.getById(id);
-        model.addAttribute("contractLine", contractLine);
-        model.addAttribute("items", sellableItemService.getAll());
-        return "contract-lines/edit";
-    }
-
-    @PostMapping("/update")
-    public String updateContractLine(@ModelAttribute ContractLine contractLine,
-                                     @RequestParam long itemId) {
-        contractLine.setItem(sellableItemService.getById(itemId));
-        contractLineService.save(contractLine);
-        return "redirect:/contract-lines";
-    }
-
     @GetMapping("/delete/{id}")
     public String deleteContractLine(@PathVariable String id) {
         contractLineService.delete(id);
