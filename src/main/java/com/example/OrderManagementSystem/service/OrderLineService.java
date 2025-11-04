@@ -16,7 +16,6 @@ public class OrderLineService {
     }
 
     public OrderLine save(OrderLine orderLine) {
-        validateOrderLine(orderLine);
         return repository.save(orderLine);
     }
 
@@ -36,12 +35,4 @@ public class OrderLineService {
         repository.delete(id);
     }
 
-    private void validateOrderLine(OrderLine orderLine) {
-        if (orderLine.getId() == null || orderLine.getId().isBlank()) {
-            throw new IllegalArgumentException("Order ID cannot be empty");
-        }
-        if (orderLine.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity must be positive");
-        }
-    }
 }

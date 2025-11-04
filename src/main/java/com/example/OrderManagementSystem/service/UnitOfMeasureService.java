@@ -16,7 +16,6 @@ public class UnitOfMeasureService {
     }
 
     public UnitOfMeasure save(UnitOfMeasure unitOfMeasure) {
-        validateUnitOfMeasure(unitOfMeasure);
         return repository.save(unitOfMeasure);
     }
 
@@ -36,9 +35,4 @@ public class UnitOfMeasureService {
         repository.delete(id);
     }
 
-    private void validateUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
-        if (unitOfMeasure.getName() == null || unitOfMeasure.getName().isBlank()) {
-            throw new IllegalArgumentException("Unit of measure name cannot be empty");
-        }
-    }
 }

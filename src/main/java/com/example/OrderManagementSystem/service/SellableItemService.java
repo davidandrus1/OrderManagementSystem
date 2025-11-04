@@ -16,7 +16,6 @@ public class SellableItemService {
     }
 
     public SellableItem save(SellableItem sellableItem) {
-        validateSellableItem(sellableItem);
         return repository.save(sellableItem);
     }
 
@@ -36,9 +35,4 @@ public class SellableItemService {
         repository.delete(id);
     }
 
-    private void validateSellableItem(SellableItem sellableItem) {
-        if (sellableItem.getName() == null || sellableItem.getName().isBlank()) {
-            throw new IllegalArgumentException("Sellable item name cannot be empty");
-        }
-    }
 }

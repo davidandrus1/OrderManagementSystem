@@ -8,6 +8,8 @@ public class Contract {
     public int contractTypeId;
     public String status;
 
+// Status de tip separat, in package separat
+
     public Contract() {}
 
     public Contract(String contractNumber, int contractTypeId, String status){

@@ -16,7 +16,6 @@ public class ServiceService {
     }
 
     public ServiceItem save(ServiceItem service) {
-        validateService(service);
         return repository.save(service);
     }
 
@@ -36,10 +35,5 @@ public class ServiceService {
         repository.delete(id);
     }
 
-    private void validateService(ServiceItem service) {
-        if (service.getName() == null || service.getName().isBlank()) {
-            throw new IllegalArgumentException("Service name cannot be empty");
-        }
 
-    }
 }
