@@ -29,8 +29,4 @@ public class ContractTypeController {
         return ResponseEntity.ok(saved);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
 }

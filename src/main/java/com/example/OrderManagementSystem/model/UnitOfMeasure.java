@@ -8,6 +8,7 @@ public class UnitOfMeasure {
 
     public String symbol;
 
+    public UnitOfMeasure(){};
     public UnitOfMeasure(String id, String name, String symbol) {
         this.id = id;
         this.name = name;
