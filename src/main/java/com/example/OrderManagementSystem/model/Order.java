@@ -9,6 +9,8 @@ public class Order {
 
     public Long contractId;
 
+    public Order(){};
+
     public Order(String id, String orderNumber, Double totalAmount, Long contractId) {
         this.id = id;
         this.orderNumber = orderNumber;

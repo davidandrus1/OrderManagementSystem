@@ -7,14 +7,25 @@
 </head>
 <body>
 
-<h1>Add customer</h1>
+<h1>Add Customer</h1>
 
 <form th:action="@{/customers/create}" th:object="${item}" method="post">
-    <label>Number:</label>
-
-    <button type="submit" >Save</button>
+    <label>Customer ID:</label>
+    <input type="number" th:field="*{id}" required />
+    <br/>
+    <br/>
+    <label>Customer Name:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/>
+    <br/>
+    <label>Currency:</label>
+    <input type="text" th:field="*{currency}" required />
+    <br/>
+    <br/>
+    <button type="submit">Save</button>
 </form>
 
 <a th:href="@{/customers}">Back</a>
+
 </body>
 </html>

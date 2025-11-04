@@ -3,6 +3,7 @@ package com.example.OrderManagementSystem.controller;
 import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.service.OrderService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,34 +17,40 @@ public class OrderController {
 
     public OrderController(OrderService service) {
         this.service = service;
+        this.service.save(new Order("1", "ORD-001", 1250.50, 1L));
+        this.service.save(new Order("2", "ORD-002", 980.75, 2L));
+        this.service.save(new Order("3", "ORD-003", 450.00, 1L));
     }
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        return ResponseEntity.ok(service.getAll());
+    public String viewAllOrders(Model model) {
+        List<Order> orders = service.getAll();
+        model.addAttribute("items", orders);
+        return "orders/list";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable String id) {
-        Order order = service.getById(id);
-        return ResponseEntity.ok(order);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("item", new Order());
+        return "orders/create";
     }
 
-    @PostMapping
-    public ResponseEntity<Order> addOrder(@RequestBody Order order) {
-        Order saved = service.save(order);
-        return ResponseEntity.ok(saved);
+    @PostMapping("/create")
+    public String create(@ModelAttribute Order order) {
+        service.save(order);
+        return "redirect:/orders";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable String id, @RequestBody Order updatedOrder) {
-        Order updated = service.update(id, updatedOrder);
-        return ResponseEntity.ok(updated);
+    @GetMapping("/{id}/delete")
+    public String confirmDelete(@PathVariable String id, Model model) {
+        service.getById(id).ifPresent(order -> model.addAttribute("item", order));
+        return "orders/delete";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrder(@PathVariable String id) {
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable String id) {
         service.delete(id);
-        return ResponseEntity.ok("Order with id " + id + " deleted successfully");
+        return "redirect:/orders";
     }
+
 }

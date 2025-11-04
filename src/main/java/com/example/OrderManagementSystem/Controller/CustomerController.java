@@ -19,18 +19,18 @@ public class CustomerController {
 
     public CustomerController(CustomerService service) {
         this.service = service;
-        List<Order> orders = List.of(
+        List<Order> orders_c1 = List.of(
                 new Order("1", "ORD-001", 1250.50, 1L),
                 new Order("2", "ORD-002", 980.75, 2L)
         );
 
-        List<Contract> contracts = List.of(
+        List<Contract> contracts_c1 = List.of(
                 new Contract("C-001", 1, "Active"),
                 new Contract("C-002", 2, "Inactive")
         );
 
 
-        this.service.save(new Customer(1, "Kaufland", "RON", orders, contracts));
+        this.service.save(new Customer(1, "Kaufland", "RON", orders_c1, contracts_c1));
 
     }
 
