@@ -9,9 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Controller pentru gestionarea contractelor - versiune MVC (cu template-uri HTML)
- */
 @Controller
 @RequestMapping("/contracts")
 public class ContractController {
@@ -30,9 +27,6 @@ public class ContractController {
         this.service.save(new Contract("3", 1, "Active"));
     }
 
-    /**
-     * Afișează lista tuturor contractelor.
-     */
     @GetMapping
     public String viewAllContracts(Model model) {
 
@@ -44,52 +38,25 @@ public class ContractController {
         return "contracts/list";
     }
 
-    /**
-     * Functie pentru afisarea paginii cu formular pentru un contract nou
-     */
+    //Functie pentru afisarea paginii cu formular pentru un contract nou
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("item", new Contract());
         return "contracts/create";  // View: templates/contracts/create.html
     }
 
-    /**
-     * Salvează un contract nou.
-     */
-    @PostMapping("create")
+    @PostMapping("/create")
     public String create(@ModelAttribute Contract contract) {
         service.save(contract);
         return "redirect:/contracts";
     }
 
-    /**
-     * Form pentru editarea unui contract existent.
-     */
-//    @GetMapping("/edit/{id}")
-//    public String showEditForm(@PathVariable int id, Model model) {
-//        Contract contract = service.getById(id);
-//        model.addAttribute("contract", contract);
-//        return "contracts/edit";  // View: templates/contracts/edit.html
-//    }
-
-    /**
-     * Actualizează un contract existent.
-     */
-//    @PostMapping("/update")
-//    public String updateContract(@ModelAttribute Contract contract) {
-////        service.update(contract.getId(), contract);
-//        return "redirect:/contracts";
-//    }
-
-
-    // GET pentru confirmare ștergere
     @GetMapping("/{id}/delete")
     public String confirmDelete(@PathVariable int id, Model model) {
         this.service.getById(id).ifPresent(item -> model.addAttribute("item", item));
         return "contracts/delete"; // pagina de confirmare
     }
 
-    // POST pentru ștergere efectivă
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable int id) {
         this.service.delete(id);

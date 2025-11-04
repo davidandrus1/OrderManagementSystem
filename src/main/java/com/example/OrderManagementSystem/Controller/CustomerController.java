@@ -6,6 +6,7 @@ import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,57 +19,49 @@ public class CustomerController {
 
     public CustomerController(CustomerService service) {
         this.service = service;
+        List<Order> orders = List.of(
+                new Order("1", "ORD-001", 1250.50, 1L),
+                new Order("2", "ORD-002", 980.75, 2L)
+        );
+
+        List<Contract> contracts = List.of(
+                new Contract("C-001", 1, "Active"),
+                new Contract("C-002", 2, "Inactive")
+        );
+
+
+        this.service.save(new Customer(1, "Kaufland", "RON", orders, contracts));
+
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        return ResponseEntity.ok(service.getAll());
+    public String viewAllCustomrs(Model model) {
+        model.addAttribute("items", service.getAll());
+        return "customers/list";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable String id) {
-        Customer customer = service.getById(id);
-        return ResponseEntity.ok(customer);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("item", new Customer());
+        return "customers/create";
     }
 
-    @PostMapping
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
-        Customer saved = service.save(customer);
-        return ResponseEntity.ok(saved);
+    @PostMapping("/create")
+    public String create(@ModelAttribute Customer customer) {
+        service.save(customer);
+        return "redirect:/customers";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable String id, @RequestBody Customer updatedCustomer) {
-        Customer updated = service.update(id, updatedCustomer);
-        return ResponseEntity.ok(updated);
-    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable String id) {
-        service.delete(id);
-        return ResponseEntity.ok("Customer with id " + id + " deleted successfully");
-    }
+    @GetMapping("/{id}/delete")
+    public String confirmDelete(@PathVariable int id, Model model) {
+        this.service.getById(id).ifPresent(item -> model.addAttribute("item", item));
+        return "customers/delete";
+}
 
-    @PostMapping("/{id}/orders")
-    public ResponseEntity<String> addOrderToCustomer(@PathVariable String id, @RequestBody Order order) {
-        service.addOrderToCustomer(id, order);
-        return ResponseEntity.ok("Order added to customer " + id);
-    }
-
-    @PostMapping("/{id}/contracts")
-    public ResponseEntity<String> addContractToCustomer(@PathVariable String id, @RequestBody Contract contract) {
-        service.addContractToCustomer(id, contract);
-        return ResponseEntity.ok("Contract added to customer " + id);
-    }
-
-    @GetMapping("/{id}/total")
-    public ResponseEntity<Double> getCustomerTotal(@PathVariable String id) {
-        double total = service.calculateTotalForCustomer(id);
-        return ResponseEntity.ok(total);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable int id) {
+        this.service.delete(id);
+        return "redirect:/customers";
     }
 }

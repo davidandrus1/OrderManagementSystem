@@ -19,18 +19,12 @@ public class ContractLineController {
         this.sellableItemService = sellableItemService;
     }
 
-    /**
-     * Afișează lista tuturor ContractLine-urilor.
-     */
     @GetMapping
     public String viewAllContractLines(Model model) {
         model.addAttribute("contractLines", contractLineService.getAll());
         return "contract-lines/list";
     }
 
-    /**
-     * Form pentru crearea unui ContractLine nou.
-     */
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         ContractLine contractLine = new ContractLine(null, null, null, 0);
@@ -39,9 +33,6 @@ public class ContractLineController {
         return "contract-lines/create";
     }
 
-    /**
-     * Salvează un ContractLine nou.
-     */
     @PostMapping
     public String createContractLine(@ModelAttribute ContractLine contractLine,
                                      @RequestParam long itemId) {
@@ -50,9 +41,6 @@ public class ContractLineController {
         return "redirect:/contract-lines";
     }
 
-    /**
-     * Form pentru editarea unui ContractLine existent.
-     */
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable String id, Model model) {
         ContractLine contractLine = contractLineService.getById(id);
@@ -61,9 +49,6 @@ public class ContractLineController {
         return "contract-lines/edit";
     }
 
-    /**
-     * Salvează modificările unui ContractLine existent.
-     */
     @PostMapping("/update")
     public String updateContractLine(@ModelAttribute ContractLine contractLine,
                                      @RequestParam long itemId) {
@@ -72,9 +57,6 @@ public class ContractLineController {
         return "redirect:/contract-lines";
     }
 
-    /**
-     * Șterge un ContractLine după ID.
-     */
     @GetMapping("/delete/{id}")
     public String deleteContractLine(@PathVariable String id) {
         contractLineService.delete(id);

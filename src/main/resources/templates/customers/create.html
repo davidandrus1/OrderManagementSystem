@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Customer</title>
+</head>
+<body>
+
+<h1>Add customer</h1>
+
+<form th:action="@{/customers/create}" th:object="${item}" method="post">
+    <label>Number:</label>
+
+    <button type="submit" >Save</button>
+</form>
+
+<a th:href="@{/customers}">Back</a>
+</body>
+</html>
