@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Customer {
 
-    public int id;
+    public String id;
 
     public String name;
 
@@ -15,18 +15,18 @@ public class Customer {
 
     public Customer(){};
 
-    public Customer(int id, String name, String currency, List<Order> orders, List<Contract> contracts) {
+    public Customer(String id, String name, String currency, List<Order> orders, List<Contract> contracts) {
         this.id = id;
         this.name = name;
         this.currency = currency;
         this.orders = orders;
         this.contracts = contracts;
     }
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

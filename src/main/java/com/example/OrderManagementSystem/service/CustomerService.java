@@ -27,17 +27,15 @@ public class CustomerService {
         return repository.findAll();
     }
 
-    public Optional<Customer> getById(int id) {
-        return this.repository.findById(id);
+    public Customer getById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Customer with id " + id + " not found"));
     }
 
-    public void delete(int id) {
-        Optional<Customer> customer = repository.findById(id);
-        if (customer.isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: contract with id " + id + " not found");
-        }
-        repository.delete(customer.get());
-    }
+    public void delete(String id) {
+        repository.findById(id).ifPresent(repository::delete);
 
     }
+
+}
 

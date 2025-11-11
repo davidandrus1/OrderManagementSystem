@@ -13,32 +13,25 @@ public class ContractService {
 
     private final ContractRepository repository;
 
-    private int nextId = 1;
-
     public ContractService() {
         this.repository = new ContractRepository();
     }
 
-    public Contract save(Contract contract) {
-        contract.setId(this.nextId++);
+    public void save(Contract contract) {
         repository.save(contract);
-        return contract;
     }
 
     public List<Contract> getAll() {
         return repository.findAll();
     }
 
-    public Optional<Contract> getById(int id) {
-        return this.repository.findById(id);
+    public Contract getById(String id) {
+        return this.repository
+                .findById(id).orElseThrow(() -> new IllegalArgumentException("Contract with id " + id + " not found"));
     }
 
-    public void delete(int id) {
-        Optional<Contract> contract = repository.findById(id);
-        if (contract.isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: contract with id " + id + " not found");
-        }
-        repository.delete(contract.get());
+    public void delete(String id) {
+        repository.findById(id).ifPresent(repository::delete);
     }
 }
 

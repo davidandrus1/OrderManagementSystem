@@ -8,10 +8,10 @@ import java.util.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductRepository extends BaseRepository<Contract> {
+public class ProductRepository extends BaseRepository<Product> {
 
     @Override
-    protected String getEntityId(Contract entity) {
+    protected String getEntityId(Product entity) {
         return entity.getId();
     }
 }

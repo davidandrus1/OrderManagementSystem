@@ -30,7 +30,7 @@ public class CustomerController {
         );
 
 
-        this.service.save(new Customer(1, "Kaufland", "RON", orders_c1, contracts_c1));
+        this.service.save(new Customer("1", "Kaufland", "RON", orders_c1, contracts_c1));
 
     }
 

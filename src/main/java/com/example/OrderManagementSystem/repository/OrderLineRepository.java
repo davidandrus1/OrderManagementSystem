@@ -6,10 +6,10 @@ import java.util.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OrderLineRepository extends BaseRepository<Contract> {
+public class OrderLineRepository extends BaseRepository<OrderLine> {
 
     @Override
-    protected String getEntityId(Contract entity) {
+    protected String getEntityId(OrderLine entity) {
         return entity.getId();
     }
 }

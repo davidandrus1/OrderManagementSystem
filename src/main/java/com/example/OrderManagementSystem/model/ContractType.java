@@ -1,7 +1,7 @@
 package com.example.OrderManagementSystem.model;
 
 public class ContractType {
-    public int id;
+    public String id;
 
     public String name;
 
@@ -11,11 +11,11 @@ public class ContractType {
         this.name = name;
         this.type = type;
     }
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
