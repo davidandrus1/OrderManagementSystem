@@ -61,5 +61,5 @@ public class ContractController {
     public String delete(@PathVariable int id) {
         this.service.delete(id);
         return "redirect:/contracts"; // redirect la lista de elevi
-    }
+ }
 }

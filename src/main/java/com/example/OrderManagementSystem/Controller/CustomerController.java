@@ -57,7 +57,7 @@ public class CustomerController {
     public String confirmDelete(@PathVariable int id, Model model) {
         this.service.getById(id).ifPresent(item -> model.addAttribute("item", item));
         return "customers/delete";
-}
+    }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable int id) {
