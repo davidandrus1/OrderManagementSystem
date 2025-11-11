@@ -15,8 +15,12 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public void save(Product product) {
+    public Product save(Product product) {
+        if (product.getId() == null || product.getId().isEmpty()) {
+            product.setId("P-" + (getAll().size() + 1));
+        }
         repository.save(product);
+        return product;
     }
 
     public List<Product> getAll() {

@@ -15,8 +15,12 @@ public class ServiceItemService {
         this.repository = repository;
     }
 
-    public void save(ServiceItem service) {
-        repository.save(service);
+    public ServiceItem save(ServiceItem serviceItem) {
+        if (serviceItem.getId() == null || serviceItem.getId().isEmpty()) {
+            serviceItem.setId("S-" + (getAll().size() + 1));
+        }
+        repository.save(serviceItem);
+        return serviceItem;
     }
 
     public List<ServiceItem> getAll() {

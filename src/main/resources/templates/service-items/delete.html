@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Service Item</title>
+</head>
+<body>
+
+<h1>Șterge serviciu</h1>
+
+<p>Sigur vrei să ștergi serviciul următor?</p>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nume Serviciu</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.status}"></td>
+    </tr>
+</table>
+
+<form th:action="@{'/service-items/' + ${item.id} + '/delete'}" method="post">
+    <button type="submit">Confirm Delete</button>
+    <a th:href="@{/service-items}">Cancel</a>
+</form>
+
+</body>
+</html>

@@ -46,19 +46,19 @@ public class ContractController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Contract contract) {
+    public String createContract(@ModelAttribute Contract contract) {
         service.save(contract);
         return "redirect:/contracts";
     }
 
     @GetMapping("/{id}/delete")
-    public String confirmDelete(@PathVariable int id, Model model) {
+    public String confirmDelete(@PathVariable String id, Model model) {
         this.service.getById(id).ifPresent(item -> model.addAttribute("item", item));
         return "contracts/delete"; // pagina de confirmare
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable int id) {
+    public String delete(@PathVariable String id) {
         this.service.delete(id);
         return "redirect:/contracts"; // redirect la lista de elevi
  }

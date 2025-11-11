@@ -7,6 +7,8 @@ public class ContractType {
 
     public String type; // "customer" sau "seller"
 
+    public ContractType() {};
+
     public ContractType(String name, String type) {
         this.name = name;
         this.type = type;

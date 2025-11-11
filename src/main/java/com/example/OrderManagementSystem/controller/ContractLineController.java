@@ -35,7 +35,7 @@ public class ContractLineController {
 
     @PostMapping
     public String createContractLine(@ModelAttribute ContractLine contractLine,
-                                     @RequestParam long itemId) {
+                                     @RequestParam String itemId) {
         contractLine.setItem(sellableItemService.getById(itemId));
         contractLineService.save(contractLine);
         return "redirect:/contract-lines";

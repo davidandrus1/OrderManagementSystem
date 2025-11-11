@@ -10,15 +10,15 @@
 <h1>Adauga produs</h1>
 
 <form th:action="@{/products/create}" th:object="${item}" method="post">
+    <label>ID:</label>
+    <input type="text" th:field="*{id}" placeholder="Optional, auto-generated"/>
+    <br/>
+    <br/>
     <label>Nume:</label>
-    <input type="text" th:field="*{id}" required />
+    <input type="text" step="0.01" th:field="*{name}" required/>
     <br/>
     <br/>
     <label>Pret:</label>
-    <input type="text" step="0.01" th:field="*{name}" required />
-    <br/>
-    <br/>
-    <label>Stoc:</label>
     <input type="number" th:field="*{value}" required />
     <br/>
     <br/>

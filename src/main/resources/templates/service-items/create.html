@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Service Item</title>
+</head>
+<body>
+
+<h1>Adaugă serviciu</h1>
+
+<form th:action="@{/service-items/create}" th:object="${item}" method="post">
+
+    <label>ID:</label>
+    <input type="text" th:field="*{id}" placeholder="Optional, auto-generated" />
+    <br/><br/>
+
+    <label>Nume Serviciu:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/><br/>
+
+    <!-- Status -->
+    <label>Status:</label>
+    <select th:field="*{status}" required>
+        <option value="">-- Select Status --</option>
+        <option value="Active">Active</option>
+        <option value="Down">Down</option>
+    </select>
+    <br/><br/>
+
+    <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/service-items}">Back</a>
+
+</body>
+</html>

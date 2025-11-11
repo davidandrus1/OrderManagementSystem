@@ -4,7 +4,6 @@ import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.CustomerService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +28,7 @@ public class CustomerController {
                 new Contract("C-002", 2, "Inactive")
         );
 
-
         this.service.save(new Customer("1", "Kaufland", "RON", orders_c1, contracts_c1));
-
     }
 
     @GetMapping
@@ -61,7 +58,7 @@ public class CustomerController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable int id) {
+    public String delete(@PathVariable String id) {
         this.service.delete(id);
         return "redirect:/customers";
     }

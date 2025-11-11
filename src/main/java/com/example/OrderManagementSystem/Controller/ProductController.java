@@ -15,7 +15,7 @@ public class ProductController {
     public ProductController(ProductService service) {
         this.service = service;
 
-         this.service.save(new Product("P-001", "Laptop", 3500.00));
+         this.service.save(new Product("P-1", "Laptop", 3500.00));
     }
 
     @GetMapping
