@@ -4,9 +4,7 @@ import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
+import java.util.*;
 @Service
 public class OrderService {
 

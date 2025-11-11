@@ -4,7 +4,7 @@ import com.example.OrderManagementSystem.model.OrderLine;
 import com.example.OrderManagementSystem.repository.OrderLineRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderLineService {
@@ -23,9 +23,8 @@ public class OrderLineService {
         return repository.findAll();
     }
 
-    public OrderLine getById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("OrderLine with id " + id + " not found"));
+    public Optional<OrderLine> getById(String id) {
+        return repository.findById(id);
     }
 
     public void delete(String id) {

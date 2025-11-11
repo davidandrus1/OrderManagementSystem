@@ -4,8 +4,7 @@ import com.example.OrderManagementSystem.model.Product;
 import com.example.OrderManagementSystem.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -26,7 +25,6 @@ public class ProductService {
 
     public Optional<Product> getById(String id) {
         return repository.findById(id);
-
     }
 
     public void delete(String id) {

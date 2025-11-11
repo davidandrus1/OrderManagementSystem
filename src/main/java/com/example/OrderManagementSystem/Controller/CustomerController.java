@@ -54,8 +54,9 @@ public class CustomerController {
 
 
     @GetMapping("/{id}/delete")
-    public String confirmDelete(@PathVariable int id, Model model) {
-        this.service.getById(id).ifPresent(item -> model.addAttribute("item", item));
+    public String confirmDelete(@PathVariable String id, Model model) {
+        this.service.getById(id).ifPresent(item -> model.addAttribute("item", item)
+        );
         return "customers/delete";
     }
 

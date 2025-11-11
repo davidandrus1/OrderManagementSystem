@@ -4,7 +4,7 @@ import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.repository.ContractRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ContractService {
@@ -23,9 +23,8 @@ public class ContractService {
         return repository.findAll();
     }
 
-    public Contract getById(String id) {
-        return this.repository
-                .findById(id).orElseThrow(() -> new IllegalArgumentException("Contract with id " + id + " not found"));
+    public Optional<Contract> getById(String id) {
+        return repository.findById(id);
     }
 
     public void delete(String id) {

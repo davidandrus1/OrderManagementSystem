@@ -4,7 +4,7 @@ import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CustomerService {
@@ -24,9 +24,8 @@ public class CustomerService {
         return repository.findAll();
     }
 
-    public Customer getById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Customer with id " + id + " not found"));
+    public Optional<Customer> getById(String id) {
+        return repository.findById(id);
     }
 
     public void delete(String id) {

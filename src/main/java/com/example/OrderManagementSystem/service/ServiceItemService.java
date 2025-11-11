@@ -4,7 +4,7 @@ import com.example.OrderManagementSystem.model.ServiceItem;
 import com.example.OrderManagementSystem.repository.ServiceItemRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ServiceItemService {
@@ -23,9 +23,8 @@ public class ServiceItemService {
         return repository.findAll();
     }
 
-    public ServiceItem getById(String id) {
-        return repository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Service with id " + id + " not found"));
+    public Optional<ServiceItem> getById(String id) {
+        return repository.findById(id);
     }
 
     public void delete(String id) {

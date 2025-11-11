@@ -4,9 +4,7 @@ import com.example.OrderManagementSystem.model.ContractType;
 import com.example.OrderManagementSystem.repository.ContractTypeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
+import java.util.*;
 @Service
 public class ContractTypeService {
 
@@ -24,9 +22,8 @@ public class ContractTypeService {
         return repository.findAll();
     }
 
-    public ContractType getById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ContractType with id " + id + " not found"));
+    public Optional<ContractType> getById(String id) {
+        return repository.findById(id);
     }
 
     public void delete(String id) {
