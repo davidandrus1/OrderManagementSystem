@@ -7,27 +7,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public class ContractLineRepository {
-    private final Map<String, ContractLine> items = new HashMap<>();
+public class ContractLineRepository extends BaseRepository<ContractLine>{
     private int nextId = 1;
 
-    public ContractLine save(ContractLine item) {
-        if (item.id == null) {
-            item.id = String.valueOf(nextId++);
+    @Override
+    protected String getEntityId(ContractLine entity) {
+        return entity.id;
+    }
+
+    @Override
+    public void save(ContractLine entity) {
+        if (entity.id == null || entity.id.isEmpty()) {
+            entity.id = String.valueOf(nextId++);
         }
-        items.put(item.id, item);
-        return item;
-    }
-
-    public List<ContractLine> findAll() {
-        return new ArrayList<>(items.values());
-    }
-
-    public Optional<ContractLine> findById(String id) {
-        return Optional.ofNullable(items.get(id));
-    }
-
-    public void delete(String id) {
-        items.remove(id);
+        super.save(entity);
     }
 }

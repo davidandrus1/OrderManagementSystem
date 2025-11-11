@@ -7,16 +7,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ServiceService {
+public class ServiceItemService {
 
     private final ServiceItemRepository repository;
 
-    public ServiceService(ServiceItemRepository repository) {
+    public ServiceItemService(ServiceItemRepository repository) {
         this.repository = repository;
     }
 
     public ServiceItem save(ServiceItem service) {
-        validateService(service);
         return repository.save(service);
     }
 
@@ -36,10 +35,5 @@ public class ServiceService {
         repository.delete(id);
     }
 
-    private void validateService(ServiceItem service) {
-        if (service.getName() == null || service.getName().isBlank()) {
-            throw new IllegalArgumentException("Service name cannot be empty");
-        }
 
-    }
 }

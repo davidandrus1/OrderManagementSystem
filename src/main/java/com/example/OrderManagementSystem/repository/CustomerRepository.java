@@ -10,28 +10,24 @@ import org.springframework.stereotype.Repository;
 
 public class CustomerRepository {
 
-    private final Map<String, Customer> customerStore = new HashMap<>();
+    private final List<Customer> list = new ArrayList<>();
 
-    public Customer save(Customer customer) {
-        if (customer.getId() == null || customer.getId().isEmpty()) {
-            customer.setId(UUID.randomUUID().toString());
-        }
-        customerStore.put(customer.getId(), customer);
-        return customer;
+    public void save(Customer customer) {
+        list.add(customer);
     }
 
     public List<Customer> findAll() {
-        return new ArrayList<>(customerStore.values());
+        return list;
     }
 
-    public Optional<Customer> findById(String id) {
-        return Optional.ofNullable(customerStore.get(id));
+    public Optional<Customer> findById(int id) {
+        return this.list.stream()
+                .filter(e -> e.getId() == id)
+                .findFirst();
     }
 
-    public boolean delete(String id) {
-        return customerStore.remove(id) != null;
+    public boolean delete(Customer customer) {
+        return this.list.remove(customer);
     }
-
-
 }
 

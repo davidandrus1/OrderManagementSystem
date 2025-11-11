@@ -4,83 +4,64 @@ import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.service.CustomerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerService customerService;
+    private final CustomerService service;
 
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomerController(CustomerService service) {
+        this.service = service;
+        List<Order> orders_c1 = List.of(
+                new Order("1", "ORD-001", 1250.50, 1L),
+                new Order("2", "ORD-002", 980.75, 2L)
+        );
+
+        List<Contract> contracts_c1 = List.of(
+                new Contract("C-001", 1, "Active"),
+                new Contract("C-002", 2, "Inactive")
+        );
+
+
+        this.service.save(new Customer(1, "Kaufland", "RON", orders_c1, contracts_c1));
+
     }
 
     @GetMapping
-    public String viewAllCustomers(Model model) {
-        model.addAttribute("customers", customerService.getAll());
-        return "customers/list"; // -> templates/customers/list.html
+    public String viewAllCustomrs(Model model) {
+        model.addAttribute("items", service.getAll());
+        return "customers/list";
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        Customer customer = new Customer(null, "", "", null, null);
-        model.addAttribute("customer", customer);
+        model.addAttribute("item", new Customer());
         return "customers/create";
     }
 
-    @PostMapping
-    public String createCustomer(@ModelAttribute Customer customer) {
-        customerService.save(customer);
+    @PostMapping("/create")
+    public String create(@ModelAttribute Customer customer) {
+        service.save(customer);
         return "redirect:/customers";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        Customer customer = customerService.getById(id);
-        model.addAttribute("customer", customer);
-        return "customers/edit";
+
+    @GetMapping("/{id}/delete")
+    public String confirmDelete(@PathVariable int id, Model model) {
+        this.service.getById(id).ifPresent(item -> model.addAttribute("item", item));
+        return "customers/delete";
     }
 
-    @PostMapping("/update")
-    public String updateCustomer(@ModelAttribute Customer customer) {
-        customerService.save(customer);
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable int id) {
+        this.service.delete(id);
         return "redirect:/customers";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteCustomer(@PathVariable String id) {
-        customerService.delete(id);
-        return "redirect:/customers";
-    }
-
-    @GetMapping("/{id}/total")
-    public String viewCustomerTotal(@PathVariable String id, Model model) {
-        double total = customerService.calculateTotalForCustomer(id);
-        model.addAttribute("customer", customerService.getById(id));
-        model.addAttribute("totalAmount", total);
-        return "customers/total";
-    }
-
-    @PostMapping("/{id}/orders")
-    public String addOrderToCustomer(@PathVariable String id, @ModelAttribute Order order) {
-        customerService.addOrderToCustomer(id, order);
-        return "redirect:/customers";
-    }
-
-    @PostMapping("/{id}/contracts")
-    public String addContractToCustomer(@PathVariable String id, @ModelAttribute Contract contract) {
-        customerService.addContractToCustomer(id, contract);
-        return "redirect:/customers";
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handleValidationError(IllegalArgumentException ex, Model model) {
-        model.addAttribute("error", ex.getMessage());
-        model.addAttribute("customers", customerService.getAll());
-        return "customers/list";
     }
 }

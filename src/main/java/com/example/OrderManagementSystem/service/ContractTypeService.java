@@ -19,7 +19,6 @@ public class ContractTypeService {
 
     public ContractType save(ContractType contractType) {
         contractType.setId(this.nextId++);
-//        validateContractType(contractType);
         repository.save(contractType);
         return contractType;
     }
@@ -33,22 +32,6 @@ public class ContractTypeService {
                 .orElseThrow(() -> new IllegalArgumentException("ContractType with id " + id + " not found"));
     }
 
-    public ContractType update(int id, ContractType updatedContractType) {
-        ContractType existingType = repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ContractType with id " + id + " not found"));
-
-        if (updatedContractType.getName() != null && !updatedContractType.getName().isBlank()) {
-            existingType.setName(updatedContractType.getName());
-        }
-        if (updatedContractType.getType() != null && !updatedContractType.getType().isBlank()) {
-            existingType.setType(updatedContractType.getType());
-        }
-
-//        validateContractType(existingType);
-        repository.save(existingType);
-        return existingType;
-    }
-
     public void delete(int id) {
         Optional<ContractType> contractType = repository.findById(id);
         if (contractType.isEmpty()) {
@@ -57,15 +40,4 @@ public class ContractTypeService {
         repository.delete(contractType.get());
     }
 
-//    private void validateContractType(ContractType contractType) {
-//        if (contractType.getId() == null || contractType.getId().isBlank()) {
-//            throw new IllegalArgumentException("ContractType ID cannot be empty");
-//        }
-//        if (contractType.getName() == null || contractType.getName().isBlank()) {
-//            throw new IllegalArgumentException("ContractType name cannot be empty");
-//        }
-//        if (contractType.getType() == null || contractType.getType().isBlank()) {
-//            throw new IllegalArgumentException("ContractType type cannot be empty (must be 'customer' or 'seller')");
-//        }
-//    }
 }

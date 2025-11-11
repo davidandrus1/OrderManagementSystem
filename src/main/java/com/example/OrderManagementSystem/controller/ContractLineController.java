@@ -7,10 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Controller pentru gestionarea liniilor de contract (ContractLine).
- * Urmează același model ca și ProductController și ServiceController.
- */
 @Controller
 @RequestMapping("/contract-lines")
 public class ContractLineController {
@@ -18,8 +14,7 @@ public class ContractLineController {
     private final ContractLineService contractLineService;
     private final SellableItemService sellableItemService;
 
-    public ContractLineController(ContractLineService contractLineService,
-                                  SellableItemService sellableItemService) {
+    public ContractLineController(ContractLineService contractLineService, SellableItemService sellableItemService) {
         this.contractLineService = contractLineService;
         this.sellableItemService = sellableItemService;
     }
@@ -27,14 +22,14 @@ public class ContractLineController {
     @GetMapping
     public String viewAllContractLines(Model model) {
         model.addAttribute("contractLines", contractLineService.getAll());
-        return "contract-lines/list"; // -> templates/contract-lines/list.html
+        return "contract-lines/list";
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         ContractLine contractLine = new ContractLine(null, null, null, 0);
         model.addAttribute("contractLine", contractLine);
-        model.addAttribute("items", sellableItemService.getAll()); // elemente vândabile
+        model.addAttribute("items", sellableItemService.getAll());
         return "contract-lines/create";
     }
 
@@ -46,32 +41,9 @@ public class ContractLineController {
         return "redirect:/contract-lines";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        ContractLine contractLine = contractLineService.getById(id);
-        model.addAttribute("contractLine", contractLine);
-        model.addAttribute("items", sellableItemService.getAll());
-        return "contract-lines/edit";
-    }
-
-    @PostMapping("/update")
-    public String updateContractLine(@ModelAttribute ContractLine contractLine,
-                                     @RequestParam long itemId) {
-        contractLine.setItem(sellableItemService.getById(itemId));
-        contractLineService.save(contractLine);
-        return "redirect:/contract-lines";
-    }
-
     @GetMapping("/delete/{id}")
     public String deleteContractLine(@PathVariable String id) {
         contractLineService.delete(id);
         return "redirect:/contract-lines";
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handleValidationError(IllegalArgumentException ex, Model model) {
-        model.addAttribute("error", ex.getMessage());
-        model.addAttribute("contractLines", contractLineService.getAll());
-        return "contract-lines/list";
     }
 }

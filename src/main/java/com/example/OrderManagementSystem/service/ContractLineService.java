@@ -16,9 +16,8 @@ public class ContractLineService {
         this.repository = repository;
     }
 
-    public ContractLine save(ContractLine contractLine) {
-        validateContractLine(contractLine);
-        return repository.save(contractLine);
+    public void save(ContractLine contractLine) {
+        repository.save(contractLine);
     }
 
     public List<ContractLine> getAll() {
@@ -31,18 +30,6 @@ public class ContractLineService {
     }
 
     public void delete(String id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: contract line not found");
-        }
-        repository.delete(id);
-    }
-
-    private void validateContractLine(ContractLine contractLine) {
-        if (contractLine.getId() == null || contractLine.getId().isBlank()) {
-            throw new IllegalArgumentException("Contract ID cannot be empty");
-        }
-        if (contractLine.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity must be positive");
-        }
+        repository.findById(id).ifPresent(repository::delete);
     }
 }

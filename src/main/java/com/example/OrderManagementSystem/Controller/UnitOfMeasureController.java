@@ -10,53 +10,42 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/units")
 public class UnitOfMeasureController {
 
-    private final UnitOfMeasureService unitService;
+    private final UnitOfMeasureService service;
 
-    public UnitOfMeasureController(UnitOfMeasureService unitService) {
-        this.unitService = unitService;
+    public UnitOfMeasureController(UnitOfMeasureService service) {
+        this.service = service;
+
+         this.service.save(new UnitOfMeasure("1","kg", "Kilogram"));
+         this.service.save(new UnitOfMeasure("2","L", "Liter"));
     }
+
     @GetMapping
     public String viewAllUnits(Model model) {
-        model.addAttribute("units", unitService.getAll());
-        return "units/list"; // -> templates/units/list.html
+        model.addAttribute("items", service.getAll());
+        return "units/list";
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        UnitOfMeasure unit = new UnitOfMeasure(null, "","");
-        model.addAttribute("unit", unit);
+        model.addAttribute("item", new UnitOfMeasure());
         return "units/create";
     }
 
-    @PostMapping
-    public String createUnit(@ModelAttribute UnitOfMeasure unit) {
-        unitService.save(unit);
+    @PostMapping("/create")
+    public String create(@ModelAttribute UnitOfMeasure unitOfMeasure) {
+        service.save(unitOfMeasure);
         return "redirect:/units";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        UnitOfMeasure unit = unitService.getById(id);
-        model.addAttribute("unit", unit);
-        return "units/edit";
+    @GetMapping("/{id}/delete")
+    public String confirmDelete(@PathVariable String id, Model model) {
+        service.getById(id).ifPresent(item -> model.addAttribute("item", item));
+        return "units/delete";
     }
 
-    @PostMapping("/update")
-    public String updateUnit(@ModelAttribute UnitOfMeasure unit) {
-        unitService.save(unit);
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable String id) {
+        service.delete(id);
         return "redirect:/units";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteUnit(@PathVariable String id) {
-        unitService.delete(id);
-        return "redirect:/units";
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handleValidationError(IllegalArgumentException ex, Model model) {
-        model.addAttribute("error", ex.getMessage());
-        model.addAttribute("units", unitService.getAll());
-        return "units/list";
     }
 }

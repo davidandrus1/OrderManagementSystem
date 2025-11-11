@@ -5,6 +5,7 @@ import com.example.OrderManagementSystem.repository.UnitOfMeasureRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UnitOfMeasureService {
@@ -16,7 +17,6 @@ public class UnitOfMeasureService {
     }
 
     public UnitOfMeasure save(UnitOfMeasure unitOfMeasure) {
-        validateUnitOfMeasure(unitOfMeasure);
         return repository.save(unitOfMeasure);
     }
 
@@ -24,9 +24,8 @@ public class UnitOfMeasureService {
         return repository.findAll();
     }
 
-    public UnitOfMeasure getById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("UnitOfMeasure with id " + id + " not found"));
+    public Optional<UnitOfMeasure> getById(String id) {
+        return repository.findById(id);
     }
 
     public void delete(String id) {
@@ -36,9 +35,4 @@ public class UnitOfMeasureService {
         repository.delete(id);
     }
 
-    private void validateUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
-        if (unitOfMeasure.getName() == null || unitOfMeasure.getName().isBlank()) {
-            throw new IllegalArgumentException("Unit of measure name cannot be empty");
-        }
-    }
 }
