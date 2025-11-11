@@ -9,27 +9,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ContractRepository {
 
-    private final Map<String, Contract> contractStore = new HashMap<>();
+    private final List<Contract> list = new ArrayList<>();
     private int nextId = 1;
 
-    public Contract save(Contract contract) {
-        if (contract.getId() == null) {
-            contract.id = String.valueOf(nextId++);
-        }
-        contractStore.put(contract.id, contract);
-        return contract;
+    public void save(Contract contract) {
+        this.list.add(contract);
     }
 
     public List<Contract> findAll() {
-        return new ArrayList<>(contractStore.values());
+        return list;
     }
 
-    public Optional<Contract> findById(String id) {
-        return Optional.ofNullable(contractStore.get(id));
+    public Optional<Contract> findById(int id) {
+        return this.list.stream()
+                .filter(e -> e.getId() == id)
+                .findFirst();
     }
 
-    public boolean delete(String id) {
-        return contractStore.remove(id) != null;
+    public boolean delete(Contract contract) {
+        return this.list.remove(contract);
     }
 
 }

@@ -1,24 +1,25 @@
 package com.example.OrderManagementSystem.model;
 
+import com.example.OrderManagementSystem.repository.ContractTypeRepository;
+
 public class Contract {
-    public  String id;
+    public  int id;
     public String contractNumber;
-    public Long contractTypeId;
+    public int contractTypeId;
     public String status;
 
     public Contract() {}
 
-    public Contract(String id, String contractNumber, Long contractTypeId, String status){
-        this.id = id;
+    public Contract(String contractNumber, int contractTypeId, String status){
         this.contractNumber = contractNumber;
         this.contractTypeId = contractTypeId;
         this.status = status;
     }
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,11 +31,11 @@ public class Contract {
         this.contractNumber = contractNumber;
     }
 
-    public Long getContractTypeId() {
+    public int getContractTypeId() {
         return contractTypeId;
     }
 
-    public void setContractTypeId(Long contractTypeId) {
+    public void setContractTypeId(int contractTypeId) {
         this.contractTypeId = contractTypeId;
     }
 
@@ -45,4 +46,5 @@ public class Contract {
     public void setStatus(String status) {
         this.status = status;
     }
+
 }

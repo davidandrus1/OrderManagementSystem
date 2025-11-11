@@ -2,64 +2,53 @@ package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.ContractType;
 import com.example.OrderManagementSystem.service.ContractTypeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/contract-types")
+@RequestMapping("/contractTypes")
 public class ContractTypeController {
 
-    private final ContractTypeService contractTypeService;
+    private final ContractTypeService service;
 
-    public ContractTypeController(ContractTypeService contractTypeService) {
-        this.contractTypeService = contractTypeService;
+    public ContractTypeController(ContractTypeService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public String viewAllContractTypes(Model model) {
-        model.addAttribute("contractTypes", contractTypeService.getAll());
-        return "contract-types/list"; // -> templates/contract-types/list.html
+    public ResponseEntity<List<ContractType>> getAllContractTypes() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        ContractType contractType = new ContractType(null, "", "");
-        model.addAttribute("contractType", contractType);
-        return "contract-types/create";
-    }
-
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ContractType> getContractTypeById(@PathVariable String id) {
+//        ContractType type = service.getById(id);
+//        return ResponseEntity.ok(type);
+//    }
 
     @PostMapping
-    public String createContractType(@ModelAttribute ContractType contractType) {
-        contractTypeService.save(contractType);
-        return "redirect:/contract-types";
+    public ResponseEntity<ContractType> addContractType(@RequestBody ContractType contractType) {
+        ContractType saved = service.save(contractType);
+        return ResponseEntity.ok(saved);
     }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<ContractType> updateContractType(@PathVariable String id, @RequestBody ContractType updatedContractType) {
+//        ContractType updated = service.update(id, updatedContractType);
+//        return ResponseEntity.ok(updated);
+//    }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        ContractType contractType = contractTypeService.getById(id);
-        model.addAttribute("contractType", contractType);
-        return "contract-types/edit";
-    }
-
-    @PostMapping("/update")
-    public String updateContractType(@ModelAttribute ContractType contractType) {
-        contractTypeService.save(contractType);
-        return "redirect:/contract-types";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteContractType(@PathVariable String id) {
-        contractTypeService.delete(id);
-        return "redirect:/contract-types";
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> deleteContractType(@PathVariable String id) {
+//        service.delete(id);
+//        return ResponseEntity.ok("ContractType with id " + id + " deleted successfully");
+//    }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public String handleValidationError(IllegalArgumentException ex, Model model) {
-        model.addAttribute("error", ex.getMessage());
-        model.addAttribute("contractTypes", contractTypeService.getAll());
-        return "contract-types/list";
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
-

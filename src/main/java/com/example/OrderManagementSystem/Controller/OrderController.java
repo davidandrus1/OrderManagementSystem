@@ -67,7 +67,7 @@ public class OrderController {
         orderService.delete(id);
         return "redirect:/orders";
     }
-    
+
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleValidationError(IllegalArgumentException ex, Model model) {
         model.addAttribute("error", ex.getMessage());
