@@ -1,33 +1,15 @@
 package com.example.OrderManagementSystem.repository;
-
+import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.model.Customer;
-
 import java.util.*;
-
 import org.springframework.stereotype.Repository;
 
-@Repository
 
-public class CustomerRepository {
+    @Repository
+    public class CustomerRepository extends BaseRepository<Contract> {
 
-    private final List<Customer> list = new ArrayList<>();
-
-    public void save(Customer customer) {
-        list.add(customer);
+        @Override
+        protected String getEntityId(Contract entity) {
+            return entity.getId();
+        }
     }
-
-    public List<Customer> findAll() {
-        return list;
-    }
-
-    public Optional<Customer> findById(int id) {
-        return this.list.stream()
-                .filter(e -> e.getId() == id)
-                .findFirst();
-    }
-
-    public boolean delete(Customer customer) {
-        return this.list.remove(customer);
-    }
-}
-
