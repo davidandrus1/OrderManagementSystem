@@ -1,8 +1,10 @@
 package com.example.OrderManagementSystem.repository;
 
+import com.example.OrderManagementSystem.model.ContractLine;
+
 import java.util.*;
 
-public abstract class BaseRepository<T> implements RepositoryInterface<T>{
+public abstract class BaseRepository<T> implements RepositoryInterface<T> {
 
     protected final List<T> list;
 

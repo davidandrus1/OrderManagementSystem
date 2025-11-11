@@ -3,7 +3,7 @@ package com.example.OrderManagementSystem.model;
 import com.example.OrderManagementSystem.repository.ContractTypeRepository;
 
 public class Contract {
-    public  int id;
+    public  String id;
     public String contractNumber;
     public int contractTypeId;
     public String status;
@@ -17,11 +17,11 @@ public class Contract {
         this.contractTypeId = contractTypeId;
         this.status = status;
     }
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
