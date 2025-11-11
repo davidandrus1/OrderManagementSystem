@@ -1,5 +1,5 @@
 package com.example.OrderManagementSystem.repository;
-
+import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.model.ContractLine;
 import java.util.*;
 
@@ -13,5 +13,6 @@ public class ContractLineRepository extends BaseRepository<ContractLine>{
     protected String getEntityId(ContractLine entity) {
         return entity.id;
     }
+
 
 }
