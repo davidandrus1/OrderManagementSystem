@@ -13,6 +13,4 @@ public class ContractLineRepository extends BaseRepository<ContractLine>{
     protected String getEntityId(ContractLine entity) {
         return entity.id;
     }
-
-
 }

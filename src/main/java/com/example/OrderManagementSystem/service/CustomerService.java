@@ -1,13 +1,10 @@
 package com.example.OrderManagementSystem.service;
 
 import com.example.OrderManagementSystem.model.Customer;
-import com.example.OrderManagementSystem.model.Order;
-import com.example.OrderManagementSystem.model.Contract;
 import com.example.OrderManagementSystem.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -34,7 +31,6 @@ public class CustomerService {
 
     public void delete(String id) {
         repository.findById(id).ifPresent(repository::delete);
-
     }
 
 }

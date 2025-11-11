@@ -1,28 +1,24 @@
 package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.ServiceItem;
-import com.example.OrderManagementSystem.service.ServiceService;
+import com.example.OrderManagementSystem.service.ServiceItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Controller pentru gestionarea serviciilor (ServiceItem).
- * Urmează același model ca ProductController și ContractLineController.
- */
 @Controller
 @RequestMapping("/services")
-public class ServiceController {
+public class ServiceItemController {
 
-    private final ServiceService serviceService;
+    private final ServiceItemService serviceItemService;
 
-    public ServiceController(ServiceService serviceService) {
-        this.serviceService = serviceService;
+    public ServiceItemController(ServiceItemService serviceItemService) {
+        this.serviceItemService = serviceItemService;
     }
 
     @GetMapping
     public String viewAllServices(Model model) {
-        model.addAttribute("services", serviceService.getAll());
+        model.addAttribute("services", serviceItemService.getAll());
         return "services/list"; // -> templates/services/list.html
     }
 
@@ -36,33 +32,33 @@ public class ServiceController {
 
     @PostMapping
     public String createService(@ModelAttribute ServiceItem serviceItem) {
-        serviceService.save(serviceItem);
+        serviceItemService.save(serviceItem);
         return "redirect:/services";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable String id, Model model) {
-        ServiceItem serviceItem = serviceService.getById(id);
+        ServiceItem serviceItem = serviceItemService.getById(id);
         model.addAttribute("service", serviceItem);
         return "services/edit";
     }
 
     @PostMapping("/update")
     public String updateService(@ModelAttribute ServiceItem serviceItem) {
-        serviceService.save(serviceItem);
+        serviceItemService.save(serviceItem);
         return "redirect:/services";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteService(@PathVariable String id) {
-        serviceService.delete(id);
+        serviceItemService.delete(id);
         return "redirect:/services";
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleValidationError(IllegalArgumentException ex, Model model) {
         model.addAttribute("error", ex.getMessage());
-        model.addAttribute("services", serviceService.getAll());
+        model.addAttribute("services", serviceItemService.getAll());
         return "services/list";
     }
 }

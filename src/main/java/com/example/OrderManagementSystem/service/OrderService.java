@@ -16,9 +16,8 @@ public class OrderService {
         this.repository = repository;
     }
 
-    public Order save(Order order) {
+    public void save(Order order) {
         repository.save(order);
-        return order;
     }
 
     public List<Order> getAll() {
@@ -30,10 +29,7 @@ public class OrderService {
     }
 
     public void delete(String id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: order with id " + id + " not found");
-        }
-        repository.delete(id);
+        repository.findById(id).ifPresent(repository::delete);
     }
 }
 

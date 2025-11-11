@@ -1,4 +1,4 @@
 package com.example.OrderManagementSystem.model;
 
-public class BaseModel {
+public abstract class BaseModel {
 }

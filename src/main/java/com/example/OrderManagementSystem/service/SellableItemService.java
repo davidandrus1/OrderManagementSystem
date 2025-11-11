@@ -1,38 +1,43 @@
 package com.example.OrderManagementSystem.service;
 
+import com.example.OrderManagementSystem.model.Product;
+import com.example.OrderManagementSystem.model.ServiceItem;
 import com.example.OrderManagementSystem.model.SellableItem;
-import com.example.OrderManagementSystem.repository.SellableItemRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SellableItemService {
 
-    private final SellableItemRepository<SellableItem> repository;
+    private final ProductService productService;
+    private final ServiceItemService serviceItemService;
 
-    public SellableItemService(SellableItemRepository<SellableItem> repository) {
-        this.repository = repository;
-    }
-
-    public SellableItem save(SellableItem sellableItem) {
-        return repository.save(sellableItem);
+    public SellableItemService(ProductService productService, ServiceItemService serviceItemService) {
+        this.productService = productService;
+        this.serviceItemService = serviceItemService;
     }
 
     public List<SellableItem> getAll() {
-        return repository.findAll();
+        List<SellableItem> allItems = new ArrayList<>();
+        allItems.addAll(productService.getAll());
+        allItems.addAll(serviceItemService.getAll());
+        return allItems;
     }
 
-    public SellableItem getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("SellableItem with id " + id + " not found"));
-    }
-
-    public void delete(Long id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: sellable item not found");
+    public SellableItem getById(String id) {
+        Optional<Product> productOpt = productService.getById(id);
+        if (productOpt.isPresent()) {
+            return productOpt.get();
         }
-        repository.delete(id);
-    }
 
+        ServiceItem serviceItem = serviceItemService.getAll().stream()
+                .filter(s -> s.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("SellableItem with id " + id + " not found"));
+
+        return serviceItem;
+    }
 }

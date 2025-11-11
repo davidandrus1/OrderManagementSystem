@@ -1,12 +1,10 @@
 package com.example.OrderManagementSystem.service;
 
 import com.example.OrderManagementSystem.model.Contract;
-import com.example.OrderManagementSystem.model.ContractType;
 import com.example.OrderManagementSystem.repository.ContractRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContractService {

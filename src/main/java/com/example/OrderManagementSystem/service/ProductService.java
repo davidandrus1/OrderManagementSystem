@@ -16,8 +16,8 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public Product save(Product product) {
-        return repository.save(product);
+    public void save(Product product) {
+        repository.save(product);
     }
 
     public List<Product> getAll() {
@@ -30,11 +30,6 @@ public class ProductService {
     }
 
     public void delete(String id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: product not found");
-        }
-        repository.delete(id);
+        repository.findById(id).ifPresent(repository::delete);
     }
-
-
 }

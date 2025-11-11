@@ -15,8 +15,8 @@ public class OrderLineService {
         this.repository = repository;
     }
 
-    public OrderLine save(OrderLine orderLine) {
-        return repository.save(orderLine);
+    public void save(OrderLine orderLine) {
+        repository.save(orderLine);
     }
 
     public List<OrderLine> getAll() {
@@ -29,10 +29,7 @@ public class OrderLineService {
     }
 
     public void delete(String id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: order line not found");
-        }
-        repository.delete(id);
+        repository.findById(id).ifPresent(repository::delete);
     }
 
 }

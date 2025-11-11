@@ -16,8 +16,8 @@ public class UnitOfMeasureService {
         this.repository = repository;
     }
 
-    public UnitOfMeasure save(UnitOfMeasure unitOfMeasure) {
-        return repository.save(unitOfMeasure);
+    public void save(UnitOfMeasure unitOfMeasure) {
+        repository.save(unitOfMeasure);
     }
 
     public List<UnitOfMeasure> getAll() {
@@ -29,10 +29,6 @@ public class UnitOfMeasureService {
     }
 
     public void delete(String id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: unit of measure not found");
-        }
-        repository.delete(id);
+        repository.findById(id).ifPresent(repository::delete);
     }
-
 }

@@ -15,8 +15,8 @@ public class ServiceItemService {
         this.repository = repository;
     }
 
-    public ServiceItem save(ServiceItem service) {
-        return repository.save(service);
+    public void save(ServiceItem service) {
+        repository.save(service);
     }
 
     public List<ServiceItem> getAll() {
@@ -29,11 +29,6 @@ public class ServiceItemService {
     }
 
     public void delete(String id) {
-        if (repository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete: service not found");
-        }
-        repository.delete(id);
+        repository.findById(id).ifPresent(repository::delete);
     }
-
-
 }
