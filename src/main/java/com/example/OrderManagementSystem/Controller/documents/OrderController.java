@@ -1,8 +1,7 @@
-package com.example.OrderManagementSystem.controller;
+package com.example.OrderManagementSystem.controller.documents;
 
 import com.example.OrderManagementSystem.model.Order;
 import com.example.OrderManagementSystem.service.OrderService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
