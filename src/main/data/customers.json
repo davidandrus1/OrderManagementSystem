@@ -1,0 +1,13 @@
+[ {
+  "id" : "4f5ff9be-4302-41ea-ab27-fdf36e83a9ee",
+  "name" : "birlea",
+  "currency" : "USD",
+  "orders" : null,
+  "contracts" : null
+}, {
+  "id" : "c6cc7caa-be55-4130-9f3a-faf0d02899b1",
+  "name" : "David Andrus",
+  "currency" : "EUR",
+  "orders" : null,
+  "contracts" : null
+} ]

@@ -1,4 +1,4 @@
-package com.example.OrderManagementSystem.repository;
+package com.example.OrderManagementSystem.repository.basedata;
 
 import com.example.OrderManagementSystem.model.SellableItem;
 import java.util.*;

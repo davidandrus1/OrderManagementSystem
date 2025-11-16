@@ -1,15 +1,10 @@
 package com.example.OrderManagementSystem.model;
 
-public class Product extends SellableItem {
+public class ProductItem extends SellableItem {
 
     private double value;
 
-    public Product(){};
-
-    public Product(String id, String name, double value) {
-        super(id, name);
-        this.value = value;
-    }
+    public ProductItem(){};
 
     public double getValue() {
         return value;

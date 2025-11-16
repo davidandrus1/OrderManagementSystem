@@ -1,7 +1,7 @@
 package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.UnitOfMeasure;
-import com.example.OrderManagementSystem.service.UnitOfMeasureService;
+import com.example.OrderManagementSystem.service.basedata.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +14,11 @@ public class UnitOfMeasureController {
 
     public UnitOfMeasureController(UnitOfMeasureService service) {
         this.service = service;
-
-         this.service.save(new UnitOfMeasure("1","kg", "Kilogram"));
-         this.service.save(new UnitOfMeasure("2","L", "Liter"));
     }
 
     @GetMapping
     public String viewAllUnits(Model model) {
-        model.addAttribute("items", service.getAll());
+        model.addAttribute("items", service.findAll());
         return "units/list";
     }
 
@@ -39,13 +36,13 @@ public class UnitOfMeasureController {
 
     @GetMapping("/{id}/delete")
     public String confirmDelete(@PathVariable String id, Model model) {
-        service.getById(id).ifPresent(item -> model.addAttribute("item", item));
+        service.findById(id).ifPresent(item -> model.addAttribute("item", item));
         return "units/delete";
     }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable String id) {
-        service.delete(id);
+        service.deleteById(id);
         return "redirect:/units";
     }
 }

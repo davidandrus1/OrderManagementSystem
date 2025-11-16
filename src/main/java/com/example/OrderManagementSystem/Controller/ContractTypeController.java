@@ -1,10 +1,12 @@
 package com.example.OrderManagementSystem.controller;
 
 import com.example.OrderManagementSystem.model.ContractType;
-import com.example.OrderManagementSystem.service.ContractTypeService;
+import com.example.OrderManagementSystem.service.basedata.ContractTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/contract-types")
@@ -12,17 +14,13 @@ public class ContractTypeController {
 
     private final ContractTypeService service;
 
-    public ContractTypeController() {
-        this.service = new ContractTypeService();
-
-        this.service.save(new ContractType("Prestari Servicii", "Seller"));
-        this.service.save(new ContractType("Vanzare En-gros", "Customer"));
-        this.service.save(new ContractType("Contract Mentenanta", "Supplier"));
+    public ContractTypeController(ContractTypeService service) {
+        this.service = service;
     }
 
     @GetMapping
     public String viewAllContractTypes(Model model) {
-        model.addAttribute("items", service.getAll());
+        model.addAttribute("items", service.findAll());
         return "contract-types/list";
     }
 
@@ -34,19 +32,20 @@ public class ContractTypeController {
 
     @PostMapping("/create")
     public String create(@ModelAttribute ContractType contractType) {
+        contractType.setId(UUID.randomUUID().toString());
         service.save(contractType);
         return "redirect:/contract-types";
     }
 
     @GetMapping("/{id}/delete")
     public String confirmDelete(@PathVariable String id, Model model) {
-        service.getById(id).ifPresent(item -> model.addAttribute("item", item));
+        service.findById(id).ifPresent(item -> model.addAttribute("item", item));
         return "contract-types/delete";
     }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable String id) {
-        service.delete(id);
+        service.deleteById(id);
         return "redirect:/contract-types";
     }
 }

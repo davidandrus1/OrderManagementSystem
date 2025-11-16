@@ -3,13 +3,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Customer</title>
+    <title>Edit Customer</title>
 </head>
 <body>
 
-<h1>Add Customer</h1>
+<h1>Edit Customer</h1>
 
-<form th:action="@{/customers/create}" th:object="${item}" method="post">
+<form th:action="@{/customers/edit}" th:object="${item}" method="post">
+    <input type="hidden" th:field="*{id}" required />
     <br/>
     <label>Customer Name:</label>
     <input type="text" th:field="*{name}" required />

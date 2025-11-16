@@ -1,8 +1,6 @@
 package com.example.OrderManagementSystem.model;
 
-public class Order {
-    public String id;
-
+public class Order extends BaseModel{
     public String orderNumber;
 
     public Double totalAmount;
@@ -10,20 +8,6 @@ public class Order {
     public Long contractId;
 
     public Order(){};
-
-    public Order(String id, String orderNumber, Double totalAmount, Long contractId) {
-        this.id = id;
-        this.orderNumber = orderNumber;
-        this.totalAmount = totalAmount;
-        this.contractId = contractId;
-    }
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getOrderNumber() {
         return orderNumber;
