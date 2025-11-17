@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create Order</title>
@@ -9,23 +8,26 @@
 
 <h1>Add Order</h1>
 
-<form th:action="@{/orders/create}" th:object="${item}" method="post">
-    <label>Order ID:</label>
-    <input type="text" th:field="*{id}" required />
-    <br/>
-    <br/>
-    <label>Order Number:</label>
-    <input type="text" th:field="*{orderNumber}" required />
-    <br/>
-    <br/>
-    <label>Total Amount:</label>
-    <input type="number" step="0.01" th:field="*{totalAmount}" required />
-    <br/>
-    <br/>
-    <label>Contract ID:</label>
-    <input type="number" th:field="*{contractId}" required />
-    <br/>
-    <br/>
+<form th:action="@{/orders/create}" method="post">
+    <!-- Order ID -->
+    <input type="hidden" name="id" th:value="${item.id}" />
+
+    <!-- Order Name -->
+    <label>Order Name:</label>
+    <input type="text" name="name" th:value="${item.name}" required />
+    <br/><br/>
+
+    <!-- Customer select -->
+    <label for="customer" class="form-label">Customer</label>
+    <select class="form-select" id="customer" name="customer" required>
+        <option value="">-- Choose Customer --</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.name}">
+        </option>
+    </select>
+    <br/><br/>
+
     <button type="submit">Save</button>
 </form>
 

@@ -1,5 +1,8 @@
 package com.example.OrderManagementSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceItem extends SellableItem{
 
     public enum Status { ACTIVE, DOWN }

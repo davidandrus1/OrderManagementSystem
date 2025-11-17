@@ -1,35 +1,50 @@
 package com.example.OrderManagementSystem.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Order extends BaseModel{
-    public String orderNumber;
 
-    public Double totalAmount;
 
-    public Long contractId;
+    private String name;
+
+    private Customer customer;
+
+    private Contract contract;
+
+    private List<OrderLine> orderLines = new ArrayList<>();
 
     public Order(){};
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public String getName() {
+        return name;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Double getTotalAmount() {
-        return totalAmount;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public Long getContractId() {
-        return contractId;
+    public Contract getContract() {
+        return contract;
     }
 
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
+
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(List<OrderLine> orderLines) {
+        this.orderLines = orderLines;
     }
 }

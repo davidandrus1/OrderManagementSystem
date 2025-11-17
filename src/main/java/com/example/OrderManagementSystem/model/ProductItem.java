@@ -1,5 +1,9 @@
 package com.example.OrderManagementSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class ProductItem extends SellableItem {
 
     private double value;
@@ -13,4 +17,6 @@ public class ProductItem extends SellableItem {
     public void setValue(double value) {
         this.value = value;
     }
+
+
 }

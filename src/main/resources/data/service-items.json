@@ -1,5 +1,6 @@
 [ {
   "id" : "a7934b46-65a3-4c2f-92f6-65f92efe38e8",
   "name" : "sa",
-  "status" : "DOWN"
+  "status" : "DOWN",
+  "type" : "service"
 } ]

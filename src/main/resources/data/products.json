@@ -1,5 +1,6 @@
 [ {
   "id" : "a697eba1-cadd-4e5c-8242-b1b7d3ced144",
   "name" : "David patru",
-  "value" : 8.0
+  "value" : 8.0,
+  "type" : "product"
 } ]

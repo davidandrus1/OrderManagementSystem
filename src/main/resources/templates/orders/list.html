@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Orders List</title>
+    <title>Orders</title>
 </head>
 <body>
-<h1>Orders</h1>
+<h1>
+    Orders
+</h1>
 
 <a th:href="@{/orders/new}">Add a new order</a>
 
@@ -13,21 +15,25 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Order Number</th>
-        <th>Total Amount</th>
-        <th>Contract ID</th>
+        <th>Order Name</th>
+        <th>Customer</th>
+        <th>Contract</th>
         <th>Actions</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="item : ${items}">
         <td th:text="${item.id}"></td>
-        <td th:text="${item.orderNumber}"></td>
-        <td th:text="${item.totalAmount}"></td>
-        <td th:text="${item.contractId}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.customer.name}"></td>
+        <td th:text="${item.contract}"></td>
         <td>
+            <a th:href="@{'/orders/' + ${item.id} + '/order-lines'}">View Lines</a> |
+            <a th:href="@{'/orders/' + ${item.id} + '/edit'}">Edit</a> |
             <a th:href="@{'/orders/' + ${item.id} + '/delete'}">Delete</a>
         </td>
+
     </tr>
     </tbody>
 </table>
