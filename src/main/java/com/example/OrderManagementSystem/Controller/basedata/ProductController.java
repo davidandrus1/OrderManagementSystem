@@ -1,4 +1,4 @@
-package com.example.OrderManagementSystem.controller;
+package com.example.OrderManagementSystem.controller.basedata;
 
 import com.example.OrderManagementSystem.model.ProductItem;
 import com.example.OrderManagementSystem.service.basedata.ProductItemService;
@@ -14,7 +14,6 @@ public class ProductController {
 
     public ProductController(ProductItemService service) {
         this.service = service;
-
     }
 
     @GetMapping
@@ -24,12 +23,12 @@ public class ProductController {
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
+    public String showCreatePage(Model model) {
         model.addAttribute("item", new ProductItem());
         return "products/create";
     }
 
-    @PostMapping("/create")
+    @PostMapping({"/create", "/edit"})
     public String create(@ModelAttribute ProductItem product) {
         service.save(product);
         return "redirect:/products";
@@ -45,5 +44,12 @@ public class ProductController {
     public String delete(@PathVariable String id) {
         this.service.deleteById(id);
         return "redirect:/products";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditPage(@PathVariable String id, Model model) {
+        this.service.findById(id).ifPresent(item -> model.addAttribute("item", item)
+        );
+        return "products/edit";
     }
 }

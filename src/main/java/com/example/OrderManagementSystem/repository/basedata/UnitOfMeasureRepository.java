@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public class UnitOfMeasureRepository extends InFileRepository<UnitOfMeasure> {
 
     public UnitOfMeasureRepository() {
-        super("OrderManagementSystem/src/main/data/unit-of-measure.json", UnitOfMeasure.class);
+        super("OrderManagementSystem/src/main/resources/data/unit-of-measure.json", UnitOfMeasure.class);
     }
 }

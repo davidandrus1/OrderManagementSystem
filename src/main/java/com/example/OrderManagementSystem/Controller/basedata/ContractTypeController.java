@@ -1,4 +1,4 @@
-package com.example.OrderManagementSystem.controller;
+package com.example.OrderManagementSystem.controller.basedata;
 
 import com.example.OrderManagementSystem.model.ContractType;
 import com.example.OrderManagementSystem.service.basedata.ContractTypeService;

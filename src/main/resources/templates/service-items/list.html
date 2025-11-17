@@ -25,6 +25,7 @@
         <td th:text="${item.name}"></td>
         <td th:text="${item.status}"></td>
         <td>
+            <a th:href="@{'/service-items/' + ${item.id} + '/edit'}">Edit</a> |
             <a th:href="@{'/service-items/' + ${item.id} + '/delete'}">Delete</a>
         </td>
     </tr>

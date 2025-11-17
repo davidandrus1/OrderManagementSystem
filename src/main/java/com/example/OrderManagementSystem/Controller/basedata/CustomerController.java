@@ -1,12 +1,10 @@
-package com.example.OrderManagementSystem.controller;
+package com.example.OrderManagementSystem.controller.basedata;
 
 import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.service.basedata.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/customers")
@@ -19,7 +17,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public String viewAllCustomrs(Model model) {
+    public String viewAllCustomers(Model model) {
         model.addAttribute("items", service.findAll());
         return "customers/list";
     }
@@ -55,5 +53,4 @@ public class CustomerController {
         );
         return "customers/edit";
     }
-
 }

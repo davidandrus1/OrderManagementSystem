@@ -1,4 +1,4 @@
-package com.example.OrderManagementSystem.controller;
+package com.example.OrderManagementSystem.controller.basedata;
 
 import com.example.OrderManagementSystem.model.UnitOfMeasure;
 import com.example.OrderManagementSystem.service.basedata.UnitOfMeasureService;
@@ -18,17 +18,17 @@ public class UnitOfMeasureController {
 
     @GetMapping
     public String viewAllUnits(Model model) {
-        model.addAttribute("items", service.findAll());
+        model.addAttribute("units", service.findAll());
         return "units/list";
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        model.addAttribute("item", new UnitOfMeasure());
+    public String showCreatePage(Model model) {
+        model.addAttribute("unit", new UnitOfMeasure());
         return "units/create";
     }
 
-    @PostMapping("/create")
+    @PostMapping({"/create", "edit"})
     public String create(@ModelAttribute UnitOfMeasure unitOfMeasure) {
         service.save(unitOfMeasure);
         return "redirect:/units";
@@ -36,7 +36,7 @@ public class UnitOfMeasureController {
 
     @GetMapping("/{id}/delete")
     public String confirmDelete(@PathVariable String id, Model model) {
-        service.findById(id).ifPresent(item -> model.addAttribute("item", item));
+        service.findById(id).ifPresent(item -> model.addAttribute("unit", item));
         return "units/delete";
     }
 
@@ -44,5 +44,12 @@ public class UnitOfMeasureController {
     public String delete(@PathVariable String id) {
         service.deleteById(id);
         return "redirect:/units";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditPage(@PathVariable String id, Model model) {
+        this.service.findById(id).ifPresent(item -> model.addAttribute("unit", item)
+        );
+        return "units/edit";
     }
 }
