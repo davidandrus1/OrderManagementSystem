@@ -6,18 +6,17 @@
 </head>
 <body>
 <h1>
-    Produse
+    Products
 </h1>
 
-<a th:href="@{/products/new}">Adauga un produs nou</a>
+<a th:href="@{/products/new}">Add a new product</a>
 
 <table>
     <thead>
     <tr>
         <th>ID</th>
-        <th>Nume Produs</th>
-        <th>Pret</th>
-        <th>Stoc</th>
+        <th>Product name</th>
+        <th>Price</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -28,7 +27,8 @@
         <td th:text="${item.name}"></td>
         <td th:text="${item.value}"></td>
         <td>
-            <a th:href="@{'/products/' + ${item.id} + '/delete'}">Sterge</a>
+            <a th:href="@{'/products/' + ${item.id} + '/edit'}">Edit</a> |
+            <a th:href="@{'/products/' + ${item.id} + '/delete'}">Delete</a>
         </td>
     </tr>
     </tbody>

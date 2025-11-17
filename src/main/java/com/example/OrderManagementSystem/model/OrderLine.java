@@ -1,29 +1,12 @@
 package com.example.OrderManagementSystem.model;
 
-public class OrderLine {
-
-    public String id;
+public class OrderLine extends BaseModel {
 
     SellableItem item;
 
     UnitOfMeasure unit;
 
     public double quantity;
-
-    public OrderLine(String id, SellableItem item, UnitOfMeasure unit, double quantity) {
-        this.id = id;
-        this.item = item;
-        this.unit = unit;
-        this.quantity = quantity;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public SellableItem getItem() {
         return item;

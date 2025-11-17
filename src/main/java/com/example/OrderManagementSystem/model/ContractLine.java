@@ -1,8 +1,6 @@
 package com.example.OrderManagementSystem.model;
 
-public class ContractLine {
-
-    public String id;
+public class ContractLine extends BaseModel {
 
     SellableItem item;
 
@@ -11,21 +9,6 @@ public class ContractLine {
     public double quantity;
 
     public ContractLine() {}
-
-    public ContractLine(String id, SellableItem item, UnitOfMeasure unit, double quantity) {
-        this.id = id;
-        this.item = item;
-        this.unit = unit;
-        this.quantity = quantity;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public SellableItem getItem() {
         return item;

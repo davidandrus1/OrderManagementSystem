@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Customer</title>
+</head>
+<body>
+
+<h1>Edit Customer</h1>
+
+<form th:action="@{/customers/edit}" th:object="${item}" method="post">
+    <input type="hidden" th:field="*{id}" required />
+    <br/>
+    <label>Customer Name:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/>
+    <br/>
+    <label for="currency" class="form-label">Currency</label>
+
+    <select th:field="*{currency}" th:attr="disabled=${action == 'delete'}" class="form-select" id="currency" name="currency" required>
+        <option value="RON">Romanian Leu</option>
+        <option value="EUR">Euro</option>
+        <option value="USD">United States Dollar</option>
+        <option value="GBP">Great Britain Pound</option>
+    </select>
+    <br/>
+    <br/>
+    <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/customers}">Back</a>
+
+</body>
+</html>

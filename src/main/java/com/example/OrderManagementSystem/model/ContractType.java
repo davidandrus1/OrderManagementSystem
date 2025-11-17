@@ -1,23 +1,12 @@
 package com.example.OrderManagementSystem.model;
 
-public class ContractType {
-    public String id;
+public class ContractType extends BaseModel{
 
     public String name;
 
     public String type; // "customer" sau "seller"
 
-    public ContractType(String name, String type) {
-        this.name = name;
-        this.type = type;
-    }
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public ContractType() {};
 
     public String getName() {
         return name;

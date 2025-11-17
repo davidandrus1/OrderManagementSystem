@@ -1,9 +1,7 @@
 package com.example.OrderManagementSystem.model;
 import java.util.List;
 
-public class Customer {
-
-    public String id;
+public class Customer extends BaseModel {
 
     public String name;
 
@@ -14,21 +12,6 @@ public class Customer {
     public List<Contract> contracts;
 
     public Customer(){};
-
-    public Customer(String id, String name, String currency, List<Order> orders, List<Contract> contracts) {
-        this.id = id;
-        this.name = name;
-        this.currency = currency;
-        this.orders = orders;
-        this.contracts = contracts;
-    }
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

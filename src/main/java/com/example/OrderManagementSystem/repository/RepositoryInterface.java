@@ -6,5 +6,6 @@ public interface RepositoryInterface<T> {
     void save(T entity);
     List<T> findAll();
     Optional<T> findById(String id);
-    boolean delete(T entity);
+    void delete(T entity);
+    void deleteById(String id);
 }

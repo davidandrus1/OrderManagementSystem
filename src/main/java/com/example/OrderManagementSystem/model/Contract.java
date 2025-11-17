@@ -1,9 +1,6 @@
 package com.example.OrderManagementSystem.model;
 
-import com.example.OrderManagementSystem.repository.ContractTypeRepository;
-
-public class Contract {
-    public  String id;
+public class Contract extends BaseModel{
     public String contractNumber;
     public int contractTypeId;
     public String status;
@@ -11,19 +8,6 @@ public class Contract {
 // Status de tip separat, in package separat
 
     public Contract() {}
-
-    public Contract(String contractNumber, int contractTypeId, String status){
-        this.contractNumber = contractNumber;
-        this.contractTypeId = contractTypeId;
-        this.status = status;
-    }
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getContractNumber() {
         return contractNumber;

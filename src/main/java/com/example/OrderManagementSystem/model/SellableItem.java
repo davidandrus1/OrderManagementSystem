@@ -1,25 +1,10 @@
 package com.example.OrderManagementSystem.model;
 
-public abstract class SellableItem {
-
-    public String id;
+public abstract class SellableItem extends BaseModel{
 
     public String name;
 
     public SellableItem() {}
-
-    public SellableItem(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

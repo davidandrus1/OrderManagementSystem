@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Service</title>
+</head>
+<body>
+
+<h1>Edit Service</h1>
+
+<form th:action="@{/service-items/edit}" th:object="${item}" method="post">
+    <input type="hidden" th:field="*{id}" required />
+    <br/>
+    <label>Product Name:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/><br/>
+    <label>Status:</label>
+    <select th:field="*{status}" required>
+        <option value="">-- Select Status --</option>
+        <option value="ACTIVE">ACTIVE</option>
+        <option value="DOWN">DOWN</option>
+    </select>
+    <br/><br/>
+    <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/service-items}">Back</a>
+
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Items</title>
+</head>
+<body>
+<h1>Service Items</h1>
+
+<a th:href="@{/service-items/new}">Add a new service</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Service Name</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.status}"></td>
+        <td>
+            <a th:href="@{'/service-items/' + ${item.id} + '/edit'}">Edit</a> |
+            <a th:href="@{'/service-items/' + ${item.id} + '/delete'}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

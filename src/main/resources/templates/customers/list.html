@@ -31,7 +31,8 @@
         <td th:text="${item.orders}"></td>
         <td th:text="${item.contracts}"></td>
         <td>
-            <a th:href="@{'/customers/' + ${item.id} + '/delete'}">Sterge</a>
+            <a th:href="@{'/customers/' + ${item.id} + '/edit'}">Edit</a> |
+            <a th:href="@{'/customers/' + ${item.id} + '/delete'}">Delete</a>
         </td>
 
     </tr>
