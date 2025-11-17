@@ -31,5 +31,5 @@ public class ContractLineService {
 
     public void delete(String id) {
         repository.findById(id).ifPresent(repository::delete);
-    }
+    }
 }
