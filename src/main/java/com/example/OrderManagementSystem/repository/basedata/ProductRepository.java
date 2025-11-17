@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 public class ProductRepository extends InFileRepository<ProductItem> {
 
     public ProductRepository() {
-        super("OrderManagementSystem/src/main/resources/data/products.json", ProductItem.class);
+        super("src/main/resources/data/products.json", ProductItem.class);
     }
 }

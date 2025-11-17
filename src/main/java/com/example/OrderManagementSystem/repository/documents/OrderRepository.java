@@ -14,7 +14,7 @@ import java.util.List;
 public class OrderRepository extends InFileRepository<Order> {
 
     public OrderRepository() {
-        super("OrderManagementSystem/src/main/resources/data/orders.json", Order.class);
+        super("src/main/resources/data/orders.json", Order.class);
     }
 
     @Override

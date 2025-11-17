@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public class ContractTypeRepository extends InFileRepository<ContractType> {
 
     public ContractTypeRepository() {
-        super("OrderManagementSystem/src/main/resources/data/contract-types.json", ContractType.class);
+        super("src/main/resources/data/contract-types.json", ContractType.class);
     }
 }

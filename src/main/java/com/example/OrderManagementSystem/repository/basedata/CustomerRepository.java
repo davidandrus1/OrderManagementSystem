@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public class CustomerRepository extends InFileRepository<Customer> {
 
     public CustomerRepository() {
-        super("OrderManagementSystem/src/main/resources/data/customers.json", Customer.class);
+        super("src/main/resources/data/customers.json", Customer.class);
     }
 }
