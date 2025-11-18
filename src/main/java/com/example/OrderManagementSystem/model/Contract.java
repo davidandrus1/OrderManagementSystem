@@ -33,4 +33,10 @@ public class Contract extends BaseModel{
         this.status = status;
     }
 
+//    public double calculateTotalValue() {
+//        return contractLines.stream()
+//                .mapToDouble(line -> line.getQuantity() * line.getItem().getValue())
+//                .sum();
+//    }
+
 }

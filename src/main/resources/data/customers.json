@@ -1,13 +1,58 @@
-[ {
-  "id" : "4f5ff9be-4302-41ea-ab27-fdf36e83a9ee",
-  "name" : "birlea",
-  "currency" : "USD",
-  "orders" : null,
-  "contracts" : null
-}, {
-  "id" : "c6cc7caa-be55-4130-9f3a-faf0d02899b1",
-  "name" : "David Andrus",
-  "currency" : "EUR",
-  "orders" : null,
-  "contracts" : null
-} ]
+[
+  {
+    "id": "4f5ff9be-4302-41ea-ab27-fdf36e83a9ee",
+    "name": "birlea",
+    "currency": "USD",
+    "orders": null,
+    "contracts": null
+  },
+  {
+    "id": "c6cc7caa-be55-4130-9f3a-faf0d02899b1",
+    "name": "David Andrus",
+    "currency": "EUR",
+    "orders": null,
+    "contracts": null
+  },
+  {
+    "id": "92a7f8d1-4bc8-4f3e-bc2c-3acb12e0f1a4",
+    "name": "TechNova Solutions",
+    "currency": "USD",
+    "orders": null,
+    "contracts": null
+  },
+  {
+    "id": "e1d772f4-b965-4e3c-8e56-dc2359df1f45",
+    "name": "Greenfield Manufacturing",
+    "currency": "GBP",
+    "orders": null,
+    "contracts": null
+  },
+  {
+    "id": "b8c9d9af-6647-42ba-8a04-02b263b67051",
+    "name": "Alessandro Moretti",
+    "currency": "EUR",
+    "orders": null,
+    "contracts": null
+  },
+  {
+    "id": "53df5c83-72e4-4d40-a8dd-6fe3b8458bb4",
+    "name": "Polar Logistics",
+    "currency": "CAD",
+    "orders": null,
+    "contracts": null
+  },
+  {
+    "id": "d21480a7-0a43-4fcb-b1ac-00633594b13f",
+    "name": "Sunrise Retail Group",
+    "currency": "USD",
+    "orders": null,
+    "contracts": null
+  },
+  {
+    "id": "7baf1c6b-46d1-41a8-8fe7-d872c1c96592",
+    "name": "Marta Ionescu",
+    "currency": "RON",
+    "orders": null,
+    "contracts": null
+  }
+]

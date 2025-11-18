@@ -21,4 +21,9 @@ public class Customer extends BaseModel {
         this.name = name;
     }
 
+    public List<Contract> getActiveContracts() {
+        return contracts.stream()
+                .filter(c -> "ACTIVE".equalsIgnoreCase(c.getStatus()))
+                .toList();
+    }
 }
