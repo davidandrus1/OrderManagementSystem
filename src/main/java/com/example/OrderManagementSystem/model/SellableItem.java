@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         use = JsonTypeInfo.Id.NAME,
         property = "type",
         visible = true,
-        defaultImpl = ProductItem.class // optional, dacă nu se găsește type
+        defaultImpl = ProductItem.class
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ProductItem.class, name = "product"),

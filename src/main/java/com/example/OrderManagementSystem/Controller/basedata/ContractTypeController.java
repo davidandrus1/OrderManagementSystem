@@ -30,7 +30,7 @@ public class ContractTypeController {
         return "contract-types/create";
     }
 
-    @PostMapping("/create")
+    @PostMapping({"/create", "/edit"})
     public String create(@ModelAttribute ContractType contractType) {
         contractType.setId(UUID.randomUUID().toString());
         service.save(contractType);
