@@ -1,12 +1,13 @@
 package com.example.OrderManagementSystem.service;
 
 import com.example.OrderManagementSystem.model.BaseModel;
+import com.example.OrderManagementSystem.repository.InFileRepository;
 import com.example.OrderManagementSystem.repository.RepositoryInterface;
 
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService<BM extends BaseModel, RI extends RepositoryInterface<BM>>  implements ServiceInterface<BM> {
+public abstract class BaseService<BM extends BaseModel, RI extends InFileRepository<BM>>  implements ServiceInterface<BM> {
 
     protected final RI repository;
 

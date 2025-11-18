@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ServiceItemRepository extends InFileRepository<ServiceItem> {
     public ServiceItemRepository() {
-        super("src/main/resources/data/service-items.json", ServiceItem.class);
+        super("data/service-items.json", ServiceItem.class);
     }
 }

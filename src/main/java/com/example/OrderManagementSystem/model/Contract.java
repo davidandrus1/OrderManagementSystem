@@ -1,14 +1,34 @@
 package com.example.OrderManagementSystem.model;
 
-public class Contract extends BaseModel{
-    public String contractNumber;
-    public int contractTypeId;
-    public String status;
+import java.util.ArrayList;
+import java.util.List;
 
-// Status de tip separat, in package separat
+public class Contract extends BaseModel {
+
+    private String contractNumber;
+    private int contractTypeId;
+    private String status;
+
+    private List<ContractLine> contractLines = new ArrayList<>();
 
     public Contract() {}
 
+    // ---------------------------
+    // BUSINESS LOGIC
+    // ---------------------------
+    public double calculateTotalValue() {
+        if (contractLines == null || contractLines.isEmpty()) {
+            return 0;
+        }
+
+        return contractLines.stream()
+                .mapToDouble(line -> line.getQuantity() * line.getItem().getValue())
+                .sum();
+    }
+
+    // ---------------------------
+    // GETTERS & SETTERS
+    // ---------------------------
     public String getContractNumber() {
         return contractNumber;
     }
@@ -33,10 +53,12 @@ public class Contract extends BaseModel{
         this.status = status;
     }
 
-//    public double calculateTotalValue() {
-//        return contractLines.stream()
-//                .mapToDouble(line -> line.getQuantity() * line.getItem().getValue())
-//                .sum();
-//    }
+    public List<ContractLine> getContractLines() {
+        return contractLines;
+    }
+
+    public void setContractLines(List<ContractLine> contractLines) {
+        this.contractLines = contractLines;
+    }
 
 }

@@ -1,18 +1,41 @@
-package com.example.OrderManagementSystem.service.documents;
+package com.example.OrderManagementSystem.service.documents; // Sau .service.documents
 
-import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.model.Order;
-import com.example.OrderManagementSystem.repository.basedata.CustomerRepository;
-import com.example.OrderManagementSystem.repository.documents.OrderRepository;
-import com.example.OrderManagementSystem.service.BaseService;
+import com.example.OrderManagementSystem.repository.documents.OrderRepository; // Noul import
+// Importați celelalte Repositories necesare (Customer, OrderLine, etc.)
+
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
-import java.util.*;
 @Service
-public class OrderService extends BaseService<Order, OrderRepository> {
+public class OrderService {
 
-    public OrderService(OrderRepository repository) {
-        super(repository);
+    private final OrderRepository orderRepository;
+    // ... alte Repositories
+
+    // Constructor Injection
+    public OrderService(OrderRepository orderRepository /*, ... */) {
+        this.orderRepository = orderRepository;
+        // ...
+    }
+
+    // Metodele CRUD rămân aceleași, deoarece ele apelează doar Repository-ul:
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    public Optional<Order> findById(String id) {
+        return orderRepository.findById(id);
+    }
+
+    public Order save(Order order) {
+        // Logica de business rămâne aici
+         orderRepository.save(order);
+         return order;
+    }
+
+    public void deleteById(String id) {
+        orderRepository.deleteById(id);
     }
 }
-

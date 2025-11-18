@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public abstract class SellableItem extends BaseModel{
 
     public String name;
-
+    private double value;
     public SellableItem() {}
 
     public String getName() {
@@ -26,5 +26,11 @@ public abstract class SellableItem extends BaseModel{
 
     public void setName(String name) {
         this.name = name;
+    }
+    public double getValue() {      // 🔥 getter pentru Contract
+        return value;
+    }
+    public void setValue(double value) {
+        this.value = value;
     }
 }
