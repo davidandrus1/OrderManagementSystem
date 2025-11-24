@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class InFileRepository<T extends BaseModel> implements RepositoryInterface<T> {
+public abstract class InFileRepository<T extends BaseModel> implements RepositoryInterface<T> {
 
     protected List<T> items;
     protected final String filePath;
@@ -59,7 +59,7 @@ public class InFileRepository<T extends BaseModel> implements RepositoryInterfac
         this.saveItems();
     }
 
-    private void loadItems() {
+    public void loadItems() {
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -78,7 +78,7 @@ public class InFileRepository<T extends BaseModel> implements RepositoryInterfac
         }
     }
 
-    private void saveItems() {
+    public void saveItems() {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, this.items);
         } catch (IOException e) {
