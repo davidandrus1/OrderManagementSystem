@@ -9,6 +9,6 @@ public class CustomerRepository extends InFileRepository<Customer> {
 
     public CustomerRepository() {
 //        super("data/customers.json", Customer.class);
-        super("src/main/resources/data/contracts.json", Customer.class);
+        super("src/main/resources/data/customers.json", Customer.class);
     }
 }

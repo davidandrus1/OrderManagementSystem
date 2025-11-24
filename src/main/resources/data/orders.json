@@ -1,56 +1,4 @@
 [ {
-  "id" : "1",
-  "name" : "OrderName1",
-  "customer" : {
-    "id" : "4f5ff9be-4302-41ea-ab27-fdf36e83a9ee",
-    "name" : "birlea",
-    "currency" : "USD",
-    "orders" : null,
-    "contracts" : null
-  },
-  "contract" : null,
-  "orderLines" : [ {
-    "id" : "Line-1",
-    "item" : {
-      "type" : "product",
-      "id" : "a697eba1-cadd-4e5c-8242-b1b7d3ced144",
-      "name" : "David patru",
-      "value" : 8.0
-    },
-    "unit" : {
-      "id" : "7def4ed8-9254-450a-80cc-4fa7d96a5ed9",
-      "name" : "birlea",
-      "symbol" : "S"
-    },
-    "quantity" : 7.4
-  }, {
-    "id" : "Line-2",
-    "item" : {
-      "type" : "service",
-      "id" : "a7934b46-65a3-4c2f-92f6-65f92efe38e8",
-      "name" : "sa",
-      "status" : "DOWN"
-    },
-    "unit" : {
-      "id" : "2544d6bb-cde4-4d56-9918-252e2e15aca2",
-      "name" : "Plapuma",
-      "symbol" : "p"
-    },
-    "quantity" : 12.42
-  } ]
-}, {
-  "id" : "edf975a7-6cb0-4e35-8fab-addee291f7b1",
-  "name" : "Tableta",
-  "customer" : {
-    "id" : "4f5ff9be-4302-41ea-ab27-fdf36e83a9ee",
-    "name" : "birlea",
-    "currency" : "USD",
-    "orders" : null,
-    "contracts" : null
-  },
-  "contract" : null,
-  "orderLines" : [ ]
-}, {
   "id" : "084b76ac-dcec-47a9-8cb5-ce2ea95a3a93",
   "name" : "mersi",
   "customer" : {
@@ -59,7 +7,3 @@
     "currency" : "EUR",
     "orders" : null,
     "contracts" : null
-  },
-  "contract" : null,
-  "orderLines" : [ ]
-} ]
