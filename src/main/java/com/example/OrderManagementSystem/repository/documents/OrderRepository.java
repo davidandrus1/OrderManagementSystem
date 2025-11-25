@@ -3,10 +3,8 @@ import com.example.OrderManagementSystem.model.Order;
 
 import com.example.OrderManagementSystem.repository.InFileRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,7 +19,6 @@ public class OrderRepository extends InFileRepository<Order> {
     @Override
     public void loadItems(){
         try{
-
             this.items =  objectMapper.readValue(this.file, new TypeReference<List<Order>>() {});
         }
         catch(IOException e){

@@ -30,7 +30,7 @@ public class ContractTypeController {
         return "contract-types/create";
     }
 
-    @PostMapping({"/create", "/edit"})
+    @PostMapping("/create")
     public String create(@ModelAttribute ContractType contractType) {
         contractType.setId(UUID.randomUUID().toString());
         service.save(contractType);
@@ -46,6 +46,19 @@ public class ContractTypeController {
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable String id) {
         service.deleteById(id);
+        return "redirect:/contract-types";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditPage(@PathVariable String id, Model model) {
+        this.service.findById(id).ifPresent(item -> model.addAttribute("item", item)
+        );
+        return "contract-types/edit";
+    }
+
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute ContractType contractType) {
+        service.save(contractType);
         return "redirect:/contract-types";
     }
 }

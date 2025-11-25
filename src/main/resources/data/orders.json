@@ -1,14 +1,7 @@
 [ {
   "id" : "2",
   "name" : "OrderName2",
-  "customer" : {
-    "id" : "c2a2f2b2-2222-4444-bbbb-222222222222",
-    "name" : "Birlea",
-    "currency" : "USD",
-    "orders" : [ ],
-    "contracts" : [ ],
-    "activeContracts" : [ ]
-  },
+  "customer" : null,
   "contract" : null,
   "orderLines" : [ {
     "id" : "Line-1",
@@ -28,14 +21,31 @@
 }, {
   "id" : "3",
   "name" : "OrderName3",
-  "customer" : {
-    "id" : "c3a3f3b3-3333-4444-cccc-333333333333",
-    "name" : "David Andrus",
-    "currency" : "EUR",
-    "orders" : [ ],
-    "contracts" : [ ],
-    "activeContracts" : [ ]
-  },
+  "customer" : null,
   "contract" : null,
   "orderLines" : [ ]
-} ]
+}, {
+  "id" : "76e2626a-1614-4374-b6bb-1e801a2d5095",
+  "name" : "Plapuma",
+  "customer" : null,
+  "contract" : null,
+  "orderLines" : [ ]
+}, {
+  "id" : "1bc28b2c-afa0-49f0-bac9-86ab346114ac",
+  "name" : "Mouse",
+  "customer" : null,
+  "contract" : null,
+  "orderLines" : [ ]
+},
+  {
+    "id": "641cae7a-2305-4e28-8f5f-62658e92f6c9",
+    "name": "Ghiozdan",
+    "customer": {
+      "id": "e1d772f4-b965-4e3c-8e56-dc2359df1f45",
+      "name": "Greenfield Manufacturing",
+      "currency": "GBP",
+      "orders": null,
+      "contracts": null
+    }
+  }
+]

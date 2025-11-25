@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Contract Types</title>
 </head>
 <body>
+<h1>
+    Contract Types
+</h1>
+
+<a th:href="@{/contract-types/new}">Add a new contract type</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.type}"></td>
+        <td>
+            <a th:href="@{'/contract-types/' + ${item.id} + '/edit'}">Edit</a> |
+            <a th:href="@{'/contract-types/' + ${item.id} + '/delete'}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

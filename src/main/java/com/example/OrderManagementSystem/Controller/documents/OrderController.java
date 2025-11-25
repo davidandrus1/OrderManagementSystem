@@ -2,12 +2,14 @@ package com.example.OrderManagementSystem.controller.documents;
 
 import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.model.Order;
+import com.example.OrderManagementSystem.model.OrderLine;
 import com.example.OrderManagementSystem.service.basedata.CustomerService;
 import com.example.OrderManagementSystem.service.documents.OrderService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,10 +51,11 @@ public class OrderController {
         order.setName(name);
         order.setCustomer(customer);
 
+        order.setOrderLines(new ArrayList<>());
+
         service.save(order);
         return "redirect:/orders";
     }
-
 
     @GetMapping("/{id}/delete")
     public String confirmDelete(@PathVariable String id, Model model) {
