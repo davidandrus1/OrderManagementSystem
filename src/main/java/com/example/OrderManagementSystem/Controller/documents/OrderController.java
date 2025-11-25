@@ -2,12 +2,14 @@ package com.example.OrderManagementSystem.controller.documents;
 
 import com.example.OrderManagementSystem.model.Customer;
 import com.example.OrderManagementSystem.model.Order;
+import com.example.OrderManagementSystem.model.OrderLine;
 import com.example.OrderManagementSystem.service.basedata.CustomerService;
 import com.example.OrderManagementSystem.service.documents.OrderService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,21 +51,35 @@ public class OrderController {
         order.setName(name);
         order.setCustomer(customer);
 
+        order.setOrderLines(new ArrayList<>());
+
         service.save(order);
         return "redirect:/orders";
     }
 
-//
-//    @GetMapping("/{id}/delete")
-//    public String confirmDelete(@PathVariable String id, Model model) {
-//        service.getById(id).ifPresent(order -> model.addAttribute("item", order));
-//        return "orders/delete";
-//    }
-//
-//    @PostMapping("/{id}/delete")
-//    public String delete(@PathVariable String id) {
-//        service.delete(id);
-//        return "redirect:/orders";
-//    }
+    @GetMapping("/{id}/delete")
+    public String confirmDelete(@PathVariable String id, Model model) {
+        service.findById(id).ifPresent(order -> model.addAttribute("item", order));
+        return "orders/delete";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable String id) {
+        service.deleteById(id);
+        return "redirect:/orders";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditPage(@PathVariable String id, Model model) {
+        service.findById(id).ifPresent(order -> model.addAttribute("item", order));
+        model.addAttribute("customers", customerService.findAll());
+        return "orders/edit";
+    }
+
+    @PostMapping("/edit")
+    public String saveEdit(@ModelAttribute Order order) {
+        service.save(order);
+        return "redirect:/orders";
+    }
 
 }

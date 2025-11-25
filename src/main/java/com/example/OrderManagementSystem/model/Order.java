@@ -48,19 +48,4 @@ public class Order extends BaseModel{
         this.orderLines = orderLines;
     }
 
-//    public boolean validateAgainstContract() {
-//        if (contract == null) return true; // order poate fi fără contract
-//
-//        for (OrderLine ol : orderLines) {
-//            ContractLine cl = contract.getContractLines().stream()
-//                    .filter(c -> c.getItem().getId().equals(ol.getItem().getId()))
-//                    .findFirst()
-//                    .orElse(null);
-//
-//            if (cl == null) return false;
-//            if (!cl.getUnit().getId().equals(ol.getUnit().getId())) return false;
-//            if (ol.getQuantity() > cl.getQuantity()) return false;
-//        }
-//        return true;
-//    }
 }

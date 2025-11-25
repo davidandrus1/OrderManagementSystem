@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Contract Type</title>
+</head>
+<body>
+
+<h1>Delete Contract Type</h1>
+
+<p>Are you sure you want to delete this contract type?</p>
+<ul>
+    <li><strong>ID:</strong> <span th:text="${item.id}">ID</span></li>
+    <li><strong>Name:</strong> <span th:text="${item.name}"></span></li>
+    <li><strong>Type:</strong> <span th:text="${item.type}"></span></li>
+</ul>
+
+<form th:action="@{'/contract-types/' + ${item.id} + '/delete'}" method="post">
+    <button type="submit">Delete</button>
+    <a th:href="@{/contract-types}">Back</a>
+</form>
+
+</body>
+</html>

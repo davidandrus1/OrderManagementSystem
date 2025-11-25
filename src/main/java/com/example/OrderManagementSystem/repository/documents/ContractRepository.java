@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ContractRepository extends InFileRepository<Contract> {
     public ContractRepository() {
-        super("data/contracts.json", Contract.class);
+//        super("data/contracts.json", Contract.class);
+        super("src/main/resources/data/contracts.json", Contract.class);
     }
 
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Contract Type</title>
+</head>
+<body>
+
+<h1>Adaugă tip de contract</h1>
+
+<form th:action="@{/contract-types/create}" th:object="${item}" method="post">
+    <label>ID:</label>
+    <input type="text" th:field="*{id}" placeholder="Optional, auto-generat"/>
+    <br/><br/>
+
+    <label>Nume:</label>
+    <input type="text" th:field="*{name}" required/>
+    <br/><br/>
+
+    <label>Tip:</label>
+    <select th:field="*{type}" required>
+        <option value="" disabled selected>Selectează tip</option>
+        <option value="customer">Customer</option>
+        <option value="seller">Seller</option>
+    </select>
+    <br/><br/>
+
+    <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/contract-types}">Back</a>
+
+</body>
+</html>

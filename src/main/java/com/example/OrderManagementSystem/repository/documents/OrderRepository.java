@@ -14,8 +14,7 @@ import java.util.List;
 public class OrderRepository extends InFileRepository<Order> {
 
     public OrderRepository() {
-//        super("data/orders.json", Order.class);
-        super("src/main/resources/data/orders.json", Order.class);
+        super("data/orders.json", Order.class);
     }
 
     @Override
@@ -30,7 +29,7 @@ public class OrderRepository extends InFileRepository<Order> {
     }
 
     @Override
-    public void saveItems() {
+    protected void saveItems() {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, this.items);
         } catch (IOException e) {
@@ -38,3 +37,5 @@ public class OrderRepository extends InFileRepository<Order> {
         }
     }
 }
+
+

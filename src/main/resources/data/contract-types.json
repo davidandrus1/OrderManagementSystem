@@ -1,52 +1,41 @@
-[
-  {
-    "id": "d3ae3db7-2f3c-4f4c-9af1-6f51f071069b",
-    "name": "Standard Customer Contract",
-    "type": "customer"
-  },
-  {
-    "id": "7e9ce4fd-03f4-4fda-b07c-bb93aa651c29",
-    "name": "Premium Customer Contract",
-    "type": "customer"
-  },
-  {
-    "id": "4a20c2d4-8855-4b1a-ab7f-be38e727c2d2",
-    "name": "Enterprise Customer Agreement",
-    "type": "customer"
-  },
-  {
-    "id": "8d9d61e5-76d7-4b3c-af7a-77d524bb1a9c",
-    "name": "Basic Seller Contract",
-    "type": "seller"
-  },
-  {
-    "id": "9c5c0400-eeb1-44f7-8e5e-6c3c26fb06b3",
-    "name": "Advanced Seller Partnership",
-    "type": "seller"
-  },
-  {
-    "id": "0e5d52f0-354d-4b59-b99c-9d4c66b573c2",
-    "name": "Long-Term Supply Contract",
-    "type": "seller"
-  },
-  {
-    "id": "ba5b36b3-0d8d-4324-bead-e407b2bf65ad",
-    "name": "Customer Maintenance Agreement",
-    "type": "customer"
-  },
-  {
-    "id": "af909d4d-4ec2-4230-b71c-cdf786ea4f1d",
-    "name": "Seller Distribution Contract",
-    "type": "seller"
-  },
-  {
-    "id": "c11b026b-8534-4276-a5e3-8d15d687d1de",
-    "name": "Customer Subscription Terms",
-    "type": "customer"
-  },
-  {
-    "id": "32375e5e-682d-4a7a-b6bd-e310b86f7406",
-    "name": "Seller Service Agreement",
-    "type": "seller"
-  }
-]
+[ {
+  "id" : "4a20c2d4-8855-4b1a-ab7f-be38e727c2d2",
+  "name" : "Enterprise Customer Agreement",
+  "type" : "customer"
+}, {
+  "id" : "8d9d61e5-76d7-4b3c-af7a-77d524bb1a9c",
+  "name" : "Basic Seller Contract",
+  "type" : "seller"
+}, {
+  "id" : "9c5c0400-eeb1-44f7-8e5e-6c3c26fb06b3",
+  "name" : "Advanced Seller Partnership",
+  "type" : "seller"
+}, {
+  "id" : "0e5d52f0-354d-4b59-b99c-9d4c66b573c2",
+  "name" : "Long-Term Supply Contract",
+  "type" : "seller"
+}, {
+  "id" : "ba5b36b3-0d8d-4324-bead-e407b2bf65ad",
+  "name" : "Customer Maintenance Agreement",
+  "type" : "customer"
+}, {
+  "id" : "af909d4d-4ec2-4230-b71c-cdf786ea4f1d",
+  "name" : "Seller Distribution Contract",
+  "type" : "seller"
+}, {
+  "id" : "c11b026b-8534-4276-a5e3-8d15d687d1de",
+  "name" : "Customer Subscription Terms",
+  "type" : "customer"
+}, {
+  "id" : "32375e5e-682d-4a7a-b6bd-e310b86f7406",
+  "name" : "Seller Service Agreement",
+  "type" : "seller"
+}, {
+  "id" : "210b93b3-7b44-402d-a9db-7136f555a03b",
+  "name" : "Principal",
+  "type" : "seller"
+}, {
+  "id" : "7e9ce4fd-03f4-4fda-b07c-bb93aa651c29",
+  "name" : "Premium Customer Contract",
+  "type" : "seller"
+} ]

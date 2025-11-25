@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 public class OrderLineRepository extends InFileRepository<OrderLine> {
 
     public OrderLineRepository() {
-        super("data/order-lines.json", OrderLine.class);
+//        super("data/order-lines.json", OrderLine.class);
+        super("src/main/resources/data/order-lines.json", OrderLine.class);
     }
 }

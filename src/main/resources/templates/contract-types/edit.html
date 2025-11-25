@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Contract Type</title>
+</head>
+<body>
+
+<h1>Edit Contract Type</h1>
+
+<form th:action="@{/contract-types/edit}" th:object="${item}" method="post">
+    <input type="hidden" th:field="*{id}" required />
+    <br/>
+
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required />
+    <br/><br/>
+
+    <label>Type:</label>
+    <select th:field="*{type}" required>
+        <option value="customer" th:selected="${item.type == 'customer'}">Customer</option>
+        <option value="seller" th:selected="${item.type == 'seller'}">Seller</option>
+    </select>
+    <br/><br/>
+
+    <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/contract-types}">Back</a>
+
+</body>
+</html>
