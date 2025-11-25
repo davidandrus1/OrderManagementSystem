@@ -22,10 +22,7 @@ public class ContractController {
     @GetMapping
     public String viewAllContracts(Model model) {
 
-        // Se defineste variabila items = service.getAll()
-        // Aceasta variabila se transmite catre contracts/list.html
-        // items contine o lista de contracte. Fiecare contract are id, contractTypeId, contractNumber, status
-        // In fisierul html se foloseste un limbaj numit Thymeleaf
+
         model.addAttribute("items", service.findAll());
         return "contracts/list";
     }
