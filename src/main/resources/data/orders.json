@@ -1,9 +1,41 @@
 [ {
-  "id" : "084b76ac-dcec-47a9-8cb5-ce2ea95a3a93",
-  "name" : "mersi",
+  "id" : "2",
+  "name" : "OrderName2",
   "customer" : {
-    "id" : "c6cc7caa-be55-4130-9f3a-faf0d02899b1",
+    "id" : "c2a2f2b2-2222-4444-bbbb-222222222222",
+    "name" : "Birlea",
+    "currency" : "USD",
+    "orders" : [ ],
+    "contracts" : [ ],
+    "activeContracts" : [ ]
+  },
+  "contract" : null,
+  "orderLines" : [ {
+    "id" : "Line-1",
+    "item" : {
+      "type" : "product",
+      "id" : "p2a2b2c2-2222-4444-bbbb-222222222222",
+      "name" : "Gadget B",
+      "value" : 20.0
+    },
+    "unit" : {
+      "id" : "u3a3b3c3-3333-4444-cccc-333333333333",
+      "name" : "Piece",
+      "symbol" : "pc"
+    },
+    "quantity" : 3.0
+  } ]
+}, {
+  "id" : "3",
+  "name" : "OrderName3",
+  "customer" : {
+    "id" : "c3a3f3b3-3333-4444-cccc-333333333333",
     "name" : "David Andrus",
     "currency" : "EUR",
-    "orders" : null,
-    "contracts" : null
+    "orders" : [ ],
+    "contracts" : [ ],
+    "activeContracts" : [ ]
+  },
+  "contract" : null,
+  "orderLines" : [ ]
+} ]
