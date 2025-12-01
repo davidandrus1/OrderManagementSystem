@@ -1,17 +1,22 @@
 package com.example.OrderManagementSystem.model;
 
-public class ContractType extends BaseModel{
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-    public String name;
+@Entity
+@Table(name = "contract_types")
+public class ContractType extends BaseModel {
 
-    public String type; // "customer" sau "seller"
+    private String name;
+    private String type;
 
-    public ContractType() {};
+    public ContractType() {
+        this.setPrefix("CT");
+    }
 
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -19,8 +24,8 @@ public class ContractType extends BaseModel{
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }
+
 }

@@ -1,38 +1,32 @@
 package com.example.OrderManagementSystem.model;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "customers")
 public class Customer extends BaseModel {
 
-    public String name;
+    private String name;
+    private String currency;
 
-    public String currency;
-
-    public List<Order> orders;
-
-    public List<Contract> contracts;
-
-    public Customer(){};
+    public Customer() {
+        this.setPrefix("CUST");
+    }
 
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public List<Contract> getActiveContracts() {
-        return contracts.stream()
-                .filter(c -> "ACTIVE".equalsIgnoreCase(c.getStatus()))
-                .toList();
+    public String getCurrency() {
+        return currency;
+    }
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public List<Order> getOrders() { return orders; }
-    public void setOrders(List<Order> orders) { this.orders = orders; }
-
-    public List<Contract> getContracts() { return contracts; }
-    public void setContracts(List<Contract> contracts) { this.contracts = contracts; }
-
-    public String getCurrency() { return currency; }
-    public void setCurrency(String currency) { this.currency = currency; }
 }
