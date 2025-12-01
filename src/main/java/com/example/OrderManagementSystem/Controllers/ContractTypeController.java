@@ -1,6 +1,7 @@
 package com.example.OrderManagementSystem.Controllers;
 
 import com.example.OrderManagementSystem.Models.ContractType;
+import com.example.OrderManagementSystem.Models.Customer;
 import com.example.OrderManagementSystem.Services.ContractTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

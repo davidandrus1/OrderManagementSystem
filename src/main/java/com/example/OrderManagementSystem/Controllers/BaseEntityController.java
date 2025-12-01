@@ -2,8 +2,10 @@ package com.example.OrderManagementSystem.Controllers;
 
 import com.example.OrderManagementSystem.Models.BaseModel;
 import com.example.OrderManagementSystem.Services.BaseService;
+import jakarta.validation.Valid;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,15 +56,31 @@ public abstract class BaseEntityController<MODEL extends BaseModel, SERVICE exte
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute MODEL entity, @RequestParam String action) {
+    public String save(
+            @Valid @ModelAttribute("item") MODEL entity,
+            BindingResult bindingResult,
+            @RequestParam String action,
+            Model model) {
 
-        if (!"delete".equals(action)) {
-            service.save(entity);
-        } else {
+        // Dacă e delete, nu validăm
+        if ("delete".equals(action)) {
             service.deleteById(entity.getId());
+            return "redirect:/" + getBaseUrl();
         }
 
-        return "redirect:/" + getListViewName();
+        // Dacă sunt erori de validare, reafișăm formularul
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("item", entity);
+            model.addAttribute("action", action);
+            model.addAttribute("title", getTitle(action));
+            model.addAttribute("caption", getButtonCaption(action));
+            model.addAttribute("url", getBaseUrl());
+            return getFormViewName();
+        }
+
+        // Salvăm
+        service.save(entity);
+        return "redirect:/" + getBaseUrl();
     }
 
     private String getTitle(String action) {

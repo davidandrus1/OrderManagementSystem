@@ -1,7 +1,6 @@
 package com.example.OrderManagementSystem.Controllers;
 
 import com.example.OrderManagementSystem.Models.Customer;
-
 import com.example.OrderManagementSystem.Services.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +37,8 @@ public class CustomerController extends BaseEntityController<Customer, CustomerS
     protected Customer createNewEntity() {
         return new Customer();
     }
+
+
+
 
 }

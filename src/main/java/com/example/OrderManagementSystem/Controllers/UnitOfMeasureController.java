@@ -1,5 +1,6 @@
 package com.example.OrderManagementSystem.Controllers;
 
+import com.example.OrderManagementSystem.Models.Customer;
 import com.example.OrderManagementSystem.Models.UnitOfMeasure;
 import com.example.OrderManagementSystem.Services.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;

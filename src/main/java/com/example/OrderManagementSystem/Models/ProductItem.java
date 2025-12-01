@@ -1,4 +1,5 @@
 package com.example.OrderManagementSystem.Models;
+
 import jakarta.persistence.*;
 
 @Entity

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contract Lines</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1>Contract Lines</h1>
+
+<div>
+    <strong>Contract ID:</strong> <span th:text="${contract.id}"></span> |
+    <strong>Name:</strong> <span th:text="${contract.name}"></span> |
+    <strong>Contract Type:</strong> <span th:text="${contract.contractType.name}"></span> |
+    <strong>Status:</strong> <span th:text="${contract.status}"></span>
+</div>
+
+<hr/>
+
+<h2>Lines</h2>
+
+<p>
+    <a th:href="@{'/contract-lines/create/' + ${contract.id}}">Add New Line</a>
+</p>
+
+<table th:if="${!#lists.isEmpty(contract.contractLines)}">
+    <tr>
+        <th>ID</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="line : ${contract.contractLines}">
+        <td th:text="${line.id}"></td>
+        <td th:text="${line.sellableItem.name}"></td>
+        <td th:text="${line.quantity}"></td>
+        <td th:text="${line.unitOfMeasure.symbol}"></td>
+        <td>
+            <a th:href="@{'/contract-lines/edit/' + ${line.id}}">Edit</a> |
+            <a th:href="@{'/contract-lines/delete/' + ${line.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
+
+<p th:if="${#lists.isEmpty(contract.contractLines)}">No lines in this contract.</p>
+
+<p>
+    <a th:href="@{/contracts}">Back to Contracts</a>
+</p>
+</body>
+</html>
