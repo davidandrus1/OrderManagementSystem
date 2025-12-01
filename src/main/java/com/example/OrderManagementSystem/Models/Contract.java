@@ -20,7 +20,7 @@ public class Contract extends BaseModel {
     private List<ContractLine> contractLines = new ArrayList<>();
 
     public Contract() {
-        this.setPrefix("CONTRACT");
+        this.setPrefix("CON");
     }
 
     public String getName() {

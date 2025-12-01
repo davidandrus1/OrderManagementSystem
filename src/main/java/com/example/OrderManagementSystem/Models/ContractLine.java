@@ -21,7 +21,7 @@ public class ContractLine extends BaseModel {
     private Double quantity;
 
     public ContractLine() {
-        this.setPrefix("CONTRACT-LINE");  // Contract Line prefix
+        this.setPrefix("CL");  // Contract Line prefix
     }
 
     public Contract getContract() {

@@ -21,7 +21,7 @@ public class OrderLine extends BaseModel {
     private Double quantity;
 
     public OrderLine() {
-        this.setPrefix("ORDER-LINE");  // Order Line prefix
+        this.setPrefix("OL");  // Order Line prefix
     }
 
     public Order getOrder() {
