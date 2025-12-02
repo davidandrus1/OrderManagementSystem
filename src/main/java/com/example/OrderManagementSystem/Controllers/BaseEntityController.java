@@ -62,13 +62,11 @@ public abstract class BaseEntityController<MODEL extends BaseModel, SERVICE exte
             @RequestParam String action,
             Model model) {
 
-        // Dacă e delete, nu validăm
         if ("delete".equals(action)) {
             service.deleteById(entity.getId());
             return "redirect:/" + getBaseUrl();
         }
 
-        // Dacă sunt erori de validare, reafișăm formularul
         if (bindingResult.hasErrors()) {
             model.addAttribute("item", entity);
             model.addAttribute("action", action);
@@ -78,7 +76,6 @@ public abstract class BaseEntityController<MODEL extends BaseModel, SERVICE exte
             return getFormViewName();
         }
 
-        // Salvăm
         service.save(entity);
         return "redirect:/" + getBaseUrl();
     }

@@ -32,7 +32,6 @@ public class ContractLineController {
         this.unitOfMeasureService = unitOfMeasureService;
     }
 
-    // CREATE - afișează formularul pentru linie nouă
     @GetMapping("/create/{contractId}")
     public String showCreateForm(@PathVariable String contractId, Model model) {
         Contract contract = contractService.findById(contractId);

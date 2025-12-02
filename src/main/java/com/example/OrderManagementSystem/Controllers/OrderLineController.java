@@ -30,7 +30,6 @@ public class OrderLineController {
         this.unitOfMeasureService = unitOfMeasureService;
     }
 
-    // CREATE - afișează formularul pentru linie nouă
     @GetMapping("/create/{orderId}")
     public String showCreateForm(@PathVariable String orderId, Model model) {
         Order order = orderService.findById(orderId);
@@ -52,7 +51,6 @@ public class OrderLineController {
         return "order-lines-form";
     }
 
-    // EDIT - afișează formularul pentru editare
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable String id, Model model) {
         OrderLine line = service.findById(id);
@@ -71,7 +69,6 @@ public class OrderLineController {
         return "order-lines-form";
     }
 
-    // DELETE - afișează formularul pentru confirmare ștergere
     @GetMapping("/delete/{id}")
     public String showDeleteForm(@PathVariable String id, Model model) {
         OrderLine line = service.findById(id);
@@ -90,7 +87,6 @@ public class OrderLineController {
         return "order-lines-form";
     }
 
-    // SAVE - procesează create/edit/delete
     @PostMapping("/save")
     public String save(
             @RequestParam(required = false) String id,
@@ -105,13 +101,11 @@ public class OrderLineController {
         } else {
             OrderLine line;
             if (id != null && !id.isEmpty()) {
-                // Edit
                 line = service.findById(id);
                 if (line == null) {
                     return "redirect:/orders";
                 }
             } else {
-                // Create
                 line = new OrderLine();
             }
 

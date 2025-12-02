@@ -48,7 +48,6 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
         return new Order();
     }
 
-    // Override showForm pentru a adăuga customers și contracts
     @Override
     @GetMapping({"/{action}", "/{action}/{id}"})
     public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
@@ -57,7 +56,6 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
         return super.showForm(action, id, model);
     }
 
-    // Endpoint pentru a vedea detaliile unui order cu lines
     @GetMapping("/view/{id}")
     public String viewOrder(@PathVariable String id, Model model) {
         Order order = service.findById(id);
