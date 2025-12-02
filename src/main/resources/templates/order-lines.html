@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order Lines</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1>Order Lines</h1>
+
+<div>
+    <strong>Order ID:</strong> <span th:text="${order.id}"></span> |
+    <strong>Name:</strong> <span th:text="${order.name}"></span> |
+    <strong>Customer:</strong> <span th:text="${order.customer.name}"></span> |
+    <strong>Contract:</strong> <span th:text="${order.contract?.name ?: 'N/A'}"></span>
+</div>
+
+<hr/>
+
+<h2>Lines</h2>
+
+<p>
+    <a th:href="@{'/order-lines/create/' + ${order.id}}">Add New Line</a>
+</p>
+
+<table th:if="${!#lists.isEmpty(order.orderLines)}">
+    <tr>
+        <th>ID</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="line : ${order.orderLines}">
+        <td th:text="${line.id}"></td>
+        <td th:text="${line.sellableItem.name}"></td>
+        <td th:text="${line.quantity}"></td>
+        <td th:text="${line.unitOfMeasure.symbol}"></td>
+        <td>
+            <a th:href="@{'/order-lines/edit/' + ${line.id}}">Edit</a> |
+            <a th:href="@{'/order-lines/delete/' + ${line.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
+
+<p th:if="${#lists.isEmpty(order.orderLines)}">No lines in this order.</p>
+
+<p>
+    <a th:href="@{/orders}">Back to Orders</a>
+</p>
+</body>
+</html>

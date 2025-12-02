@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1 th:text="${title}"></h1>
+
+<div>
+    <strong>Contract:</strong> <span th:text="${contract.name}"></span>
+</div>
+
+<hr/>
+
+<form th:action="@{/contract-lines/save}" method="post">
+
+    <input type="hidden" name="id" th:value="${line.id}" />
+    <input type="hidden" name="contractId" th:value="${contract.id}" />
+    <input type="hidden" name="action" th:value="${action}" />
+
+    <fieldset th:disabled="${action == 'delete'}">
+        <div>
+            <label>Sellable Item:</label>
+            <select name="sellableItemId" th:value="${line.sellableItem?.id}" required>
+                <option value="">-- Select Item --</option>
+                <option th:each="item : ${sellableItems}"
+                        th:value="${item.id}"
+                        th:selected="${item.id == line.sellableItem?.id}"
+                        th:text="${item.name}"></option>
+            </select>
+        </div>
+
+        <div>
+            <label>Quantity:</label>
+            <input type="number" step="0.01" name="quantity" th:value="${line.quantity}" required />
+        </div>
+
+        <div>
+            <label>Unit of Measure:</label>
+            <select name="unitOfMeasureId" th:value="${line.unitOfMeasure?.id}" required>
+                <option value="">-- Select Unit --</option>
+                <option th:each="unit : ${unitsOfMeasure}"
+                        th:value="${unit.id}"
+                        th:selected="${unit.id == line.unitOfMeasure?.id}"
+                        th:text="${unit.name + ' (' + unit.symbol + ')'}"></option>
+            </select>
+        </div>
+    </fieldset>
+
+    <button type="submit" th:text="${caption}"></button> |
+    <a th:href="@{'/contracts/view/' + ${contract.id}}">Cancel</a>
+</form>
+</body>
+</html>

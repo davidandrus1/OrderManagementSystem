@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista Contracts</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<h1>Lista Contracts</h1>
+
+<p>
+    <a th:href="@{'/' + ${url} + '/create'}">Create New Contract</a>
+</p>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Contract Type</th>
+        <th>Status</th>
+        <th>Lines</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.contractType.name}"></td>
+        <td th:text="${item.status}"></td>
+        <td th:text="${#lists.size(item.contractLines)}"></td>
+        <td>
+            <a th:href="@{'/' + ${url} + '/view/' + ${item.id}}">View Lines</a> |
+            <a th:href="@{'/' + ${url} + '/edit/' + ${item.id}}">Edit</a> |
+            <a th:href="@{'/' + ${url} + '/delete/' + ${item.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

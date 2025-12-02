@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1 th:text="${title}"></h1>
+
+<form th:action="@{'/' + ${url} + '/save-order'}" method="post">
+
+    <input type="hidden" name="id" th:value="${item.id}" />
+    <input type="hidden" name="action" th:value="${action}" />
+
+    <fieldset th:disabled="${action == 'delete'}">
+        <div>
+            <label>Name:</label>
+            <input type="text" name="name" th:value="${item.name}" required />
+        </div>
+
+        <div>
+            <label>Customer:</label>
+            <select name="customerId" th:value="${item.customer?.id}" required>
+                <option value="">-- Select Customer --</option>
+                <option th:each="customer : ${customers}"
+                        th:value="${customer.id}"
+                        th:selected="${customer.id == item.customer?.id}"
+                        th:text="${customer.name}"></option>
+            </select>
+        </div>
+
+        <div>
+            <label>Contract (optional):</label>
+            <select name="contractId" th:value="${item.contract?.id}">
+                <option value="">-- No Contract --</option>
+                <option th:each="contract : ${contracts}"
+                        th:value="${contract.id}"
+                        th:selected="${contract.id == item.contract?.id}"
+                        th:text="${contract.name}"></option>
+            </select>
+        </div>
+    </fieldset>
+
+    <button type="submit" th:text="${caption}"></button> |
+    <a th:href="@{'/' + ${url}}">Cancel</a>
+</form>
+</body>
+</html>

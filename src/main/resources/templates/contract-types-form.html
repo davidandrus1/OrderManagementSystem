@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <h1 th:text="${title}"></h1>
+
+    <form th:action="@{'/'+ ${url} + '/save'}" th:object="${item}" method="post">
+
+        <!-- Hidden input pentru ID - va fi null la create, populat la edit -->
+        <input type="hidden" th:field="*{id}"  readonly/>
+        <input type="hidden" name="action" th:value="${action}" readonly />
+
+        <fieldset th:disabled="${action == 'delete'}">
+            <div>
+                <label>Name:</label>
+                <input type="text" th:field="*{name}" required />
+            </div>
+
+            <div>
+                <label>Type:</label>
+                <select th:field="*{type}" required>
+                    <option value="Customer">Customer</option>
+                    <option value="Seller">Seller</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <button type="submit" th:text="${caption}"></button> |
+        <a th:href="@{'' + ${url}}">Cancel</a>
+    </form>
+</body>
+</html>
