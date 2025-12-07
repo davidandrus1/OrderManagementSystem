@@ -43,7 +43,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return new Contract();
     }
 
-    // Override showForm pentru a adăuga contract types
     @Override
     @GetMapping({"/{action}", "/{action}/{id}"})
     public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
@@ -51,7 +50,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return super.showForm(action, id, model);
     }
 
-    // Endpoint pentru a vedea detaliile unui contract cu lines
     @GetMapping("/view/{id}")
     public String viewContract(@PathVariable String id, Model model) {
         Contract contract = service.findById(id);

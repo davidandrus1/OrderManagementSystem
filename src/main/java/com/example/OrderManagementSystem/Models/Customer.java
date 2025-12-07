@@ -1,6 +1,5 @@
 package com.example.OrderManagementSystem.Models;
 
-import com.example.OrderManagementSystem.Repositories.ContractTypeRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
