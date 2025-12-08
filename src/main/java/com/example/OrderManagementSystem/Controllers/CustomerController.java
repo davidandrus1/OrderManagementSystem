@@ -1,7 +1,9 @@
 package com.example.OrderManagementSystem.Controllers;
 
+import com.example.OrderManagementSystem.Models.Contract;
 import com.example.OrderManagementSystem.Models.Customer;
 import com.example.OrderManagementSystem.Models.Order;
+import com.example.OrderManagementSystem.Services.ContractService;
 import com.example.OrderManagementSystem.Services.CustomerService;
 import com.example.OrderManagementSystem.Services.OrderService;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,12 @@ import java.util.List;
 public class CustomerController extends BaseEntityController<Customer, CustomerService> {
 
     private final OrderService orderService;
+    private final ContractService contractService;
 
-    public CustomerController(CustomerService service, OrderService orderService) {
+    public CustomerController(CustomerService service, OrderService orderService, ContractService contractService) {
         super(service);
         this.orderService = orderService;
+        this.contractService = contractService;
     }
 
     @Override
@@ -58,6 +62,21 @@ public class CustomerController extends BaseEntityController<Customer, CustomerS
         model.addAttribute("customer", customer);
         model.addAttribute("orders", orders);
 
-        return "customer-orders";  // numele template-ului HTML
+        return "customer-orders";
+    }
+
+    @GetMapping("/{customerId}/contracts")
+    public String viewCustomerContracts(@PathVariable String customerId, Model model) {
+        Customer customer = service.findById(customerId);
+        if (customer == null) {
+            return "redirect:/customers";
+        }
+
+        List<Contract> contracts = contractService.findByCustomerId(customerId);
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("contracts", contracts);
+
+        return "customer-contracts";
     }
 }

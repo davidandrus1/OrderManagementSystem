@@ -4,6 +4,8 @@ import com.example.OrderManagementSystem.Models.Contract;
 import com.example.OrderManagementSystem.Repositories.ContractRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContractService extends BaseService<Contract, ContractRepository> {
 
@@ -11,4 +13,7 @@ public class ContractService extends BaseService<Contract, ContractRepository> {
         super(repository);
     }
 
+    public List<Contract> findByCustomerId(String customerId) {
+        return repository.findByCustomerId(customerId);
+    }
 }

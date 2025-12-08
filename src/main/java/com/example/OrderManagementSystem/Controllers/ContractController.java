@@ -3,6 +3,7 @@ package com.example.OrderManagementSystem.Controllers;
 import com.example.OrderManagementSystem.Models.Contract;
 import com.example.OrderManagementSystem.Services.ContractService;
 import com.example.OrderManagementSystem.Services.ContractTypeService;
+import com.example.OrderManagementSystem.Services.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class ContractController extends BaseEntityController<Contract, ContractService> {
 
     private final ContractTypeService contractTypeService;
+    private final CustomerService customerService;
 
-    public ContractController(ContractService service, ContractTypeService contractTypeService) {
+    public ContractController(ContractService service, ContractTypeService contractTypeService, CustomerService customerService) {
         super(service);
         this.contractTypeService = contractTypeService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class ContractController extends BaseEntityController<Contract, ContractS
     @GetMapping({"/{action}", "/{action}/{id}"})
     public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
         model.addAttribute("contractTypes", contractTypeService.findAll());
+        model.addAttribute("customers", customerService.findAll());
         return super.showForm(action, id, model);
     }
 

@@ -15,14 +15,26 @@
     <fieldset th:disabled="${action == 'delete'}">
         <div>
             <label>Name:</label>
-            <input type="text" th:field="*{name}"  />
+            <input type="text" th:field="*{name}" required />
             <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('name')}"
                  th:errors="*{name}"></div>
         </div>
 
         <div>
+            <label>Customer:</label>
+            <select th:field="*{customer.id}" required>
+                <option value="">-- Select Customer --</option>
+                <option th:each="customer : ${customers}"
+                        th:value="${customer.id}"
+                        th:text="${customer.name}"></option>
+            </select>
+            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('customer')}"
+                 th:errors="*{customer}"></div>
+        </div>
+
+        <div>
             <label>Contract Type:</label>
-            <select th:field="*{contractType.id}" >
+            <select th:field="*{contractType.id}" required>
                 <option value="">-- Select Contract Type --</option>
                 <option th:each="type : ${contractTypes}"
                         th:value="${type.id}"
@@ -34,7 +46,8 @@
 
         <div>
             <label>Status:</label>
-            <select th:field="*{status}" >
+            <select th:field="*{status}" required>
+                <option value="">-- Select Status --</option>
                 <option value="Active">Active</option>
                 <option value="Down">Down</option>
             </select>

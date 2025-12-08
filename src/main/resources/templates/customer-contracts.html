@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contracts for Customer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1>Contracts for Customer: <span th:text="${customer.name}"></span></h1>
+
+<p>
+    <strong>Customer ID:</strong> <span th:text="${customer.id}"></span><br/>
+    <strong>Currency:</strong> <span th:text="${customer.currency}"></span>
+</p>
+
+<hr/>
+
+<h2>Contracts List</h2>
+
+<!-- Mesaj dacă nu există contracts -->
+<div th:if="${#lists.isEmpty(contracts)}">
+    <p style="color: gray; font-style: italic;">This customer has no contracts yet.</p>
+</div>
+
+<!-- Tabel cu contracts dacă există -->
+<table th:unless="${#lists.isEmpty(contracts)}" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <thead>
+    <tr style="background-color: #f2f2f2;">
+        <th>Contract ID</th>
+        <th>Contract Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="contract : ${contracts}">
+        <td th:text="${contract.id}"></td>
+        <td th:text="${contract.name}"></td>
+        <td>
+            <a th:href="@{/contracts/edit/{id}(id=${contract.id})}">Edit</a> |
+            <a th:href="@{/contracts/delete/{id}(id=${contract.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr/>
+
+<p>
+    <a th:href="@{/customers}">← Back to Customers</a> |
+    <a th:href="@{/contracts/create}">+ Create New Contract for this Customer</a>
+</p>
+
+</body>
+</html>
