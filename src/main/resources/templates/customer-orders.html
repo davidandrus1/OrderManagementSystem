@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Orders for Customer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1>Orders for Customer: <span th:text="${customer.name}"></span></h1>
+
+<p>
+    <strong>Customer ID:</strong> <span th:text="${customer.id}"></span><br/>
+    <strong>Currency:</strong> <span th:text="${customer.currency}"></span>
+</p>
+
+<hr/>
+
+<h2>Orders List</h2>
+
+<!-- Mesaj dacă nu există orders -->
+<div th:if="${#lists.isEmpty(orders)}">
+    <p style="color: gray; font-style: italic;">This customer has no orders yet.</p>
+</div>
+
+<!-- Tabel cu orders dacă există -->
+<table th:unless="${#lists.isEmpty(orders)}" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <thead>
+    <tr style="background-color: #f2f2f2;">
+        <th>Order ID</th>
+        <th>Order Name</th>
+        <th>Contract</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.name}"></td>
+        <td th:text="${order.contract != null ? order.contract.name : 'No Contract'}"></td>
+        <td>
+            <a th:href="@{/orders/view/{id}(id=${order.id})}">View Details</a> |
+            <a th:href="@{/orders/edit/{id}(id=${order.id})}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr/>
+
+<p>
+    <a th:href="@{/customers}">← Back to Customers</a> |
+    <a th:href="@{/orders/create}">+ Create New Order for this Customer</a>
+</p>
+
+</body>
+</html>
