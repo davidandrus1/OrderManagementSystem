@@ -69,39 +69,85 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
     @PostMapping("/save-order")
     public String save(
             @RequestParam(required = false) String id,
-            @RequestParam(required = false) String name,  // required = false
-            @RequestParam(required = false) String customerId,  // required = false
+            @RequestParam String name,  // required = true (implicit)
+            @RequestParam String customerId,  // required = true
             @RequestParam(required = false) String contractId,
-            @RequestParam String action) {
+            @RequestParam String action,
+            Model model) {
 
         if ("delete".equals(action)) {
             service.deleteById(id);
-        } else {
-            Order order;
-            if (id != null && !id.isEmpty()) {
-                // Edit
-                order = service.findById(id);
-                if (order == null) {
-                    return "redirect:/orders";
-                }
-            } else {
-                // Create
-                order = new Order();
-            }
-
-            Customer customer = customerService.findById(customerId);
-            Contract contract = null;
-            if (contractId != null && !contractId.isEmpty()) {
-                contract = contractService.findById(contractId);
-            }
-
-            order.setName(name);
-            order.setCustomer(customer);
-            order.setContract(contract);
-
-            service.save(order);
+            return "redirect:/orders";
         }
 
+        Order order;
+        if (id != null && !id.isEmpty()) {
+            order = service.findById(id);
+            if (order == null) {
+                return "redirect:/orders";
+            }
+        } else {
+            order = new Order();
+        }
+
+        // Validare manuală
+        boolean hasErrors = false;
+
+        if (name == null || name.trim().isEmpty()) {
+            model.addAttribute("nameError", "Order name is required");
+            hasErrors = true;
+        } else if (name.length() < 2 || name.length() > 128) {
+            model.addAttribute("nameError", "Order name must be between 2 and 128 characters");
+            hasErrors = true;
+        }
+
+        if (customerId == null || customerId.trim().isEmpty()) {
+            model.addAttribute("customerError", "Customer is required");
+            hasErrors = true;
+        }
+
+        Customer customer = null;
+        if (customerId != null && !customerId.trim().isEmpty()) {
+            customer = customerService.findById(customerId);
+            if (customer == null) {
+                model.addAttribute("customerError", "Invalid customer selected");
+                hasErrors = true;
+            }
+        }
+
+        if (hasErrors) {
+            // Setează datele pe order pentru a le afișa în formular
+            order.setName(name);
+            order.setCustomer(customer);
+
+            if (contractId != null && !contractId.isEmpty()) {
+                Contract contract = contractService.findById(contractId);
+                order.setContract(contract);
+            }
+
+            // IMPORTANT: Adaugă toate atributele necesare pentru formular
+            model.addAttribute("item", order);  // ← ASTA LIPSEA!
+            model.addAttribute("action", id != null && !id.isEmpty() ? "edit" : "create");
+            model.addAttribute("title", id != null ? "Edit Order" : "Add New Order");
+            model.addAttribute("caption", id != null ? "Save" : "Create");
+            model.addAttribute("url", getBaseUrl());
+            model.addAttribute("customers", customerService.findAll());
+            model.addAttribute("contracts", contractService.findAll());
+
+            return getFormViewName();
+        }
+
+        // Dacă nu sunt erori, salvează
+        Contract contract = null;
+        if (contractId != null && !contractId.isEmpty()) {
+            contract = contractService.findById(contractId);
+        }
+
+        order.setName(name.trim());
+        order.setCustomer(customer);
+        order.setContract(contract);
+
+        service.save(order);
         return "redirect:/orders";
     }
 }

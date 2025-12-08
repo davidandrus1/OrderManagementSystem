@@ -22,33 +22,33 @@
     <fieldset th:disabled="${action == 'delete'}">
         <div>
             <label>Sellable Item:</label>
-            <select name="sellableItemId" th:value="${line.sellableItem?.id}" required>
+            <select name="sellableItemId" th:value="${line.sellableItem?.id}" >
                 <option value="">-- Select Item --</option>
                 <option th:each="item : ${sellableItems}"
                         th:value="${item.id}"
                         th:selected="${item.id == line.sellableItem?.id}"
                         th:text="${item.name}"></option>
             </select>
-            <div th:if="${#fields.hasErrors('sellableItem')}"
+            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('sellableItem')}"
                  th:errors="*{sellableItem}"></div>
         </div>
 
         <div>
             <label>Quantity:</label>
-            <input type="number" step="0.01" name="quantity" th:value="${line.quantity}" required />
-            <div th:if="${#fields.hasErrors('quantity')}"
+            <input type="number" step="0.01" name="quantity" th:value="${line.quantity}"  />
+            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('quantity')}"
                  th:errors="*{quantity}"></div>
         </div>
 
         <div>
             <label>Unit of Measure:</label>
-            <select name="unitOfMeasureId" th:value="${line.unitOfMeasure?.id}" required>
+            <select name="unitOfMeasureId" th:value="${line.unitOfMeasure?.id}" >
                 <option value="">-- Select Unit --</option>
                 <option th:each="unit : ${unitsOfMeasure}"
                         th:value="${unit.id}"
                         th:selected="${unit.id == line.unitOfMeasure?.id}"
                         th:text="${unit.name + ' (' + unit.symbol + ')'}"></option>
-                <div th:if="${#fields.hasErrors('unitOfMeasure')}"
+                <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('unitOfMeasure')}"
                      th:errors="*{unitOfMeasure}"></div>
             </select>
         </div>

@@ -15,8 +15,9 @@
         <fieldset th:disabled="${action == 'delete'}">
             <div>
                 <label>Name:</label>
-                <input type="text" th:field="*{name}" required />
+                <input type="text" th:field="*{name}"  />
                 <div
+                    style="color: red; font-size: 0.9em;"
                      th:if="${#fields.hasErrors('name')}"
                      th:errors="*{name}">
                 </div>
@@ -24,11 +25,12 @@
 
             <div>
                 <label>Type:</label>
-                <select th:field="*{type}" required>
+                <select th:field="*{type}" >
                     <option value="Customer">Customer</option>
                     <option value="Seller">Seller</option>
                 </select>
                 <div
+                    style="color: red; font-size: 0.9em;"
                     th:if="${#fields.hasErrors('type')}"
                     th:errors="*{type}">
                 </div>
