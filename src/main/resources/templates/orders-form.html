@@ -7,39 +7,40 @@
 <body>
 <h1 th:text="${title}"></h1>
 
+<!-- Afișează eroarea generală dacă există -->
+<div style="color: red; font-weight: bold; margin-bottom: 15px;" th:if="${error}" th:text="${error}"></div>
+
 <form th:action="@{'/' + ${url} + '/save-order'}" method="post">
 
-    <input type="hidden" name="id" th:value="${item.id}" />
+    <input type="hidden" name="id" th:value="${item != null ? item.id : ''}" />
     <input type="hidden" name="action" th:value="${action}" />
 
     <fieldset th:disabled="${action == 'delete'}">
         <div>
             <label>Name:</label>
-            <input type="text" name="name" th:value="${item.name}" required />
-            <div th:if="${#fields.hasErrors('name')}"
-                 th:errors="*{name}"></div>
+            <input type="text" name="name" th:value="${item != null ? item.name : ''}"  />
+            <div style="color: red; font-size: 0.9em;" th:if="${nameError}" th:text="${nameError}"></div>
         </div>
 
         <div>
             <label>Customer:</label>
-            <select name="customerId" th:value="${item.customer?.id}" required>
+            <select name="customerId" >
                 <option value="">-- Select Customer --</option>
                 <option th:each="customer : ${customers}"
                         th:value="${customer.id}"
-                        th:selected="${customer.id == item.customer?.id}"
+                        th:selected="${item != null && item.customer != null && customer.id == item.customer.id}"
                         th:text="${customer.name}"></option>
             </select>
-            <div th:if="${#fields.hasErrors('customer')}"
-                 th:errors="*{customer}"></div>
+            <div style="color: red; font-size: 0.9em;" th:if="${customerError}" th:text="${customerError}"></div>
         </div>
 
         <div>
             <label>Contract (optional):</label>
-            <select name="contractId" th:value="${item.contract?.id}">
+            <select name="contractId">
                 <option value="">-- No Contract --</option>
                 <option th:each="contract : ${contracts}"
                         th:value="${contract.id}"
-                        th:selected="${contract.id == item.contract?.id}"
+                        th:selected="${item != null && item.contract != null && contract.id == item.contract.id}"
                         th:text="${contract.name}"></option>
             </select>
         </div>
