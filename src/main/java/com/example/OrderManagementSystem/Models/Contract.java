@@ -1,6 +1,10 @@
 package com.example.OrderManagementSystem.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +12,16 @@ import java.util.List;
 @Table(name = "contracts")
 public class Contract extends BaseModel {
 
+    @NotBlank(message = "Contract name is required")
+    @Size(min = 2, max = 128, message = "Contract name must be between 2 and 128 characters")
     private String name;
 
+    @NotNull(message = "Contract type is required")
     @ManyToOne
     @JoinColumn(name = "contract_type_id", nullable = false)
     private ContractType contractType;
 
+    @NotBlank(message = "Status is required")
     private String status;
 
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -9,7 +9,7 @@ public class BaseModel {
     @Column(length = 20, nullable = false, updatable = false)
     private String id;
 
-    @Transient  // Nu se salvează în DB
+    @Transient
     private String prefix;
 
     public BaseModel() {}

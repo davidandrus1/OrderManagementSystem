@@ -1,6 +1,10 @@
 package com.example.OrderManagementSystem.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +12,11 @@ import java.util.List;
 @Table(name = "orders")
 public class Order extends BaseModel {
 
+    @NotBlank(message = "Order name is required")
+    @Size(min = 2, max = 128, message = "Order name must be between 2 and 128 characters")
     private String name;
 
+    @NotNull(message = "Customer is required")
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
