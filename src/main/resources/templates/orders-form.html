@@ -16,6 +16,8 @@
         <div>
             <label>Name:</label>
             <input type="text" name="name" th:value="${item.name}" required />
+            <div th:if="${#fields.hasErrors('name')}"
+                 th:errors="*{name}"></div>
         </div>
 
         <div>
@@ -27,6 +29,8 @@
                         th:selected="${customer.id == item.customer?.id}"
                         th:text="${customer.name}"></option>
             </select>
+            <div th:if="${#fields.hasErrors('customer')}"
+                 th:errors="*{customer}"></div>
         </div>
 
         <div>

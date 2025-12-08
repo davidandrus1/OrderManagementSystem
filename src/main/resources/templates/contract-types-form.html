@@ -16,6 +16,10 @@
             <div>
                 <label>Name:</label>
                 <input type="text" th:field="*{name}" required />
+                <div
+                     th:if="${#fields.hasErrors('name')}"
+                     th:errors="*{name}">
+                </div>
             </div>
 
             <div>
@@ -24,6 +28,10 @@
                     <option value="Customer">Customer</option>
                     <option value="Seller">Seller</option>
                 </select>
+                <div
+                    th:if="${#fields.hasErrors('type')}"
+                    th:errors="*{type}">
+                </div>
             </div>
         </fieldset>
 
