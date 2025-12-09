@@ -9,21 +9,24 @@
 
 <form th:action="@{'/' + ${url} + '/save'}" th:object="${item}" method="post">
 
+    <!-- Hidden input pentru ID - va fi null la create, populat la edit -->
     <input type="hidden" th:field="*{id}" />
     <input type="hidden" name="action" th:value="${action}" />
 
     <fieldset th:disabled="${action == 'delete'}">
         <div>
             <label>Name:</label>
-            <input type="text" th:field="*{name}" required />
+            <input type="text" th:field="*{name}" />
+            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
 
         <div>
             <label>Status:</label>
-            <select th:field="*{status}" required>
+            <select th:field="*{status}">
                 <option value="Active">Active</option>
                 <option value="Down">Down</option>
             </select>
+            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
         </div>
     </fieldset>
 

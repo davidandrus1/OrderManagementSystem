@@ -63,6 +63,8 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
             return "redirect:/orders";
         }
         model.addAttribute("order", order);
+        model.addAttribute("lines", order.getOrderLines());  // ADAUGĂ ASTA
+        model.addAttribute("url", "order-lines");  // ADAUGĂ ASTA
         return "order-lines";
     }
 

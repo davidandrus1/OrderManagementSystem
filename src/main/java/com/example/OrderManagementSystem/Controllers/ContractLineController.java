@@ -50,7 +50,7 @@ public class ContractLineController {
         model.addAttribute("sellableItems", sellableItemService.findAll());
         model.addAttribute("unitsOfMeasure", unitOfMeasureService.findAll());
 
-        return "contract-line-form";
+        return "contract-lines-form";
     }
 
     // EDIT - afișează formularul pentru editare
@@ -129,4 +129,5 @@ public class ContractLineController {
 
         return "redirect:/contracts/view/" + contractId;
     }
+
 }

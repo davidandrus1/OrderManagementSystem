@@ -24,6 +24,11 @@ public class Contract extends BaseModel {
     @NotBlank(message = "Status is required")
     private String status;
 
+    @NotNull(message = "Customer is required")
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContractLine> contractLines = new ArrayList<>();
 
@@ -53,6 +58,14 @@ public class Contract extends BaseModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public List<ContractLine> getContractLines() {
