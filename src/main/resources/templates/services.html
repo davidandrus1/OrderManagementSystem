@@ -3,6 +3,23 @@
 <head>
     <title>Lista Services</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 20px;
+        }
+        .sortable:hover {
+            background-color: #f0f0f0;
+        }
+        .sort-asc::after {
+            content: " ▲";
+        }
+        .sort-desc::after {
+            content: " ▼";
+        }
+    </style>
 </head>
 
 <body>
@@ -15,8 +32,20 @@
 <table>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Status</th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/services} : @{/services(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Name
+            </a>
+        </th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'status'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ? @{/services} : @{/services(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Status
+            </a>
+        </th>
         <th>Actions</th>
     </tr>
     <tr th:each="item : ${items}">
