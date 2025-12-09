@@ -3,20 +3,49 @@
 <head>
     <title>Lista Customers</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 20px;
+        }
+        .sortable:hover {
+            background-color: #f0f0f0;
+        }
+        .sort-asc::after {
+            content: " ▲";
+        }
+        .sort-desc::after {
+            content: " ▼";
+        }
+    </style>
 </head>
 
 <body>
 <h1>Lista Customers</h1>
 
 <p>
-    <a th:href="@{${url} + '/create'}">Create New Customer</a>
+    <a th:href="@{'/' + ${url} + '/create'}">Create New Customer</a>
 </p>
 
 <table>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Currency</th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/customers} : @{/customers(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Name
+            </a>
+        </th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'currency'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'currency' && currentDirection == 'desc'} ? @{/customers} : @{/customers(sortBy='currency',direction=${currentSort == 'currency' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Currency
+            </a>
+        </th>
         <th>Actions</th>
     </tr>
     <tr th:each="item : ${items}">
@@ -27,7 +56,7 @@
             <a th:href="@{/customers/{id}/orders(id=${item.id})}">View Orders</a> |
             <a th:href="@{/customers/{id}/contracts(id=${item.id})}">View Contracts</a> |
             <a th:href="@{/customers/edit/{id}(id=${item.id})}">Edit</a> |
-            <a th:href="@{/customers/delete/{id}(id=${item.id})}">Delete</a> |
+            <a th:href="@{/customers/delete/{id}(id=${item.id})}">Delete</a>
         </td>
     </tr>
 </table>

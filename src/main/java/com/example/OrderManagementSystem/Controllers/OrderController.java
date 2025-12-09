@@ -1,14 +1,16 @@
 package com.example.OrderManagementSystem.Controllers;
 
-import com.example.OrderManagementSystem.Models.Contract;
-import com.example.OrderManagementSystem.Models.Customer;
 import com.example.OrderManagementSystem.Models.Order;
-import com.example.OrderManagementSystem.Services.OrderService;
-import com.example.OrderManagementSystem.Services.CustomerService;
 import com.example.OrderManagementSystem.Services.ContractService;
+import com.example.OrderManagementSystem.Services.CustomerService;
+import com.example.OrderManagementSystem.Services.OrderService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequestMapping("/orders")
@@ -49,6 +51,55 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
     }
 
     @Override
+    @GetMapping
+    public String show(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String direction,
+            Model model) {
+
+        List<Order> items;
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            if ("lines".equalsIgnoreCase(sortBy)) {
+                items = service.findAll();
+                Comparator<Order> comparator = Comparator.comparingInt(o -> o.getOrderLines().size());
+
+                if ("desc".equalsIgnoreCase(direction)) {
+                    comparator = comparator.reversed();
+                }
+
+                items.sort(comparator);
+            } else if ("customer.name".equalsIgnoreCase(sortBy)) {
+                items = service.findAll();
+                Comparator<Order> comparator = Comparator.comparing(
+                        o -> o.getCustomer() != null ? o.getCustomer().getName() : "",
+                        String.CASE_INSENSITIVE_ORDER
+                );
+
+                if ("desc".equalsIgnoreCase(direction)) {
+                    comparator = comparator.reversed();
+                }
+
+                items.sort(comparator);
+            } else {
+                Sort sort = "desc".equalsIgnoreCase(direction)
+                        ? Sort.by(sortBy).descending()
+                        : Sort.by(sortBy).ascending();
+                items = service.findAll(sort);
+            }
+        } else {
+            items = service.findAll();
+        }
+
+        model.addAttribute("items", items);
+        model.addAttribute("url", getBaseUrl());
+        model.addAttribute("currentSort", sortBy);
+        model.addAttribute("currentDirection", direction != null ? direction : "asc");
+
+        return getListViewName();
+    }
+
+    @Override
     @GetMapping({"/{action}", "/{action}/{id}"})
     public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
         model.addAttribute("customers", customerService.findAll());
@@ -63,93 +114,8 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
             return "redirect:/orders";
         }
         model.addAttribute("order", order);
-        model.addAttribute("lines", order.getOrderLines());  // ADAUGĂ ASTA
-        model.addAttribute("url", "order-lines");  // ADAUGĂ ASTA
+        model.addAttribute("lines", order.getOrderLines());
+        model.addAttribute("url", "order-lines");
         return "order-lines";
-    }
-
-    @PostMapping("/save-order")
-    public String save(
-            @RequestParam(required = false) String id,
-            @RequestParam String name,  // required = true (implicit)
-            @RequestParam String customerId,  // required = true
-            @RequestParam(required = false) String contractId,
-            @RequestParam String action,
-            Model model) {
-
-        if ("delete".equals(action)) {
-            service.deleteById(id);
-            return "redirect:/orders";
-        }
-
-        Order order;
-        if (id != null && !id.isEmpty()) {
-            order = service.findById(id);
-            if (order == null) {
-                return "redirect:/orders";
-            }
-        } else {
-            order = new Order();
-        }
-
-        // Validare manuală
-        boolean hasErrors = false;
-
-        if (name == null || name.trim().isEmpty()) {
-            model.addAttribute("nameError", "Order name is required");
-            hasErrors = true;
-        } else if (name.length() < 2 || name.length() > 128) {
-            model.addAttribute("nameError", "Order name must be between 2 and 128 characters");
-            hasErrors = true;
-        }
-
-        if (customerId == null || customerId.trim().isEmpty()) {
-            model.addAttribute("customerError", "Customer is required");
-            hasErrors = true;
-        }
-
-        Customer customer = null;
-        if (customerId != null && !customerId.trim().isEmpty()) {
-            customer = customerService.findById(customerId);
-            if (customer == null) {
-                model.addAttribute("customerError", "Invalid customer selected");
-                hasErrors = true;
-            }
-        }
-
-        if (hasErrors) {
-            // Setează datele pe order pentru a le afișa în formular
-            order.setName(name);
-            order.setCustomer(customer);
-
-            if (contractId != null && !contractId.isEmpty()) {
-                Contract contract = contractService.findById(contractId);
-                order.setContract(contract);
-            }
-
-            // IMPORTANT: Adaugă toate atributele necesare pentru formular
-            model.addAttribute("item", order);  // ← ASTA LIPSEA!
-            model.addAttribute("action", id != null && !id.isEmpty() ? "edit" : "create");
-            model.addAttribute("title", id != null ? "Edit Order" : "Add New Order");
-            model.addAttribute("caption", id != null ? "Save" : "Create");
-            model.addAttribute("url", getBaseUrl());
-            model.addAttribute("customers", customerService.findAll());
-            model.addAttribute("contracts", contractService.findAll());
-
-            return getFormViewName();
-        }
-
-        // Dacă nu sunt erori, salvează
-        Contract contract = null;
-        if (contractId != null && !contractId.isEmpty()) {
-            contract = contractService.findById(contractId);
-        }
-
-        order.setName(name.trim());
-        order.setCustomer(customer);
-        order.setContract(contract);
-
-        service.save(order);
-        return "redirect:/orders";
     }
 }

@@ -34,7 +34,7 @@
         <th>ID</th>
         <th class="sortable"
             th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="@{/contracts(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+            <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/contracts} : @{/contracts(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
                style="text-decoration: none; color: inherit;">
                 Name
             </a>
@@ -42,7 +42,7 @@
         <th>Contract Type</th>
         <th class="sortable"
             th:classappend="${currentSort == 'status'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="@{/contracts(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+            <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ? @{/contracts} : @{/contracts(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
                style="text-decoration: none; color: inherit;">
                 Status
             </a>
