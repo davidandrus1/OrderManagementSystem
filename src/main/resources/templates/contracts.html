@@ -31,7 +31,7 @@
 <h1>Lista Contracts</h1>
 
 <p>
-    <a th:href="@{'/' + ${url} + '/create'}">Create New Contract</a>
+    <a th:href="@{/${url} + '/create'}">Create New Contract</a>
 </p>
 
 <table>
@@ -39,7 +39,7 @@
         <th>ID</th>
         <th class="sortable"
             th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="@{'/' + ${url} + '?sortBy=name&direction=' + (${currentSort == 'name' and currentDirection == 'asc'} ? 'desc' : 'asc')}"
+            <a th:href="@{/${url}(sortBy='name', direction=${currentSort == 'name' and currentDirection == 'asc'} ? 'desc' : 'asc')}"
                style="text-decoration: none; color: inherit;">
                 Name
             </a>
@@ -47,7 +47,7 @@
         <th>Contract Type</th>
         <th class="sortable"
             th:classappend="${currentSort == 'status'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="@{'/' + ${url} + '?sortBy=status&direction=' + (${currentSort == 'status' and currentDirection == 'asc'} ? 'desc' : 'asc')}"
+            <a th:href="@{/${url}(sortBy='status', direction=${currentSort == 'status' and currentDirection == 'asc'} ? 'desc' : 'asc')}"
                style="text-decoration: none; color: inherit;">
                 Status
             </a>
@@ -62,9 +62,9 @@
         <td th:text="${item.status}"></td>
         <td th:text="${#lists.size(item.contractLines)}"></td>
         <td>
-            <a th:href="@{'/' + ${url} + '/view/' + ${item.id}}">View Lines</a> |
-            <a th:href="@{'/' + ${url} + '/edit/' + ${item.id}}">Edit</a> |
-            <a th:href="@{'/' + ${url} + '/delete/' + ${item.id}}">Delete</a>
+            <a th:href="@{/${url} + '/view/' + ${item.id}}">View Lines</a> |
+            <a th:href="@{/${url} + '/edit/' + ${item.id}}">Edit</a> |
+            <a th:href="@{/${url} + '/delete/' + ${item.id}}">Delete</a>
         </td>
     </tr>
 </table>
