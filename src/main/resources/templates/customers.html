@@ -24,7 +24,7 @@
         <td th:text="${item.name}"></td>
         <td th:text="${item.currency}"></td>
         <td>
-            <a th:href="@{/customers/{id}/orders(id=${item.id})}">View Orders</a>
+            <a th:href="@{/customers/{id}/orders(id=${item.id})}">View Orders</a> |
             <a th:href="@{/customers/{id}/contracts(id=${item.id})}">View Contracts</a> |
             <a th:href="@{/customers/edit/{id}(id=${item.id})}">Edit</a> |
             <a th:href="@{/customers/delete/{id}(id=${item.id})}">Delete</a> |
