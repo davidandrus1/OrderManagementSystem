@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -108,7 +109,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         model.addAttribute("customers", customerService.findAll());
         return super.showForm(action, id, model);
     }
-
     @GetMapping("/view/{id}")
     public String viewContract(
             @PathVariable String id,
@@ -122,13 +122,13 @@ public class ContractController extends BaseEntityController<Contract, ContractS
             return "redirect:/contracts";
         }
 
-        List<ContractLine> lines = contract.getContractLines();
+        List<ContractLine> lines = new ArrayList<>(contract.getContractLines());
 
         if (sortBy != null && !sortBy.isEmpty()) {
             Comparator<ContractLine> comparator = null;
 
             switch (sortBy.toLowerCase()) {
-                case "product":
+                case "item":
                     comparator = Comparator.comparing(
                             line -> line.getSellableItem() != null ? line.getSellableItem().getName() : "",
                             String.CASE_INSENSITIVE_ORDER
