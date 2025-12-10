@@ -1,6 +1,7 @@
 package com.example.OrderManagementSystem.Controllers;
 
 import com.example.OrderManagementSystem.Models.Contract;
+import com.example.OrderManagementSystem.Models.ContractLine;
 import com.example.OrderManagementSystem.Models.Order;
 import com.example.OrderManagementSystem.Services.ContractService;
 import com.example.OrderManagementSystem.Services.ContractTypeService;
@@ -109,17 +110,49 @@ public class ContractController extends BaseEntityController<Contract, ContractS
     }
 
     @GetMapping("/view/{id}")
-    public String viewContract(@PathVariable String id, Model model) {
+    public String viewContract(
+            @PathVariable String id,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String direction,
+            Model model) {
 
-        List<Contract> allContracts = service.findAll();
         Contract contract = service.findById(id);
 
         if (contract == null) {
             return "redirect:/contracts";
         }
+
+        List<ContractLine> lines = contract.getContractLines();
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            Comparator<ContractLine> comparator = null;
+
+            switch (sortBy.toLowerCase()) {
+                case "product":
+                    comparator = Comparator.comparing(
+                            line -> line.getSellableItem() != null ? line.getSellableItem().getName() : "",
+                            String.CASE_INSENSITIVE_ORDER
+                    );
+                    break;
+                case "quantity":
+                    comparator = Comparator.comparingDouble(ContractLine::getQuantity);
+                    break;
+            }
+
+            if (comparator != null) {
+                if ("desc".equalsIgnoreCase(direction)) {
+                    comparator = comparator.reversed();
+                }
+                lines.sort(comparator);
+            }
+        }
+
         model.addAttribute("contract", contract);
-        model.addAttribute("lines", contract.getContractLines());
+        model.addAttribute("lines", lines);
         model.addAttribute("url", "contract-lines");
+        model.addAttribute("currentSort", sortBy);
+        model.addAttribute("currentDirection", direction != null ? direction : "asc");
+
         return "contract-lines";
     }
 }
