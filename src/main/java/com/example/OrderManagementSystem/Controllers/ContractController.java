@@ -53,35 +53,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return new Contract();
     }
 
-
-    @Override
-    @GetMapping({"/{action}", "/{action}/{id}"})
-    public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
-        System.out.println("DEBUG - showForm called with action: " + action + ", id: " + id);
-
-        Contract entity;
-
-        if (id != null) {
-            entity = service.findById(id);
-            if (entity == null) {
-                return "redirect:/contracts";
-            }
-        } else {
-            entity = createNewEntity();
-        }
-
-        model.addAttribute("item", entity);
-        model.addAttribute("action", action);
-        model.addAttribute("title", getTitle(action));
-        model.addAttribute("caption", getButtonCaption(action));
-        model.addAttribute("url", getBaseUrl());
-        model.addAttribute("contractTypes", contractTypeService.findAll());
-
-        System.out.println("DEBUG - Returning view: " + getFormViewName());
-
-        return getFormViewName();
-    }
-
     @Override
     @GetMapping
     public String show(
@@ -129,7 +100,35 @@ public class ContractController extends BaseEntityController<Contract, ContractS
 //        model.addAttribute("contractTypes", contractTypeService.findAll());
 //        return super.showForm(action, id, model);
 //    }
+@Override
+@GetMapping({"/{action}", "/{action}/{id}"})
+public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
+    Contract entity;
 
+    if (id != null) {
+        // Caută manual în listă (workaround pentru findById care nu funcționează)
+        List<Contract> allContracts = service.findAll();
+        entity = allContracts.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        if (entity == null) {
+            return "redirect:/contracts";
+        }
+    } else {
+        entity = createNewEntity();
+    }
+
+    model.addAttribute("item", entity);
+    model.addAttribute("action", action);
+    model.addAttribute("title", getTitle(action));
+    model.addAttribute("caption", getButtonCaption(action));
+    model.addAttribute("url", getBaseUrl());
+    model.addAttribute("contractTypes", contractTypeService.findAll());
+
+    return "contracts-form";
+}
 
     @GetMapping("/view/{id}")
     public String viewContract(
@@ -138,7 +137,12 @@ public class ContractController extends BaseEntityController<Contract, ContractS
             @RequestParam(required = false) String direction,
             Model model) {
 
-        Contract contract = service.findById(id);
+        // Caută manual în listă (workaround pentru findById care nu funcționează)
+        List<Contract> allContracts = service.findAll();
+        Contract contract = allContracts.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
 
         if (contract == null) {
             return "redirect:/contracts";
