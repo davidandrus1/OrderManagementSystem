@@ -53,6 +53,35 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return new Contract();
     }
 
+
+    @Override
+    @GetMapping({"/{action}", "/{action}/{id}"})
+    public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
+        System.out.println("DEBUG - showForm called with action: " + action + ", id: " + id);
+
+        Contract entity;
+
+        if (id != null) {
+            entity = service.findById(id);
+            if (entity == null) {
+                return "redirect:/contracts";
+            }
+        } else {
+            entity = createNewEntity();
+        }
+
+        model.addAttribute("item", entity);
+        model.addAttribute("action", action);
+        model.addAttribute("title", getTitle(action));
+        model.addAttribute("caption", getButtonCaption(action));
+        model.addAttribute("url", getBaseUrl());
+        model.addAttribute("contractTypes", contractTypeService.findAll());
+
+        System.out.println("DEBUG - Returning view: " + getFormViewName());
+
+        return getFormViewName();
+    }
+
     @Override
     @GetMapping
     public String show(
@@ -101,34 +130,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
 //        return super.showForm(action, id, model);
 //    }
 
-
-    @Override
-    @GetMapping({"/{action}", "/{action}/{id}"})
-    public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
-        System.out.println("DEBUG - showForm called with action: " + action + ", id: " + id);
-
-        Contract entity;
-
-        if (id != null) {
-            entity = service.findById(id);
-            if (entity == null) {
-                return "redirect:/contracts";
-            }
-        } else {
-            entity = createNewEntity();
-        }
-
-        model.addAttribute("item", entity);
-        model.addAttribute("action", action);
-        model.addAttribute("title", getTitle(action));
-        model.addAttribute("caption", getButtonCaption(action));
-        model.addAttribute("url", getBaseUrl());
-        model.addAttribute("contractTypes", contractTypeService.findAll());
-
-        System.out.println("DEBUG - Returning view: " + getFormViewName());
-
-        return getFormViewName();
-    }
 
     @GetMapping("/view/{id}")
     public String viewContract(
