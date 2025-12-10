@@ -19,7 +19,7 @@
             <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('name')}"
                  th:errors="*{name}"></div>
         </div>
-        
+
         <div>
             <label>Contract Type:</label>
             <select th:field="*{contractType.id}" required>

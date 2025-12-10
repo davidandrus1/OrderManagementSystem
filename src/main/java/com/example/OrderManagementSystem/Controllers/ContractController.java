@@ -94,6 +94,13 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return getListViewName();
     }
 
+    @Override
+    @GetMapping({"/{action}", "/{action}/{id}"})
+    public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
+        model.addAttribute("contractTypes", contractTypeService.findAll());
+        return super.showForm(action, id, model);
+    }
+
     @GetMapping("/view/{id}")
     public String viewContract(
             @PathVariable String id,
