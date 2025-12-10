@@ -47,11 +47,10 @@
                 Status
             </a>
         </th>
-        <th>Lines</th>
         <th class="sortable"
             th:classappend="${currentSort == 'lines'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="${currentSort == 'lines' && currentDirection == 'desc'} ? @{/contracts} : @{/contracts(sortBy='lines',direction=${currentSort == 'lines' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
-               style="text-decoration: none; color: inherit;">
+        <a th:href="${currentSort == 'lines' && currentDirection == 'desc'} ? @{/contracts} : @{/contracts(sortBy='lines',direction=${currentSort == 'lines' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+           style="text-decoration: none; color: inherit;">
                 Lines
             </a>
         </th>
