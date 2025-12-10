@@ -64,19 +64,10 @@ public class ContractController extends BaseEntityController<Contract, ContractS
 
         if (sortBy != null && !sortBy.isEmpty()) {
             if ("lines".equalsIgnoreCase(sortBy)) {
+                // Sortare manuală după numărul de ContractLines
                 items = service.findAll();
-                Comparator<Contract> comparator = Comparator.comparingInt(o -> o.getContractLines().size());
-
-                if ("desc".equalsIgnoreCase(direction)) {
-                    comparator = comparator.reversed();
-                }
-
-                items.sort(comparator);
-            } else if ("customer.name".equalsIgnoreCase(sortBy)) {
-                items = service.findAll();
-                Comparator<Contract> comparator = Comparator.comparing(
-                        o -> o.getCustomer() != null ? o.getCustomer().getName() : "",
-                        String.CASE_INSENSITIVE_ORDER
+                Comparator<Contract> comparator = Comparator.comparingInt(
+                        c -> c.getContractLines().size()
                 );
 
                 if ("desc".equalsIgnoreCase(direction)) {
@@ -85,6 +76,7 @@ public class ContractController extends BaseEntityController<Contract, ContractS
 
                 items.sort(comparator);
             } else {
+                // Pentru name, status, etc. - sortare normală în MySQL
                 Sort sort = "desc".equalsIgnoreCase(direction)
                         ? Sort.by(sortBy).descending()
                         : Sort.by(sortBy).ascending();
@@ -102,13 +94,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return getListViewName();
     }
 
-    @Override
-    @GetMapping({"/{action}", "/{action}/{id}"})
-    public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
-        model.addAttribute("contractTypes", contractTypeService.findAll());
-        model.addAttribute("customers", customerService.findAll());
-        return super.showForm(action, id, model);
-    }
     @GetMapping("/view/{id}")
     public String viewContract(
             @PathVariable String id,
