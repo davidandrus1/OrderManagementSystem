@@ -2,7 +2,6 @@ package com.example.OrderManagementSystem.Controllers;
 
 import com.example.OrderManagementSystem.Models.Contract;
 import com.example.OrderManagementSystem.Models.ContractLine;
-import com.example.OrderManagementSystem.Models.Order;
 import com.example.OrderManagementSystem.Services.ContractService;
 import com.example.OrderManagementSystem.Services.ContractTypeService;
 import com.example.OrderManagementSystem.Services.CustomerService;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/contracts")
@@ -58,13 +58,26 @@ public class ContractController extends BaseEntityController<Contract, ContractS
     public String show(
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String direction,
+            @RequestParam(required = false) String nameFilter,
+            @RequestParam(required = false) String statusFilter,
             Model model) {
 
-        List<Contract> items;
+        List<Contract> items = service.findAll();
+
+        if (nameFilter != null && !nameFilter.trim().isEmpty()) {
+            items = items.stream()
+                    .filter(c -> c.getName().toLowerCase().contains(nameFilter.toLowerCase().trim()))
+                    .collect(Collectors.toList());
+        }
+
+        if (statusFilter != null && !statusFilter.isEmpty() && !"All".equals(statusFilter)) {
+            items = items.stream()
+                    .filter(c -> c.getStatus().equals(statusFilter))
+                    .collect(Collectors.toList());
+        }
 
         if (sortBy != null && !sortBy.isEmpty()) {
             if ("lines".equalsIgnoreCase(sortBy)) {
-                // Sortare manuală după numărul de ContractLines
                 items = service.findAll();
                 Comparator<Contract> comparator = Comparator.comparingInt(
                         c -> c.getContractLines().size()
@@ -76,7 +89,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
 
                 items.sort(comparator);
             } else {
-                // Pentru name, status, etc. - sortare normală în MySQL
                 Sort sort = "desc".equalsIgnoreCase(direction)
                         ? Sort.by(sortBy).descending()
                         : Sort.by(sortBy).ascending();
@@ -94,41 +106,35 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return getListViewName();
     }
 
-//    @Override
-//    @GetMapping({"/{action}", "/{action}/{id}"})
-//    public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
-//        model.addAttribute("contractTypes", contractTypeService.findAll());
-//        return super.showForm(action, id, model);
-//    }
-@Override
-@GetMapping({"/{action}", "/{action}/{id}"})
-public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
-    Contract entity;
+    @Override
+    @GetMapping({"/{action}", "/{action}/{id}"})
+    public String showForm(@PathVariable String action, @PathVariable(required = false) String id, Model model) {
+        Contract entity;
 
-    if (id != null) {
-        // Caută manual în listă (workaround pentru findById care nu funcționează)
-        List<Contract> allContracts = service.findAll();
-        entity = allContracts.stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        if (id != null) {
+            // Caută manual în listă (workaround pentru findById care nu funcționează)
+            List<Contract> allContracts = service.findAll();
+            entity = allContracts.stream()
+                    .filter(c -> c.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
 
-        if (entity == null) {
-            return "redirect:/contracts";
+            if (entity == null) {
+                return "redirect:/contracts";
+            }
+        } else {
+            entity = createNewEntity();
         }
-    } else {
-        entity = createNewEntity();
+
+        model.addAttribute("item", entity);
+        model.addAttribute("action", action);
+        model.addAttribute("title", getTitle(action));
+        model.addAttribute("caption", getButtonCaption(action));
+        model.addAttribute("url", getBaseUrl());
+        model.addAttribute("contractTypes", contractTypeService.findAll());
+
+        return "contracts-form";
     }
-
-    model.addAttribute("item", entity);
-    model.addAttribute("action", action);
-    model.addAttribute("title", getTitle(action));
-    model.addAttribute("caption", getButtonCaption(action));
-    model.addAttribute("url", getBaseUrl());
-    model.addAttribute("contractTypes", contractTypeService.findAll());
-
-    return "contracts-form";
-}
 
     @GetMapping("/view/{id}")
     public String viewContract(

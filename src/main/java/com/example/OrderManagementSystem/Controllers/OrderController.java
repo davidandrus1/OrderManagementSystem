@@ -55,6 +55,8 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
     public String show(
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String direction,
+            @RequestParam(required = false) String nameFilter,
+            @RequestParam(required = false) String statusFilter,
             Model model) {
 
         List<Order> items;
