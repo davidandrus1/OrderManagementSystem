@@ -4,48 +4,66 @@
     <title>Order Lines</title>
     <link rel="stylesheet" th:href="@{/css/tables.css}" />
 </head>
-<body>
-<h1>Order Lines</h1>
 
-<div>
-    <strong>Order ID:</strong> <span th:text="${order.id}"></span> |
-    <strong>Name:</strong> <span th:text="${order.name}"></span> |
-    <strong>Customer:</strong> <span th:text="${order.customer.name}"></span> |
-    <strong>Contract:</strong> <span th:text="${order.contract?.name ?: 'N/A'}"></span>
+<body>
+
+<div class="page-header">
+    <h1>
+        <span class="icon">📋</span>
+        Order Lines
+    </h1>
 </div>
 
-<hr/>
+<div class="nav-buttons">
+    <a th:href="@{/orders}" class="btn btn-home">
+        ← Back to Orders
+    </a>
+    <a th:href="@{'/order-lines/create/' + ${order.id}}" class="btn btn-create">
+        ➕ Add New Line
+    </a>
+</div>
 
-<h2>Lines</h2>
+<div class="table-container">
 
-<p>
-    <a th:href="@{'/order-lines/create/' + ${order.id}}">Add New Line</a>
-</p>
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <p><strong>Order ID:</strong> <span th:text="${order.id}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${order.name}"></span></p>
+        <p><strong>Customer:</strong> <span th:text="${order.customer.name}"></span></p>
+        <p><strong>Contract:</strong> <span th:text="${order.contract != null ? order.contract.name : 'N/A'}"></span></p>
+    </div>
 
-<table th:if="${!#lists.isEmpty(order.orderLines)}">
-    <tr>
-        <th>ID</th>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Unit</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="line : ${order.orderLines}">
-        <td th:text="${line.id}"></td>
-        <td th:text="${line.sellableItem.name}"></td>
-        <td th:text="${line.quantity}"></td>
-        <td th:text="${line.unitOfMeasure.symbol}"></td>
-        <td>
-            <a th:href="@{'/order-lines/edit/' + ${line.id}}">Edit</a> |
-            <a th:href="@{'/order-lines/delete/' + ${line.id}}">Delete</a>
-        </td>
-    </tr>
-</table>
+    <table th:if="${!#lists.isEmpty(order.orderLines)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="line : ${order.orderLines}">
+            <td th:text="${line.id}"></td>
+            <td th:text="${line.sellableItem.name}"></td>
+            <td th:text="${line.quantity}"></td>
+            <td th:text="${line.unitOfMeasure.symbol}"></td>
+            <td>
+                <a th:href="@{'/order-lines/edit/' + ${line.id}}">✏️ Edit</a> |
+                <a th:href="@{'/order-lines/delete/' + ${line.id}}">🗑️ Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-<p th:if="${#lists.isEmpty(order.orderLines)}">No lines in this order.</p>
+    <div class="empty-state" th:if="${#lists.isEmpty(order.orderLines)}">
+        <div class="icon">📋</div>
+        <h3>No Lines Found</h3>
+        <p>This order has no lines yet.</p>
+        <a th:href="@{'/order-lines/create/' + ${order.id}}" class="btn btn-create">Add First Line</a>
+    </div>
 
-<p>
-    <a th:href="@{/orders}">Back to Orders</a>
-</p>
+</div>
+
 </body>
 </html>

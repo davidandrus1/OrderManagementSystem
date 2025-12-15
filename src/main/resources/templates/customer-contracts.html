@@ -2,52 +2,66 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Contracts for Customer</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/tables.css}" />
 </head>
 <body>
-<h1>Contracts for Customer: <span th:text="${customer.name}"></span></h1>
 
-<p>
-    <strong>Customer ID:</strong> <span th:text="${customer.id}"></span><br/>
-    <strong>Currency:</strong> <span th:text="${customer.currency}"></span>
-</p>
-
-<hr/>
-
-<h2>Contracts List</h2>
-
-<div th:if="${#lists.isEmpty(contracts)}">
-    <p style="color: gray; font-style: italic;">This customer has no contracts yet.</p>
+<div class="page-header">
+    <h1>
+        <span class="icon">📄</span>
+        Contracts for <span th:text="${customer.name}"></span>
+    </h1>
 </div>
 
-<table th:unless="${#lists.isEmpty(contracts)}" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-    <thead>
-    <tr style="background-color: #f2f2f2;">
-        <th>Contract ID</th>
-        <th>Contract Name</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="contract : ${contracts}">
-        <td th:text="${contract.id}"></td>
-        <td th:text="${contract.name}"></td>
-        <td>
-            <a th:href="@{/contracts/edit/{id}(id=${contract.id})}">Edit</a> |
-            <a th:href="@{/contracts/delete/{id}(id=${contract.id})}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="nav-buttons">
+    <a th:href="@{/customers}" class="btn btn-home">
+        ← Back to Customers
+    </a>
+    <a th:href="@{/contracts/create}" class="btn btn-create">
+        ➕ Create New Contract
+    </a>
+</div>
 
-<hr/>
+<div class="table-container">
 
-<p>
-    <a th:href="@{/customers}">← Back to Customers</a> |
-    <a th:href="@{/contracts/create}">+ Create New Contract for this Customer</a>
-</p>
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <p><strong>Customer ID:</strong> <span th:text="${customer.id}"></span></p>
+        <p><strong>Currency:</strong> <span th:text="${customer.currency}"></span></p>
+    </div>
+
+    <table th:if="${!#lists.isEmpty(contracts)}">
+        <thead>
+        <tr>
+            <th>Contract ID</th>
+            <th>Contract Name</th>
+            <th>Contract Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contract : ${contracts}">
+            <td th:text="${contract.id}"></td>
+            <td th:text="${contract.name}"></td>
+            <td th:text="${contract.contractType != null ? contract.contractType.name : 'N/A'}"></td>
+            <td th:text="${contract.status}"></td>
+            <td>
+                <a th:href="@{'/contracts/view/' + ${contract.id}}">👁️ View Lines</a> |
+                <a th:href="@{'/contracts/edit/' + ${contract.id}}">✏️ Edit</a> |
+                <a th:href="@{'/contracts/delete/' + ${contract.id}}">🗑️ Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(contracts)}">
+        <div class="icon">📄</div>
+        <h3>No Contracts Found</h3>
+        <p>This customer has no contracts yet.</p>
+        <a th:href="@{/contracts/create}" class="btn btn-create">Create First Contract</a>
+    </div>
+
+</div>
 
 </body>
 </html>

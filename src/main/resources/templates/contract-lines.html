@@ -2,79 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Contract Lines</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <style>
-        .sortable {
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-            padding-right: 20px;
-        }
-        .sortable:hover {
-            background-color: #f0f0f0;
-        }
-        .sort-asc::after {
-            content: " ▲";
-        }
-        .sort-desc::after {
-            content: " ▼";
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/tables.css}" />
 </head>
-<body>
-<h1>Contract Lines</h1>
 
-<div>
-    <strong>Contract ID:</strong> <span th:text="${contract.id}"></span> |
-    <strong>Name:</strong> <span th:text="${contract.name}"></span> |
-    <strong>Contract Type:</strong> <span th:text="${contract.contractType.name}"></span> |
-    <strong>Status:</strong> <span th:text="${contract.status}"></span>
+<body>
+
+<div class="page-header">
+    <h1>
+        <span class="icon">📋</span>
+        Contract Lines
+    </h1>
 </div>
 
-<hr/>
+<div class="nav-buttons">
+    <a th:href="@{/contracts}" class="btn btn-home">
+        ← Back to Contracts
+    </a>
+    <a th:href="@{'/contract-lines/create/' + ${contract.id}}" class="btn btn-create">
+        ➕ Add New Line
+    </a>
+</div>
 
-<h2>Lines</h2>
+<div class="table-container">
 
-<p>
-    <a th:href="@{'/contract-lines/create/' + ${contract.id}}">Add New Line</a>
-</p>
+    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <p><strong>Contract ID:</strong> <span th:text="${contract.id}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${contract.name}"></span></p>
+        <p><strong>Contract Type:</strong> <span th:text="${contract.contractType.name}"></span></p>
+        <p><strong>Status:</strong> <span th:text="${contract.status}"></span></p>
+    </div>
 
-<table th:if="${!#lists.isEmpty(lines)}">
-    <tr>
-        <th>ID</th>
-        <th class="sortable"
-            th:classappend="${currentSort == 'item'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="${currentSort == 'item' && currentDirection == 'desc'} ? @{'/contracts/view/' + ${contract.id}} : @{'/contracts/view/' + ${contract.id}(sortBy='item',direction=${currentSort == 'item' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
-               style="text-decoration: none; color: inherit;">
-                Item
-            </a>
-        </th>
-        <th class="sortable"
-            th:classappend="${currentSort == 'quantity'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="${currentSort == 'quantity' && currentDirection == 'desc'} ? @{'/contracts/view/' + ${contract.id}} : @{'/contracts/view/' + ${contract.id}(sortBy='quantity',direction=${currentSort == 'quantity' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
-               style="text-decoration: none; color: inherit;">
-                Quantity
-            </a>
-        </th>
-        <th>Unit</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="line : ${lines}">
-        <td th:text="${line.id}"></td>
-        <td th:text="${line.sellableItem.name}"></td>
-        <td th:text="${line.quantity}"></td>
-        <td th:text="${line.unitOfMeasure.symbol}"></td>
-        <td>
-            <a th:href="@{'/contract-lines/edit/' + ${line.id}}">Edit</a> |
-            <a th:href="@{'/contract-lines/delete/' + ${line.id}}">Delete</a>
-        </td>
-    </tr>
-</table>
+    <table th:if="${!#lists.isEmpty(lines)}">
+        <thead>
+        <tr>
+            <th>ID</th>
 
-<p th:if="${#lists.isEmpty(lines)}">No lines in this contract.</p>
+            <th class="sortable"
+                th:classappend="${currentSort == 'item'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+                <a th:href="${currentSort == 'item' && currentDirection == 'desc'} ?
+                        @{'/contracts/view/' + ${contract.id}} :
+                        @{'/contracts/view/' + ${contract.id}(sortBy='item',direction=${currentSort == 'item' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                    Item
+                </a>
+            </th>
 
-<p>
-    <a th:href="@{/contracts}">Back to Contracts</a>
-</p>
+            <th class="sortable"
+                th:classappend="${currentSort == 'quantity'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+                <a th:href="${currentSort == 'quantity' && currentDirection == 'desc'} ?
+                        @{'/contracts/view/' + ${contract.id}} :
+                        @{'/contracts/view/' + ${contract.id}(sortBy='quantity',direction=${currentSort == 'quantity' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                    Quantity
+                </a>
+            </th>
+
+            <th>Unit</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="line : ${lines}">
+            <td th:text="${line.id}"></td>
+            <td th:text="${line.sellableItem.name}"></td>
+            <td th:text="${line.quantity}"></td>
+            <td th:text="${line.unitOfMeasure.symbol}"></td>
+            <td>
+                <a th:href="@{'/contract-lines/edit/' + ${line.id}}">✏️ Edit</a> |
+                <a th:href="@{'/contract-lines/delete/' + ${line.id}}">🗑️ Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(lines)}">
+        <div class="icon">📋</div>
+        <h3>No Lines Found</h3>
+        <p>This contract has no lines yet.</p>
+        <a th:href="@{'/contract-lines/create/' + ${contract.id}}" class="btn btn-create">Add First Line</a>
+    </div>
+
+</div>
+
 </body>
 </html>

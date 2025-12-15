@@ -23,6 +23,37 @@
     </a>
 </div>
 
+<div class="filter-container">
+    <form th:action="@{'/' + ${url}}" method="get">
+
+        <input type="hidden" name="sortBy" th:value="${currentSort}" />
+        <input type="hidden" name="direction" th:value="${currentDirection}" />
+
+        <div class="filter-group">
+            <label for="nameFilter">Name:</label>
+            <input type="text"
+                   id="nameFilter"
+                   name="nameFilter"
+                   th:value="${nameFilter}"
+                   placeholder="Search by name..." />
+        </div>
+
+        <div class="filter-group">
+            <label for="typeFilter">Type:</label>
+            <input type="text"
+                   id="typeFilter"
+                   name="typeFilter"
+                   th:value="${typeFilter}"
+                   placeholder="Search by type..." />
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-filter">🔍 Filter</button>
+            <a th:href="@{'/' + ${url}}" class="btn btn-clear">✖️ Clear</a>
+        </div>
+    </form>
+</div>
+
 <div class="table-container">
 
     <table th:if="${!#lists.isEmpty(items)}">
@@ -32,14 +63,18 @@
 
             <th class="sortable"
                 th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-                <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/contract-types} : @{/contract-types(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ?
+                        @{'/' + ${url}(nameFilter=${nameFilter},typeFilter=${typeFilter})} :
+                        @{'/' + ${url}(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},typeFilter=${typeFilter})}">
                     Name
                 </a>
             </th>
 
             <th class="sortable"
                 th:classappend="${currentSort == 'type'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-                <a th:href="${currentSort == 'type' && currentDirection == 'desc'} ? @{/contract-types} : @{/contract-types(sortBy='type',direction=${currentSort == 'type' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                <a th:href="${currentSort == 'type' && currentDirection == 'desc'} ?
+                        @{'/' + ${url}(nameFilter=${nameFilter},typeFilter=${typeFilter})} :
+                        @{'/' + ${url}(sortBy='type',direction=${currentSort == 'type' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},typeFilter=${typeFilter})}">
                     Type
                 </a>
             </th>
@@ -63,7 +98,13 @@
     <div class="empty-state" th:if="${#lists.isEmpty(items)}">
         <div class="icon">📋</div>
         <h3>No Contract Types Found</h3>
-        <p>Click "Create New Contract Type" to get started!</p>
+        <p th:if="${nameFilter != null || typeFilter != null}">
+            Try adjusting your filters or
+            <a th:href="@{'/' + ${url}}">clear all filters</a>.
+        </p>
+        <p th:if="${nameFilter == null && typeFilter == null}">
+            Click "Create New Contract Type" to get started!
+        </p>
     </div>
 
 </div>

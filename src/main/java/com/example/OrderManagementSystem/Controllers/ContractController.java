@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/contracts")
@@ -62,46 +61,32 @@ public class ContractController extends BaseEntityController<Contract, ContractS
             @RequestParam(required = false) String statusFilter,
             Model model) {
 
-        List<Contract> items = service.findAll();
-
-        if (nameFilter != null && !nameFilter.trim().isEmpty()) {
-            items = items.stream()
-                    .filter(c -> c.getName().toLowerCase().contains(nameFilter.toLowerCase().trim()))
-                    .collect(Collectors.toList());
+        Sort sort = Sort.unsorted();
+        if (sortBy != null && !sortBy.isBlank()) {
+            sort = "desc".equalsIgnoreCase(direction)
+                    ? Sort.by(sortBy).descending()
+                    : Sort.by(sortBy).ascending();
         }
 
-        if (statusFilter != null && !statusFilter.isEmpty() && !"All".equals(statusFilter)) {
-            items = items.stream()
-                    .filter(c -> c.getStatus().equals(statusFilter))
-                    .collect(Collectors.toList());
-        }
+        List<Contract> items;
 
-        if (sortBy != null && !sortBy.isEmpty()) {
-            if ("lines".equalsIgnoreCase(sortBy)) {
-                items = service.findAll();
-                Comparator<Contract> comparator = Comparator.comparingInt(
-                        c -> c.getContractLines().size()
-                );
-
-                if ("desc".equalsIgnoreCase(direction)) {
-                    comparator = comparator.reversed();
-                }
-
-                items.sort(comparator);
-            } else {
-                Sort sort = "desc".equalsIgnoreCase(direction)
-                        ? Sort.by(sortBy).descending()
-                        : Sort.by(sortBy).ascending();
-                items = service.findAll(sort);
-            }
+        if (nameFilter != null && !nameFilter.isBlank() &&
+                statusFilter != null && !statusFilter.isBlank()) {
+            items = service.findByNameAndStatus(nameFilter.trim(), statusFilter.trim(), sort);
+        } else if (nameFilter != null && !nameFilter.isBlank()) {
+            items = service.findByName(nameFilter.trim(), sort);
+        } else if (statusFilter != null && !statusFilter.isBlank()) {
+            items = service.findByStatus(statusFilter.trim(), sort);
         } else {
-            items = service.findAll();
+            items = service.findAll(sort);
         }
 
         model.addAttribute("items", items);
         model.addAttribute("url", getBaseUrl());
         model.addAttribute("currentSort", sortBy);
         model.addAttribute("currentDirection", direction != null ? direction : "asc");
+        model.addAttribute("nameFilter", nameFilter);
+        model.addAttribute("statusFilter", statusFilter);
 
         return getListViewName();
     }
@@ -112,7 +97,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         Contract entity;
 
         if (id != null) {
-            // Caută manual în listă (workaround pentru findById care nu funcționează)
             List<Contract> allContracts = service.findAll();
             entity = allContracts.stream()
                     .filter(c -> c.getId().equals(id))
@@ -132,6 +116,7 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         model.addAttribute("caption", getButtonCaption(action));
         model.addAttribute("url", getBaseUrl());
         model.addAttribute("contractTypes", contractTypeService.findAll());
+        model.addAttribute("customers", customerService.findAll());
 
         return "contracts-form";
     }
@@ -143,7 +128,6 @@ public class ContractController extends BaseEntityController<Contract, ContractS
             @RequestParam(required = false) String direction,
             Model model) {
 
-        // Caută manual în listă (workaround pentru findById care nu funcționează)
         List<Contract> allContracts = service.findAll();
         Contract contract = allContracts.stream()
                 .filter(c -> c.getId().equals(id))

@@ -7,7 +7,6 @@
 
 <body>
 
-<!-- HEADER -->
 <div class="page-header">
     <h1>
         <span class="icon">📄</span>
@@ -15,7 +14,6 @@
     </h1>
 </div>
 
-<!-- NAVIGATION BUTTONS -->
 <div class="nav-buttons">
     <a th:href="@{/}" class="btn btn-home">
         🏠 Back to Home
@@ -25,37 +23,69 @@
     </a>
 </div>
 
-<!-- TABLE CONTAINER -->
+<div class="filter-container">
+    <form th:action="@{'/' + ${url}}" method="get">
+
+        <input type="hidden" name="sortBy" th:value="${currentSort}" />
+        <input type="hidden" name="direction" th:value="${currentDirection}" />
+
+        <div class="filter-group">
+            <label for="nameFilter">Name:</label>
+            <input type="text"
+                   id="nameFilter"
+                   name="nameFilter"
+                   th:value="${nameFilter}"
+                   placeholder="Search by name..." />
+        </div>
+
+        <div class="filter-group">
+            <label for="statusFilter">Status:</label>
+            <select id="statusFilter" name="statusFilter">
+                <option value="">-- All --</option>
+                <option value="Active" th:selected="${statusFilter == 'Active'}">Active</option>
+                <option value="Down" th:selected="${statusFilter == 'Down'}">Down</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-filter">🔍 Filter</button>
+            <a th:href="@{'/' + ${url}}" class="btn btn-clear">✖️ Clear</a>
+        </div>
+    </form>
+</div>
+
 <div class="table-container">
 
-    <!-- TABLE -->
     <table th:if="${!#lists.isEmpty(items)}">
         <thead>
         <tr>
             <th>ID</th>
 
-            <!-- Name - Sortable -->
             <th class="sortable"
                 th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-                <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{'/' + ${url}} : @{'/' + ${url}(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ?
+                        @{'/' + ${url}(nameFilter=${nameFilter},statusFilter=${statusFilter})} :
+                        @{'/' + ${url}(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},statusFilter=${statusFilter})}">
                     Name
                 </a>
             </th>
 
             <th>Contract Type</th>
 
-            <!-- Status - Sortable -->
             <th class="sortable"
                 th:classappend="${currentSort == 'status'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-                <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ? @{'/' + ${url}} : @{'/' + ${url}(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ?
+                        @{'/' + ${url}(nameFilter=${nameFilter},statusFilter=${statusFilter})} :
+                        @{'/' + ${url}(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},statusFilter=${statusFilter})}">
                     Status
                 </a>
             </th>
 
-            <!-- Lines - Sortable -->
             <th class="sortable"
                 th:classappend="${currentSort == 'lines'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-                <a th:href="${currentSort == 'lines' && currentDirection == 'desc'} ? @{'/' + ${url}} : @{'/' + ${url}(sortBy='lines',direction=${currentSort == 'lines' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                <a th:href="${currentSort == 'lines' && currentDirection == 'desc'} ?
+                        @{'/' + ${url}(nameFilter=${nameFilter},statusFilter=${statusFilter})} :
+                        @{'/' + ${url}(sortBy='lines',direction=${currentSort == 'lines' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},statusFilter=${statusFilter})}">
                     Lines
                 </a>
             </th>
@@ -79,11 +109,16 @@
         </tbody>
     </table>
 
-    <!-- EMPTY STATE -->
     <div class="empty-state" th:if="${#lists.isEmpty(items)}">
         <div class="icon">📄</div>
         <h3>No Contracts Found</h3>
-        <p>Click "Create New Contract" to get started!</p>
+        <p th:if="${nameFilter != null || statusFilter != null}">
+            Try adjusting your filters or
+            <a th:href="@{'/' + ${url}}">clear all filters</a>.
+        </p>
+        <p th:if="${nameFilter == null && statusFilter == null}">
+            Click "Create New Contract" to get started!
+        </p>
     </div>
 
 </div>

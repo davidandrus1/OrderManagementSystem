@@ -2,60 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${title}"></title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/forms.css}" />
 </head>
-<body>
-<h1 th:text="${title}"></h1>
 
-<div>
-    <strong>Order:</strong> <span th:text="${order.name}"></span>
+<body>
+
+<div class="page-header">
+    <h1>
+        <span class="icon">📋</span>
+        <span th:text="${title}">Form Title</span>
+    </h1>
 </div>
 
-<hr/>
+<a th:href="@{'/orders/view/' + ${order.id}}" class="back-link">
+    ← Back to Order Lines
+</a>
 
-<form th:action="@{/order-lines/save}" th:object="${line}" method="post">
+<div class="form-container">
 
-    <input type="hidden" th:field="*{id}" />
-    <input type="hidden" name="orderId" th:value="${order.id}" />
-    <input type="hidden" name="action" th:value="${action}" />
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <strong>Order:</strong> <span th:text="${order.name}"></span>
+    </div>
 
-    <fieldset th:disabled="${action == 'delete'}">
-        <div>
-            <label>Sellable Item:</label>
-            <select name="sellableItemId" th:value="${line.sellableItem?.id}">
-                <option value="">-- Select Item --</option>
-                <option th:each="item : ${sellableItems}"
-                        th:value="${item.id}"
-                        th:selected="${item.id == line.sellableItem?.id}"
-                        th:text="${item.name}"></option>
-            </select>
-            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('sellableItem')}"
-                 th:errors="*{sellableItem}"></div>
+    <div class="delete-warning" th:if="${action == 'delete'}">
+        <h3>⚠️ Warning!</h3>
+        <p>Are you sure you want to delete this line? This action cannot be undone.</p>
+    </div>
+
+    <form th:action="@{/order-lines/save}" th:object="${line}" method="post">
+
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" name="orderId" th:value="${order.id}" />
+        <input type="hidden" name="action" th:value="${action}" />
+
+        <fieldset style="border: none; padding: 0; margin: 0;" th:disabled="${action == 'delete'}">
+
+            <div class="form-group">
+                <label for="sellableItemId">Sellable Item:</label>
+                <select id="sellableItemId" name="sellableItemId">
+                    <option value="">-- Select Item --</option>
+                    <option th:each="item : ${sellableItems}"
+                            th:value="${item.id}"
+                            th:selected="${item.id == line.sellableItem?.id}"
+                            th:text="${item.name}"></option>
+                </select>
+                <div class="error-message" th:if="${#fields.hasErrors('sellableItem')}" th:errors="*{sellableItem}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" step="0.01" th:field="*{quantity}" />
+                <div class="error-message" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="unitOfMeasureId">Unit of Measure:</label>
+                <select id="unitOfMeasureId" name="unitOfMeasureId">
+                    <option value="">-- Select Unit --</option>
+                    <option th:each="unit : ${unitsOfMeasure}"
+                            th:value="${unit.id}"
+                            th:selected="${unit.id == line.unitOfMeasure?.id}"
+                            th:text="${unit.name + ' (' + unit.symbol + ')'}"></option>
+                </select>
+                <div class="error-message" th:if="${#fields.hasErrors('unitOfMeasure')}" th:errors="*{unitOfMeasure}"></div>
+            </div>
+
+        </fieldset>
+
+        <div class="form-actions">
+            <button type="submit"
+                    th:class="${action == 'delete'} ? 'btn btn-danger' : 'btn btn-primary'"
+                    th:text="${caption}">
+                Submit
+            </button>
+            <a th:href="@{'/orders/view/' + ${order.id}}" class="btn btn-secondary">Cancel</a>
         </div>
 
-        <div>
-            <label>Quantity:</label>
-            <input type="number" step="0.01" th:field="*{quantity}" />
-            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('quantity')}"
-                 th:errors="*{quantity}"></div>
-        </div>
+    </form>
 
-        <div>
-            <label>Unit of Measure:</label>
-            <select name="unitOfMeasureId" th:value="${line.unitOfMeasure?.id}">
-                <option value="">-- Select Unit --</option>
-                <option th:each="unit : ${unitsOfMeasure}"
-                        th:value="${unit.id}"
-                        th:selected="${unit.id == line.unitOfMeasure?.id}"
-                        th:text="${unit.name + ' (' + unit.symbol + ')'}"></option>
-            </select>
-            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('unitOfMeasure')}"
-                 th:errors="*{unitOfMeasure}"></div>
-        </div>
-    </fieldset>
+</div>
 
-    <button type="submit" th:text="${caption}"></button> |
-    <a th:href="@{'/orders/view/' + ${order.id}}">Cancel</a>
-</form>
 </body>
 </html>

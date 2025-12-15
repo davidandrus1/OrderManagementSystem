@@ -1,12 +1,11 @@
 package com.example.OrderManagementSystem.Controllers;
 
+import com.example.OrderManagementSystem.Models.Contract;
+import com.example.OrderManagementSystem.Models.Customer;
 import com.example.OrderManagementSystem.Models.Order;
 import com.example.OrderManagementSystem.Services.ContractService;
 import com.example.OrderManagementSystem.Services.CustomerService;
 import com.example.OrderManagementSystem.Services.OrderService;
-import com.example.OrderManagementSystem.Models.Contract;
-import com.example.OrderManagementSystem.Models.Customer;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,7 +59,7 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String direction,
             @RequestParam(required = false) String nameFilter,
-            @RequestParam(required = false) String statusFilter,
+            @RequestParam(required = false) String customerFilter,
             Model model) {
 
         List<Order> items;
@@ -69,9 +68,11 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
             if ("lines".equalsIgnoreCase(sortBy)) {
                 items = service.findAll();
                 Comparator<Order> comparator = Comparator.comparingInt(o -> o.getOrderLines().size());
+
                 if ("desc".equalsIgnoreCase(direction)) {
                     comparator = comparator.reversed();
                 }
+
                 items.sort(comparator);
             } else if ("customer.name".equalsIgnoreCase(sortBy)) {
                 items = service.findAll();
@@ -79,9 +80,11 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
                         o -> o.getCustomer() != null ? o.getCustomer().getName() : "",
                         String.CASE_INSENSITIVE_ORDER
                 );
+
                 if ("desc".equalsIgnoreCase(direction)) {
                     comparator = comparator.reversed();
                 }
+
                 items.sort(comparator);
             } else {
                 Sort sort = "desc".equalsIgnoreCase(direction)
@@ -90,13 +93,27 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
                 items = service.findAll(sort);
             }
         } else {
-            items = service.findAll();
+            Sort sort = Sort.unsorted();
+
+            if (nameFilter != null && !nameFilter.isBlank() &&
+                    customerFilter != null && !customerFilter.isBlank()) {
+                items = service.findByNameAndCustomer(nameFilter.trim(), customerFilter.trim(), sort);
+            } else if (nameFilter != null && !nameFilter.isBlank()) {
+                items = service.findByName(nameFilter.trim(), sort);
+            } else if (customerFilter != null && !customerFilter.isBlank()) {
+                items = service.findByCustomer(customerFilter.trim(), sort);
+            } else {
+                items = service.findAll();
+            }
         }
 
         model.addAttribute("items", items);
         model.addAttribute("url", getBaseUrl());
         model.addAttribute("currentSort", sortBy);
         model.addAttribute("currentDirection", direction != null ? direction : "asc");
+        model.addAttribute("nameFilter", nameFilter);
+        model.addAttribute("customerFilter", customerFilter);
+        model.addAttribute("customers", customerService.findAll());
 
         return getListViewName();
     }
@@ -120,6 +137,7 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
         model.addAttribute("url", "order-lines");
         return "order-lines";
     }
+
     @Override
     @PostMapping("/save")
     public String save(
