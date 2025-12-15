@@ -23,23 +23,17 @@
 <!-- FORM CONTAINER -->
 <div class="form-container">
 
-    <!-- GENERAL ERROR MESSAGE -->
-    <div class="delete-warning" th:if="${error}" style="background: #f8d7da; border-color: #dc3545; color: #721c24;">
-        <h3>❌ Error!</h3>
-        <p th:text="${error}"></p>
-    </div>
-
-    <!-- DELETE WARNING (only for delete action) -->
+    <!-- DELETE WARNING -->
     <div class="delete-warning" th:if="${action == 'delete'}">
         <h3>⚠️ Warning!</h3>
         <p>Are you sure you want to delete this order? This action cannot be undone.</p>
     </div>
 
     <!-- FORM -->
-    <form th:action="@{'/' + ${url} + '/save-order'}" method="post">
+    <form th:action="@{'/' + ${url} + '/save'}" th:object="${item}" method="post">
 
         <!-- Hidden Fields -->
-        <input type="hidden" name="id" th:value="${item != null ? item.id : ''}" />
+        <input type="hidden" th:field="*{id}" />
         <input type="hidden" name="action" th:value="${action}" />
 
         <fieldset style="border: none; padding: 0; margin: 0;" th:disabled="${action == 'delete'}">
@@ -47,31 +41,29 @@
             <!-- Name Field -->
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" th:value="${item != null ? item.name : ''}" />
-                <div class="error-message" th:if="${nameError}" th:text="${nameError}"></div>
+                <input type="text" id="name" th:field="*{name}" />
+                <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
 
             <!-- Customer Field -->
             <div class="form-group">
-                <label for="customerId">Customer:</label>
-                <select id="customerId" name="customerId">
+                <label for="customer">Customer:</label>
+                <select id="customer" th:field="*{customer.id}">
                     <option value="">-- Select Customer --</option>
                     <option th:each="customer : ${customers}"
                             th:value="${customer.id}"
-                            th:selected="${item != null && item.customer != null && customer.id == item.customer.id}"
                             th:text="${customer.name}"></option>
                 </select>
-                <div class="error-message" th:if="${customerError}" th:text="${customerError}"></div>
+                <div class="error-message" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}"></div>
             </div>
 
             <!-- Contract Field (Optional) -->
             <div class="form-group">
-                <label for="contractId">Contract (optional):</label>
-                <select id="contractId" name="contractId">
+                <label for="contract">Contract (optional):</label>
+                <select id="contract" th:field="*{contract.id}">
                     <option value="">-- No Contract --</option>
                     <option th:each="contract : ${contracts}"
                             th:value="${contract.id}"
-                            th:selected="${item != null && item.contract != null && contract.id == item.contract.id}"
                             th:text="${contract.name}"></option>
                 </select>
             </div>

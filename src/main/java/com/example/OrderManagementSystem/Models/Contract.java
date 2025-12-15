@@ -24,9 +24,8 @@ public class Contract extends BaseModel {
     @NotBlank(message = "Status is required")
     private String status;
 
-    @NotNull(message = "Customer is required")
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)

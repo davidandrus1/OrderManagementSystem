@@ -103,7 +103,7 @@ public abstract class BaseEntityController<MODEL extends BaseModel, SERVICE exte
         return "redirect:/" + getBaseUrl();
     }
 
-    private String getTitle(String action) {
+    public String getTitle(String action) {
         return switch (action) {
             case "create" -> "Add New " + getEntityName();
             case "edit" -> "Edit " + getEntityName();
@@ -112,7 +112,7 @@ public abstract class BaseEntityController<MODEL extends BaseModel, SERVICE exte
         };
     }
 
-    private String getButtonCaption(String action) {
+    public String getButtonCaption(String action) {
         return switch (action) {
             case "create" -> "Create";
             case "edit" -> "Save";

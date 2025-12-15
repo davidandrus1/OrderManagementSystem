@@ -213,4 +213,117 @@ td a:hover {
     th, td {
         padding: 10px;
     }
+    .filter-container {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .filter-container form {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    /* === FILTER GROUPS === */
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .filter-group label {
+        font-weight: 600;
+        font-size: 0.9em;
+        color: #333;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        padding: 10px 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 0.95em;
+        min-width: 200px;
+        transition: border-color 0.2s;
+    }
+
+    .filter-group input:focus,
+    .filter-group select:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    .filter-group input::placeholder {
+        color: #adb5bd;
+    }
+
+    /* === FILTER ACTIONS === */
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+    }
+
+    .btn-filter {
+        background: #667eea;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-filter:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-clear {
+        background: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-clear:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+        .filter-container form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            min-width: unset;
+        }
+
+        .filter-actions {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .btn-filter,
+        .btn-clear {
+            flex: 1;
+        }
+    }
 }

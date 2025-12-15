@@ -188,7 +188,7 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         return "contract-lines";
     }
 
-    private String getTitle(String action) {
+    public String getTitle(String action) {
         return switch (action) {
             case "create" -> "Add New Contract";
             case "edit" -> "Edit Contract";
@@ -197,7 +197,7 @@ public class ContractController extends BaseEntityController<Contract, ContractS
         };
     }
 
-    private String getButtonCaption(String action) {
+    public String getButtonCaption(String action) {
         return switch (action) {
             case "create" -> "Create";
             case "edit" -> "Save";

@@ -63,4 +63,5 @@ public class Order extends BaseModel {
     public void setOrderLines(List<OrderLine> orderLines) {
         this.orderLines = orderLines;
     }
+
 }

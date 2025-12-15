@@ -1,215 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Services - Order Management System</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <style>
-        /* === GENERAL STYLING === */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        /* === HEADER === */
-        .page-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .page-header h1 {
-            margin: 0;
-            font-size: 2.2em;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .page-header .icon {
-            font-size: 1.2em;
-        }
-
-        /* === NAVIGATION BUTTONS === */
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-home {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-home:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .btn-create {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-create:hover {
-            background: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        /* === TABLE CONTAINER === */
-        .table-container {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            overflow-x: auto;
-        }
-
-        /* === TABLE STYLING === */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            border: none;
-        }
-
-        th.sortable {
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-            padding-right: 30px;
-            transition: background 0.2s;
-        }
-
-        th.sortable:hover {
-            background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%);
-        }
-
-        th.sortable a {
-            text-decoration: none;
-            color: white;
-            display: block;
-            width: 100%;
-        }
-
-        .sort-asc::after {
-            content: " ▲";
-            position: absolute;
-            right: 10px;
-            font-size: 0.8em;
-        }
-
-        .sort-desc::after {
-            content: " ▼";
-            position: absolute;
-            right: 10px;
-            font-size: 0.8em;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* === ACTION LINKS === */
-        td a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: all 0.2s;
-        }
-
-        td a:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        /* === EMPTY STATE === */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
-        }
-
-        .empty-state .icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-            opacity: 0.3;
-        }
-
-        .empty-state h3 {
-            margin: 0 0 10px 0;
-            color: #495057;
-        }
-
-        .empty-state p {
-            margin: 0;
-            font-size: 0.95em;
-        }
-
-        /* === RESPONSIVE === */
-        @media (max-width: 768px) {
-            .page-header h1 {
-                font-size: 1.5em;
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            table {
-                font-size: 0.9em;
-            }
-
-            th, td {
-                padding: 10px;
-            }
-        }
-    </style>
+    <title>Service Items - Order Management System</title>
+    <link rel="stylesheet" th:href="@{/css/tables.css}" />
 </head>
 
 <body>
@@ -218,7 +11,7 @@
 <div class="page-header">
     <h1>
         <span class="icon">🛠️</span>
-        Services Management
+        Service Items Management
     </h1>
 </div>
 
@@ -228,8 +21,41 @@
         🏠 Back to Home
     </a>
     <a th:href="@{'/' + ${url} + '/create'}" class="btn btn-create">
-        ➕ Create New Service
+        ➕ Create New Service Item
     </a>
+</div>
+
+<!-- FILTER FORM -->
+<div class="filter-container">
+    <form th:action="@{'/' + ${url}}" method="get">
+
+        <!-- păstrează sortarea când filtrezi -->
+        <input type="hidden" name="sortBy" th:value="${currentSort}" />
+        <input type="hidden" name="direction" th:value="${currentDirection}" />
+
+        <div class="filter-group">
+            <label for="nameFilter">Name:</label>
+            <input type="text"
+                   id="nameFilter"
+                   name="nameFilter"
+                   th:value="${nameFilter}"
+                   placeholder="Search by name..." />
+        </div>
+
+        <div class="filter-group">
+            <label for="statusFilter">Status:</label>
+            <select id="statusFilter" name="statusFilter">
+                <option value="">-- All --</option>
+                <option value="ACTIVE" th:selected="${statusFilter == 'ACTIVE'}">Active</option>
+                <option value="DOWN" th:selected="${statusFilter == 'DOWN'}">Down</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-filter">🔍 Filter</button>
+            <a th:href="@{'/' + ${url}}" class="btn btn-clear">✖️ Clear</a>
+        </div>
+    </form>
 </div>
 
 <!-- TABLE CONTAINER -->
@@ -244,7 +70,9 @@
             <!-- Name - Sortable -->
             <th class="sortable"
                 th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-                <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/services} : @{/services(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ?
+                        @{'/' + ${url}(nameFilter=${nameFilter},statusFilter=${statusFilter})} :
+                        @{'/' + ${url}(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},statusFilter=${statusFilter})}">
                     Name
                 </a>
             </th>
@@ -252,7 +80,9 @@
             <!-- Status - Sortable -->
             <th class="sortable"
                 th:classappend="${currentSort == 'status'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-                <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ? @{/services} : @{/services(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ?
+                        @{'/' + ${url}(nameFilter=${nameFilter},statusFilter=${statusFilter})} :
+                        @{'/' + ${url}(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},statusFilter=${statusFilter})}">
                     Status
                 </a>
             </th>
@@ -276,8 +106,14 @@
     <!-- EMPTY STATE -->
     <div class="empty-state" th:if="${#lists.isEmpty(items)}">
         <div class="icon">🛠️</div>
-        <h3>No Services Found</h3>
-        <p>Click "Create New Service" to get started!</p>
+        <h3>No Service Items Found</h3>
+        <p th:if="${nameFilter != null || statusFilter != null}">
+            Try adjusting your filters or
+            <a th:href="@{'/' + ${url}}">clear all filters</a>.
+        </p>
+        <p th:if="${nameFilter == null && statusFilter == null}">
+            Click "Create New Service Item" to get started!
+        </p>
     </div>
 
 </div>
