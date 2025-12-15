@@ -13,16 +13,16 @@
 
 <hr/>
 
-<form th:action="@{/order-lines/save}" method="post">
+<form th:action="@{/order-lines/save}" th:object="${line}" method="post">
 
-    <input type="hidden" name="id" th:value="${line.id}" />
+    <input type="hidden" th:field="*{id}" />
     <input type="hidden" name="orderId" th:value="${order.id}" />
     <input type="hidden" name="action" th:value="${action}" />
 
     <fieldset th:disabled="${action == 'delete'}">
         <div>
             <label>Sellable Item:</label>
-            <select name="sellableItemId" th:value="${line.sellableItem?.id}" >
+            <select name="sellableItemId" th:value="${line.sellableItem?.id}">
                 <option value="">-- Select Item --</option>
                 <option th:each="item : ${sellableItems}"
                         th:value="${item.id}"
@@ -35,22 +35,22 @@
 
         <div>
             <label>Quantity:</label>
-            <input type="number" step="0.01" name="quantity" th:value="${line.quantity}"  />
+            <input type="number" step="0.01" th:field="*{quantity}" />
             <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('quantity')}"
                  th:errors="*{quantity}"></div>
         </div>
 
         <div>
             <label>Unit of Measure:</label>
-            <select name="unitOfMeasureId" th:value="${line.unitOfMeasure?.id}" >
+            <select name="unitOfMeasureId" th:value="${line.unitOfMeasure?.id}">
                 <option value="">-- Select Unit --</option>
                 <option th:each="unit : ${unitsOfMeasure}"
                         th:value="${unit.id}"
                         th:selected="${unit.id == line.unitOfMeasure?.id}"
                         th:text="${unit.name + ' (' + unit.symbol + ')'}"></option>
-                <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('unitOfMeasure')}"
-                     th:errors="*{unitOfMeasure}"></div>
             </select>
+            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('unitOfMeasure')}"
+                 th:errors="*{unitOfMeasure}"></div>
         </div>
     </fieldset>
 

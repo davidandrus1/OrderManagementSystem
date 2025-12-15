@@ -1,11 +1,11 @@
 package com.example.OrderManagementSystem.Services;
 
 import com.example.OrderManagementSystem.Models.BaseModel;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-// BaseService.java
 public abstract class BaseService<MODEL extends BaseModel, REPOSITORY extends JpaRepository<MODEL, String>> {
 
     protected final REPOSITORY repository;
@@ -16,7 +16,6 @@ public abstract class BaseService<MODEL extends BaseModel, REPOSITORY extends Jp
 
     public MODEL save(MODEL entity) {
         if (entity.getId() == null || entity.getId().isEmpty()) {
-            // Folosim prefix-ul din entitatea care vine ca parametru
             entity.setId(generateNextId(entity.getPrefix()));
         }
         return repository.save(entity);
@@ -44,6 +43,10 @@ public abstract class BaseService<MODEL extends BaseModel, REPOSITORY extends Jp
 
     public List<MODEL> findAll() {
         return repository.findAll();
+    }
+
+    public List<MODEL> findAll(Sort sort) {
+        return repository.findAll(sort);
     }
 
     public MODEL findById(String id) {

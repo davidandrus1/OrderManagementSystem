@@ -3,6 +3,7 @@ package com.example.OrderManagementSystem.Controllers;
 import com.example.OrderManagementSystem.Models.BaseModel;
 import com.example.OrderManagementSystem.Services.BaseService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,10 +26,30 @@ public abstract class BaseEntityController<MODEL extends BaseModel, SERVICE exte
     protected abstract MODEL createNewEntity();
 
     @GetMapping
-    public String show(Model model) {
-        List<MODEL> items = service.findAll();
+    public String show(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String direction,
+            Model model) {
+
+        List<MODEL> items;
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            Sort sort;
+            if ("desc".equalsIgnoreCase(direction)) {
+                sort = Sort.by(sortBy).descending();
+            } else {
+                sort = Sort.by(sortBy).ascending();
+            }
+            items = service.findAll(sort);
+        } else {
+            items = service.findAll();
+        }
+
         model.addAttribute("items", items);
         model.addAttribute("url", getBaseUrl());
+        model.addAttribute("currentSort", sortBy);
+        model.addAttribute("currentDirection", direction != null ? direction : "asc");
+
         return getListViewName();
     }
 

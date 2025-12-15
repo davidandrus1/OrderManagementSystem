@@ -1,33 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Lista Contract Types</title>
+<head>
+    <title>Lista Contract Types</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 20px;
+        }
+        .sortable:hover {
+            background-color: #f0f0f0;
+        }
+        .sort-asc::after {
+            content: " ▲";
+        }
+        .sort-desc::after {
+            content: " ▼";
+        }
+    </style>
+</head>
+<body>
+<h1>Lista Contract Types</h1>
 
-        <link rel="stylesheet" th:href="@{/css/style.css}" />
-    </head>
-    <body>
-        <h1>Lista Contract Types</h1>
+<p>
+    <a th:href="@{'/' + ${url} + '/create'}">Create New Contract Type</a>
+</p>
 
-        <p>
-            <a th:href="@{${url} + '/create'}">Create New Contract Type</a>
-        </p>
-
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Actions</th>
-            </tr>
-            <tr th:each="item : ${items}">
-                <td th:text="${item.id}"></td>
-                <td th:text="${item.name}"></td>
-                <td th:text="${item.type}"></td>
-                <td>
-                    <a th:href="@{${url} + '/edit/' + ${item.id}}">Edit</a> |
-                    <a th:href="@{${url} + '/delete/' + ${item.id}}">Delete</a>
-                </td>
-            </tr>
-        </table>
-    </body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/contract-types} : @{/contract-types(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Name
+            </a>
+        </th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'type'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'type' && currentDirection == 'desc'} ? @{/contract-types} : @{/contract-types(sortBy='type',direction=${currentSort == 'type' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Type
+            </a>
+        </th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.type}"></td>
+        <td>
+            <a th:href="@{'/' + ${url} + '/edit/' + ${item.id}}">Edit</a> |
+            <a th:href="@{'/' + ${url} + '/delete/' + ${item.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
 </html>

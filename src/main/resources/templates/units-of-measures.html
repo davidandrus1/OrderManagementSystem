@@ -1,32 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Lista Units Of Measures</title>
-        <link rel="stylesheet" th:href="@{/css/style.css}" />
-    </head>
-    <body>
-        <h1>Lista Units Of Measures</h1>
+<head>
+    <title>Lista Units Of Measures</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .sortable {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            padding-right: 20px;
+        }
+        .sortable:hover {
+            background-color: #f0f0f0;
+        }
+        .sort-asc::after {
+            content: " ▲";
+        }
+        .sort-desc::after {
+            content: " ▼";
+        }
+    </style>
+</head>
+<body>
+<h1>Lista Units Of Measures</h1>
 
-        <p>
-            <a th:href="@{${url} + '/create'}">Create New Unit Of Measures</a>
-        </p>
+<p>
+    <a th:href="@{'/' + ${url} + '/create'}">Create New Unit Of Measures</a>
+</p>
 
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Actions</th>
-            </tr>
-            <tr th:each="item : ${items}">
-                <td th:text="${item.id}"></td>
-                <td th:text="${item.name}"></td>
-                <td th:text="${item.symbol}"></td>
-                <td>
-                    <a th:href="@{${url} + '/edit/' + ${item.id}}">Edit</a> |
-                    <a th:href="@{${url} + '/delete/' + ${item.id}}">Delete</a>
-                </td>
-            </tr>
-        </table>
-    </body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/units-of-measures} : @{/units-of-measures(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Name
+            </a>
+        </th>
+        <th class="sortable"
+            th:classappend="${currentSort == 'symbol'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+            <a th:href="${currentSort == 'symbol' && currentDirection == 'desc'} ? @{/units-of-measures} : @{/units-of-measures(sortBy='symbol',direction=${currentSort == 'symbol' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
+               style="text-decoration: none; color: inherit;">
+                Symbol
+            </a>
+        </th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.symbol}"></td>
+        <td>
+            <a th:href="@{'/' + ${url} + '/edit/' + ${item.id}}">Edit</a> |
+            <a th:href="@{'/' + ${url} + '/delete/' + ${item.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
 </html>
