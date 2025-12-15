@@ -16,12 +16,10 @@
 
 <h2>Orders List</h2>
 
-<!-- Mesaj dacă nu există orders -->
 <div th:if="${#lists.isEmpty(orders)}">
     <p style="color: gray; font-style: italic;">This customer has no orders yet.</p>
 </div>
 
-<!-- Tabel cu orders dacă există -->
 <table th:unless="${#lists.isEmpty(orders)}" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
     <tr style="background-color: #f2f2f2;">

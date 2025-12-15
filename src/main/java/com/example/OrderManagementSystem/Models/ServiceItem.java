@@ -10,7 +10,6 @@ import jakarta.validation.constraints.Size;
 public class ServiceItem extends SellableItem {
 
     @NotBlank(message = "Status is required")
-    @Size(min = 4, max = 8, message = "Status must be between 4 and 8 characters")
     private String status;
 
     public ServiceItem() {

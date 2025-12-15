@@ -1,41 +1,174 @@
 <!DOCTYPE html>
-<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Sistem de Management al Comenzilor (Main)</title>
+    <title>Order Management System - Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1 { color: #333; }
-        nav { margin-top: 20px; }
-        nav a {
-            display: inline-block;
-            margin: 5px;
-            padding: 10px 15px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
             text-decoration: none;
-            background-color: #007bff;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-count {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .card-subtitle {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .card-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #667eea;
             color: white;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            text-decoration: none;
+            transition: background 0.2s;
         }
-        nav a:hover { background-color: #0056b3; }
+
+        .card-button:hover {
+            background: #5568d3;
+        }
     </style>
 </head>
 <body>
 
-<h1>Bun venit in Sistemul de Management al Comenzilor</h1>
+<div class="header">
+    <h1>📊 Order Management System</h1>
+    <p>Zentrale Verwaltung für Bestellungen, Verträge und Kunden</p>
+</div>
 
-<nav>
-    <a th:href="@{/customers}">Clienti (Customers)</a>
+<div class="dashboard">
 
-    <a th:href="@{/orders}">Comenzi (Orders)</a>
+    <!-- Contracts Card -->
+    <a href="/contracts" class="card">
+        <div class="card-icon">📄</div>
+        <div class="card-title">Contracts</div>
+        <div class="card-count" th:text="${contractCount}">0</div>
+        <div class="card-subtitle">Verträge verwalten</div>
+        <span class="card-button">View All →</span>
+    </a>
 
-    <a th:href="@{/contracts}">Contracte (Contracts)</a>
+    <!-- Orders Card -->
+    <a href="/orders" class="card">
+        <div class="card-icon">📦</div>
+        <div class="card-title">Orders</div>
+        <div class="card-count" th:text="${orderCount}">0</div>
+        <div class="card-subtitle">Bestellungen verwalten</div>
+        <span class="card-button">View All →</span>
+    </a>
 
-    <a th:href="@{/products}">Produse/Servicii (Sellable Items)</a>
+    <!-- Customers Card -->
+    <a href="/customers" class="card">
+        <div class="card-icon">👥</div>
+        <div class="card-title">Customers</div>
+        <div class="card-count" th:text="${customerCount}">0</div>
+        <div class="card-subtitle">Kunden verwalten</div>
+        <span class="card-button">View All →</span>
+    </a>
 
-</nav>
+    <!-- Products Card -->
+    <a href="/products" class="card">
+        <div class="card-icon">🏷️</div>
+        <div class="card-title">Products</div>
+        <div class="card-count" th:text="${productCount}">0</div>
+        <div class="card-subtitle">Produkte verwalten</div>
+        <span class="card-button">View All →</span>
+    </a>
 
-<hr/>
+    <!-- Services Card -->
+    <a href="/services" class="card">
+        <div class="card-icon">🛠️</div>
+        <div class="card-title">Services</div>
+        <div class="card-count" th:text="${serviceCount}">0</div>
+        <div class="card-subtitle">Dienstleistungen verwalten</div>
+        <span class="card-button">View All →</span>
+    </a>
+
+    <!-- Contract Types Card -->
+    <a href="/contract-types" class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Contract Types</div>
+        <div class="card-count" th:text="${contractTypeCount}">0</div>
+        <div class="card-subtitle">Vertragstypen verwalten</div>
+        <span class="card-button">View All →</span>
+    </a>
+
+    <!-- Units of Measure Card -->
+    <a href="/units-of-measures" class="card">
+        <div class="card-icon">📏</div>
+        <div class="card-title">Units of Measure</div>
+        <div class="card-count" th:text="${unitCount}">0</div>
+        <div class="card-subtitle">Maßeinheiten verwalten</div>
+        <span class="card-button">View All →</span>
+    </a>
+
+</div>
 
 </body>
 </html>

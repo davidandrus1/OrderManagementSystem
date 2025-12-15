@@ -2,32 +2,71 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/css/forms.css}" />
 </head>
+
 <body>
-<h1 th:text="${title}"></h1>
 
-<form th:action="@{'/'+ ${url} + '/save'}" th:object="${item}" method="post">
+<!-- HEADER -->
+<div class="page-header">
+    <h1>
+        <span class="icon">📏</span>
+        <span th:text="${title}">Form Title</span>
+    </h1>
+</div>
 
-    <!-- Hidden input pentru ID - va fi null la create, populat la edit -->
-    <input type="hidden" th:field="*{id}"/>
-    <input type="hidden" name="action" th:value="${action}" />
+<!-- BACK LINK -->
+<a th:href="@{'/' + ${url}}" class="back-link">
+    ← Back to List
+</a>
 
-    <fieldset th:disabled="${action == 'delete'}">
-        <div>
-            <label>Name:</label>
-            <input type="text" th:field="*{name}" />
-            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+<!-- FORM CONTAINER -->
+<div class="form-container">
+
+    <!-- DELETE WARNING (only for delete action) -->
+    <div class="delete-warning" th:if="${action == 'delete'}">
+        <h3>⚠️ Warning!</h3>
+        <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+    </div>
+
+    <!-- FORM -->
+    <form th:action="@{'/' + ${url} + '/save'}" th:object="${item}" method="post">
+
+        <!-- Hidden Fields -->
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" name="action" th:value="${action}" />
+
+        <fieldset style="border: none; padding: 0; margin: 0;" th:disabled="${action == 'delete'}">
+
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" th:field="*{name}" />
+                <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <!-- Symbol Field -->
+            <div class="form-group">
+                <label for="symbol">Symbol:</label>
+                <input type="text" id="symbol" th:field="*{symbol}" />
+                <div class="error-message" th:if="${#fields.hasErrors('symbol')}" th:errors="*{symbol}"></div>
+            </div>
+
+        </fieldset>
+
+        <!-- FORM ACTIONS -->
+        <div class="form-actions">
+            <button type="submit"
+                    th:class="${action == 'delete'} ? 'btn btn-danger' : 'btn btn-primary'"
+                    th:text="${caption}">
+                Submit
+            </button>
+            <a th:href="@{'/' + ${url}}" class="btn btn-secondary">Cancel</a>
         </div>
 
-        <div>
-            <label>Symbol:</label>
-            <input type="text" th:field="*{symbol}" />
-            <div style="color: red; font-size: 0.9em;" th:if="${#fields.hasErrors('symbol')}" th:errors="*{symbol}"></div>
-        </div>
-    </fieldset>
+    </form>
 
-    <button type="submit" th:text="${caption}"></button> |
-    <a th:href="@{'' + ${url}}">Cancel</a>
-</form>
+</div>
+
 </body>
 </html>

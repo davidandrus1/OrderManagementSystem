@@ -1,76 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Lista Contracts</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <style>
-        .sortable {
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-            padding-right: 20px;
-        }
-        .sortable:hover {
-            background-color: #f0f0f0;
-        }
-        .sort-asc::after {
-            content: " ▲";
-        }
-        .sort-desc::after {
-            content: " ▼";
-        }
-    </style>
+    <title>Contracts - Order Management System</title>
+    <link rel="stylesheet" th:href="@{/css/tables.css}" />
 </head>
 
 <body>
-<h1>Lista Contracts</h1>
 
-<p>
-    <a th:href="@{/}" class="back-to-home-button" style="margin-right: 20px;">
-        🏠 Inapoi la Pagina Principala
+<!-- HEADER -->
+<div class="page-header">
+    <h1>
+        <span class="icon">📄</span>
+        Contracts Management
+    </h1>
+</div>
+
+<!-- NAVIGATION BUTTONS -->
+<div class="nav-buttons">
+    <a th:href="@{/}" class="btn btn-home">
+        🏠 Back to Home
     </a>
-    <a th:href="@{'/' + ${url} + '/create'}">Create New Contract</a>
-</p>
+    <a th:href="@{'/' + ${url} + '/create'}" class="btn btn-create">
+        ➕ Create New Contract
+    </a>
+</div>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th class="sortable"
-            th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{/contracts} : @{/contracts(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
-               style="text-decoration: none; color: inherit;">
-                Name
-            </a>
-        </th>
-        <th>Contract Type</th>
-        <th class="sortable"
-            th:classappend="${currentSort == 'status'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-            <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ? @{/contracts} : @{/contracts(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
-               style="text-decoration: none; color: inherit;">
-                Status
-            </a>
-        </th>
-        <th class="sortable"
-            th:classappend="${currentSort == 'lines'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
-        <a th:href="${currentSort == 'lines' && currentDirection == 'desc'} ? @{/contracts} : @{/contracts(sortBy='lines',direction=${currentSort == 'lines' && currentDirection == 'asc' ? 'desc' : 'asc'})}"
-           style="text-decoration: none; color: inherit;">
-                Lines
-            </a>
-        </th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="item : ${items}">
-        <td th:text="${item.id}"></td>
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.contractType != null ? item.contractType.name : 'N/A'}"></td>
-        <td th:text="${item.status}"></td>
-        <td th:text="${#lists.size(item.contractLines)}"></td>
-        <td>
-            <a th:href="@{'/' + ${url} + '/view/' + ${item.id}}">View Lines</a> |
-            <a th:href="@{'/' + ${url} + '/edit/' + ${item.id}}">Edit</a> |
-            <a th:href="@{'/' + ${url} + '/delete/' + ${item.id}}">Delete</a>
-        </td>
-    </tr>
-</table>
+<!-- TABLE CONTAINER -->
+<div class="table-container">
+
+    <!-- TABLE -->
+    <table th:if="${!#lists.isEmpty(items)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+
+            <!-- Name - Sortable -->
+            <th class="sortable"
+                th:classappend="${currentSort == 'name'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+                <a th:href="${currentSort == 'name' && currentDirection == 'desc'} ? @{'/' + ${url}} : @{'/' + ${url}(sortBy='name',direction=${currentSort == 'name' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                    Name
+                </a>
+            </th>
+
+            <th>Contract Type</th>
+
+            <!-- Status - Sortable -->
+            <th class="sortable"
+                th:classappend="${currentSort == 'status'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+                <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ? @{'/' + ${url}} : @{'/' + ${url}(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                    Status
+                </a>
+            </th>
+
+            <!-- Lines - Sortable -->
+            <th class="sortable"
+                th:classappend="${currentSort == 'lines'} ? (${currentDirection == 'asc'} ? 'sort-asc' : 'sort-desc') : ''">
+                <a th:href="${currentSort == 'lines' && currentDirection == 'desc'} ? @{'/' + ${url}} : @{'/' + ${url}(sortBy='lines',direction=${currentSort == 'lines' && currentDirection == 'asc' ? 'desc' : 'asc'})}">
+                    Lines
+                </a>
+            </th>
+
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.contractType != null ? item.contractType.name : 'N/A'}"></td>
+            <td th:text="${item.status}"></td>
+            <td th:text="${#lists.size(item.contractLines)}"></td>
+            <td>
+                <a th:href="@{'/' + ${url} + '/view/' + ${item.id}}">👁️ View Lines</a> |
+                <a th:href="@{'/' + ${url} + '/edit/' + ${item.id}}">✏️ Edit</a> |
+                <a th:href="@{'/' + ${url} + '/delete/' + ${item.id}}">🗑️ Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" th:if="${#lists.isEmpty(items)}">
+        <div class="icon">📄</div>
+        <h3>No Contracts Found</h3>
+        <p>Click "Create New Contract" to get started!</p>
+    </div>
+
+</div>
+
 </body>
 </html>

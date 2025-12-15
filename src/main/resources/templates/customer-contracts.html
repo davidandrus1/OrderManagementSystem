@@ -16,12 +16,10 @@
 
 <h2>Contracts List</h2>
 
-<!-- Mesaj dacă nu există contracts -->
 <div th:if="${#lists.isEmpty(contracts)}">
     <p style="color: gray; font-style: italic;">This customer has no contracts yet.</p>
 </div>
 
-<!-- Tabel cu contracts dacă există -->
 <table th:unless="${#lists.isEmpty(contracts)}" border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
     <thead>
     <tr style="background-color: #f2f2f2;">
