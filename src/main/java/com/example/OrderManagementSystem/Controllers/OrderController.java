@@ -90,7 +90,6 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
             order = new Order();
         }
 
-        // Validare manuală
         boolean hasErrors = false;
 
         if (name == null || name.trim().isEmpty()) {
@@ -116,7 +115,6 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
         }
 
         if (hasErrors) {
-            // Setează datele pe order pentru a le afișa în formular
             order.setName(name);
             order.setCustomer(customer);
 
@@ -125,8 +123,7 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
                 order.setContract(contract);
             }
 
-            // IMPORTANT: Adaugă toate atributele necesare pentru formular
-            model.addAttribute("item", order);  // ← ASTA LIPSEA!
+            model.addAttribute("item", order);
             model.addAttribute("action", id != null && !id.isEmpty() ? "edit" : "create");
             model.addAttribute("title", id != null ? "Edit Order" : "Add New Order");
             model.addAttribute("caption", id != null ? "Save" : "Create");
@@ -137,7 +134,6 @@ public class OrderController extends BaseEntityController<Order, OrderService> {
             return getFormViewName();
         }
 
-        // Dacă nu sunt erori, salvează
         Contract contract = null;
         if (contractId != null && !contractId.isEmpty()) {
             contract = contractService.findById(contractId);
