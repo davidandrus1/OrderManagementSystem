@@ -26,7 +26,7 @@ public class ServiceItemController extends BaseEntityController<ServiceItem, Ser
 
     @Override
     protected String getFormViewName() {
-        return "service-form";
+        return "services-form";
     }
 
     @Override

@@ -26,7 +26,7 @@ public class ProductItemController extends BaseEntityController<ProductItem, Pro
 
     @Override
     protected String getFormViewName() {
-        return "product-form";
+        return "products-form";
     }
 
     @Override
@@ -49,8 +49,8 @@ public class ProductItemController extends BaseEntityController<ProductItem, Pro
     public String show(
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String direction,
-            @RequestParam(required = false) String nameFilter,      // ✅ NOU
-            @RequestParam(required = false) String statusFilter,    // ✅ NOU
+            @RequestParam(required = false) String nameFilter,
+            @RequestParam(required = false) String valueFilter,
             Model model) {
 
         Sort sort = Sort.unsorted();
@@ -62,23 +62,21 @@ public class ProductItemController extends BaseEntityController<ProductItem, Pro
 
         List<ProductItem> items;
 
-        if (nameFilter != null && !nameFilter.isBlank() &&
-                statusFilter != null && !statusFilter.isBlank()) {
-            items = service.findByNameAndvalue(nameFilter.trim(), statusFilter.trim(), sort);
+        if (nameFilter != null && !nameFilter.isBlank() && valueFilter != null) {
+            items = service.findByNameAndValue(nameFilter.trim(), Double.valueOf(valueFilter), sort);
         } else if (nameFilter != null && !nameFilter.isBlank()) {
             items = service.findByName(nameFilter.trim(), sort);
-        } else if (statusFilter != null && !statusFilter.isBlank()) {
-            items = service.findByValue(statusFilter.trim(), sort);
+        } else if (valueFilter != null) {
+            items = service.findByValue(Double.valueOf(valueFilter), sort);
         } else {
             items = service.findAll(sort);
         }
-
         model.addAttribute("items", items);
         model.addAttribute("url", getBaseUrl());
         model.addAttribute("currentSort", sortBy);
         model.addAttribute("currentDirection", direction != null ? direction : "asc");
-        model.addAttribute("nameFilter", nameFilter);        // ✅ Păstrează
-        model.addAttribute("statusFilter", statusFilter);    // ✅ Păstrează
+        model.addAttribute("nameFilter", nameFilter);
+        model.addAttribute("valueFilter", valueFilter);
 
         return getListViewName();
     }

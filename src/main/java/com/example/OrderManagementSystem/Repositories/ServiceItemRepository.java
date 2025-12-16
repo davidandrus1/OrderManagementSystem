@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface ServiceItemRepository extends JpaRepository<ServiceItem, String> {
 
-    // ✅ Name - OK (e String)
     List<ServiceItem> findByNameContainingIgnoreCase(String name, Sort sort);
 
     List<ServiceItem> findByStatus(String status, Sort sort);

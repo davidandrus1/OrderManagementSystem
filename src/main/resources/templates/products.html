@@ -83,7 +83,7 @@
                 <a th:href="${currentSort == 'status' && currentDirection == 'desc'} ?
                         @{'/' + ${url}(nameFilter=${nameFilter},statusFilter=${statusFilter})} :
                         @{'/' + ${url}(sortBy='status',direction=${currentSort == 'status' && currentDirection == 'asc' ? 'desc' : 'asc'},nameFilter=${nameFilter},statusFilter=${statusFilter})}">
-                    Status
+                    Value
                 </a>
             </th>
 
