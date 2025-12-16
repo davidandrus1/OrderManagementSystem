@@ -53,7 +53,6 @@ public class ContractLineController {
         return "contract-lines-form";
     }
 
-    // EDIT - afișează formularul pentru editare
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable String id, Model model) {
         ContractLine line = service.findById(id);
@@ -72,7 +71,6 @@ public class ContractLineController {
         return "contract-line-form";
     }
 
-    // DELETE - afișează formularul pentru confirmare ștergere
     @GetMapping("/delete/{id}")
     public String showDeleteForm(@PathVariable String id, Model model) {
         ContractLine line = service.findById(id);

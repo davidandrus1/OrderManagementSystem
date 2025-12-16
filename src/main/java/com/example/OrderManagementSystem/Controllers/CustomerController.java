@@ -51,7 +51,6 @@ public class CustomerController extends BaseEntityController<Customer, CustomerS
         return new Customer();
     }
 
-    // ✅ NOU - Override show() pentru filtrare
     @Override
     @GetMapping
     public String show(
@@ -61,7 +60,7 @@ public class CustomerController extends BaseEntityController<Customer, CustomerS
             @RequestParam(required = false) String currencyFilter,
             Model model) {
 
-        // 🔹 Construim sortarea
+
         Sort sort = Sort.unsorted();
         if (sortBy != null && !sortBy.isBlank()) {
             sort = "desc".equalsIgnoreCase(direction)
@@ -69,25 +68,24 @@ public class CustomerController extends BaseEntityController<Customer, CustomerS
                     : Sort.by(sortBy).ascending();
         }
 
-        // 🔹 Filtrare + Sortare
+
         List<Customer> items;
 
         if (nameFilter != null && !nameFilter.isBlank() &&
                 currencyFilter != null && !currencyFilter.isBlank()) {
-            // Ambele filtre
+
             items = service.findByNameAndCurrency(nameFilter.trim(), currencyFilter.trim(), sort);
         } else if (nameFilter != null && !nameFilter.isBlank()) {
-            // Doar Name
+
             items = service.findByName(nameFilter.trim(), sort);
         } else if (currencyFilter != null && !currencyFilter.isBlank()) {
-            // Doar Currency
+
             items = service.findByCurrency(currencyFilter.trim(), sort);
         } else {
-            // Fără filtre
+
             items = service.findAll(sort);
         }
 
-        // 🔹 Model
         model.addAttribute("items", items);
         model.addAttribute("url", getBaseUrl());
         model.addAttribute("currentSort", sortBy);

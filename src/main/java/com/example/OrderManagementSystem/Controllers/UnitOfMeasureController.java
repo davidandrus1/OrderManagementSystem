@@ -53,7 +53,6 @@ public class UnitOfMeasureController extends BaseEntityController<UnitOfMeasure,
             @RequestParam(required = false) String symbolFilter,
             Model model) {
 
-        // 🔹 construim sortarea
         Sort sort = Sort.unsorted();
         if (sortBy != null && !sortBy.isBlank()) {
             sort = "desc".equalsIgnoreCase(direction)
@@ -61,7 +60,6 @@ public class UnitOfMeasureController extends BaseEntityController<UnitOfMeasure,
                     : Sort.by(sortBy).ascending();
         }
 
-        // 🔹 filtrare + sortare
         List<UnitOfMeasure> items;
 
         if (nameFilter != null && !nameFilter.isBlank()
@@ -82,7 +80,6 @@ public class UnitOfMeasureController extends BaseEntityController<UnitOfMeasure,
             items = service.findAll(sort);
         }
 
-        // 🔹 model
         model.addAttribute("items", items);
         model.addAttribute("url", getBaseUrl());
         model.addAttribute("currentSort", sortBy);
